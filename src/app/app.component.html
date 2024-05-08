@@ -1,22 +1,15 @@
-<div>
-  <img class="w-[380px] h-[282px]" src="https://via.placeholder.com/380x282" />
-  <div class="buttons w-[266px] h-[300px] relative">
-    <div class="w-[266px] h-12 left-0 top-[168px] absolute">
-      <button mat-stroked-button class="bg-indigo-700">Gastos</button>
-    </div>
-    <div class="w-[266px] h-12 left-0 top-[252px] absolute">
-      <button mat-stroked-button class="bg-indigo-700">Perfil</button>
-    </div>
-    <div class="w-[266px] h-12 left-0 top-[84px] absolute">
-      <button mat-stroked-button class="bg-indigo-700">Viajes</button>
-    </div>
-    <div class="w-[266px] h-12 left-0 top-0 absolute">
-      <button mat-flat-button color="primary">Gastos</button>
-    </div>
+<div class="main">
+  <div class="buttons ">
+    <img class="w-[380px] h-[282px]" src="https://via.placeholder.com/380x282" />
+      <button mat-flat-button color="primary" class="buttons">+ Nuevo Viaje</button>
+      <button mat-flat-button color="primary" class="buttons">Viajes</button>
+      <button mat-flat-button color="primary" class="buttons">Gastos</button>
+      <button mat-flat-button color="primary"  class="buttons">Perfil</button>
   </div>
-  <div class="img">
-    <img>
+  <div class="componentes">
+    <app-viajes></app-viajes>
   </div>
-  <app-viajes></app-viajes>
 </div>
+
+
 <router-outlet></router-outlet>
