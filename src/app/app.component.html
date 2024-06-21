@@ -1,21 +1,16 @@
 <div class="flex h-screen">
-	<aside class="flex flex-col gap-5 p-4 pt-0 md:w-1/5">
-		
-		<img src="../assets/img/camion.png" class="-mt-10" />
-		
-		<div class="flex flex-col space-y-5 font-bold text-center text-white text-xl">
-			<button class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">+ Nuevo Viaje</button>
-			<button class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">Viajes</button>
-			<button class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">Gastos</button>
-			<button class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">Perfil</button>
-		</div>
-	</aside>
+    <aside class="flex flex-col gap-5 p-4 pt-0 md:w-1/5">
+        <img src="../assets/img/camion.png" class="-mt-10" />
+        
+        <div class="flex flex-col space-y-5 font-bold text-center text-white text-xl">
+            <button routerLink="/travel" class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">+ Nuevo Viaje</button>
+            <button routerLink="/viajes" class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">Viajes</button>
+            <button routerLink="/gastos" class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">Gastos</button>
+            <button routerLink="/perfil" class="shadow-md bg-indigo-600 p-2 rounded-md hover:bg-indigo-700 transition-all">Perfil</button>
+        </div>
+    </aside>
 
-	<div class="p-4 flex-1">
-		<!-- <app-viajes></app-viajes> -->
-		<app-travel></app-travel>
-	</div>
+    <div class="p-4 flex-1">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-
-
-<router-outlet></router-outlet>
