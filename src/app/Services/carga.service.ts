@@ -23,7 +23,7 @@ export class CargaService {
   add(modelo:Carga):Observable<Carga>{
     return this.http.post<Carga>(`${this.apiUrl}add`,modelo);
   }
-  delete(idCarga:Carga):Observable<Carga>{
+  delete(idCarga:number):Observable<Carga>{
     return this.http.delete<Carga>(`${this.apiUrl}delete/${idCarga}`);
   }
   update(modelo:Carga,idCarga:number):Observable<Carga>{

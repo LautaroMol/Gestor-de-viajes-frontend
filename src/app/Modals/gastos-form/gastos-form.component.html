@@ -1,1 +1,32 @@
-<p>gastos-form works!</p>
+<form [formGroup]="formGasto" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" type="text" formControlName="nombre">
+    </div>
+  
+    <div>
+      <label for="cantidad">Cantidad:</label>
+      <input id="cantidad" type="number" formControlName="cantidad">
+    </div>
+  
+    <div>
+      <label for="categoria">Categoría:</label>
+      <input id="categoria" type="number" formControlName="categoria">
+    </div>
+  
+    <div>
+      <label for="viaje">Viaje:</label>
+      <input id="viaje" type="number" formControlName="viaje">
+    </div>
+  
+    <div>
+      <label for="fecha">Fecha:</label>
+      <input id="fecha" type="date" formControlName="fecha">
+    </div>
+  
+    <div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="formGasto.invalid">{{botonAccion}}</button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+  

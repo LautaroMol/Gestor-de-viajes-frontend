@@ -1,12 +1,12 @@
 export interface Viaje {
-    IdViaje: number,
-    Inicio: string,
-    Final: string,
-    Gastos: number[],
-    Fecha: Date,
-    Cp:number;
-    Facturado: boolean,
-    CuitUsuario: number,
-    Distancia: number,
-    Borrado: boolean
+    idViaje: number,
+    inicio: string,
+    final: string,
+    gastos: number[],
+    fecha: Date,
+    cp:number;
+    facturado: boolean,
+    cuitUsuario: number,
+    distancia: number,
+    borrado: boolean
 }

@@ -1,0 +1,95 @@
+<div>
+    <h2>Listado de Cargas</h2>
+    <button mat-raised-button color="primary" (click)="nuevaCarga()">Nueva Carga</button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Unidad de Medida</th>
+          <th>Precio Unitario</th>
+          <th>Bonificación</th>
+          <th>Subtotal</th>
+          <th>IVA</th>
+          <th>ID Viaje</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let carga of cargas">
+          <td>{{ carga.codigo }}</td>
+          <td>{{ carga.producto }}</td>
+          <td>{{ carga.cantidad }}</td>
+          <td>{{ carga.unidadDeMedida }}</td>
+          <td>{{ carga.precioUnit }}</td>
+          <td>{{ carga.bonif }}</td>
+          <td>{{ carga.subtotal }}</td>
+          <td>{{ carga.iva }}</td>
+          <td>{{ carga.idViaje }}</td>
+          <td>
+            <button (click)="editarCarga(carga)" class="btn btn-primary">Editar</button>
+            <button (click)="borrarCarga(carga)" class="btn btn-danger">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h2>Listado de Categorías</h2>
+    <button mat-raised-button color="primary" (click)="nuevaCategoria()">Nueva Categoría</button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Código Categoría</th>
+          <th>Nombre</th>
+          <th>Borrado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+          <td>{{ categoria.idcategoria }}</td>
+          <td>{{ categoria.nombre }}</td>
+          <td>{{ categoria.borrado ? 'Sí' : 'No' }}</td>
+          <td>
+            <button (click)="editarCategoria(categoria)" class="btn btn-primary">Editar</button>
+            <button (click)="borrarCategoria(categoria)" class="btn btn-danger">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h2>Listado de Clientes</h2>
+    <button (click)="nuevoCliente()" class="btn btn-primary">Nuevo Cliente</button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Razón Social</th>
+          <th>Domicilio</th>
+          <th>Condición</th>
+          <th>CUIT</th>
+          <th>Borrado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{ cliente.idcliente }}</td>
+          <td>{{ cliente.razonSoc }}</td>
+          <td>{{ cliente.domicilio }}</td>
+          <td>{{ cliente.condicion }}</td>
+          <td>{{ cliente.cuit }}</td>
+          <td>{{ cliente.borrado ? 'Sí' : 'No' }}</td>
+          <td>
+            <button (click)="editarCliente(cliente)" class="btn btn-primary">Editar</button>
+            <button (click)="borrarCliente(cliente)" class="btn btn-danger">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  

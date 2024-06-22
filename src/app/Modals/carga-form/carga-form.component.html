@@ -1,1 +1,41 @@
-<p>carga-form works!</p>
+<h1>{{ tituloAccion }} Carga</h1>
+<form [formGroup]="formCarga" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="codigo">Código</label>
+    <input id="codigo" formControlName="codigo" type="number" />
+  </div>
+  <div>
+    <label for="producto">Producto</label>
+    <input id="producto" formControlName="producto" type="text" />
+  </div>
+  <div>
+    <label for="cantidad">Cantidad</label>
+    <input id="cantidad" formControlName="cantidad" type="number" />
+  </div>
+  <div>
+    <label for="unidadDeMedida">Unidad de Medida</label>
+    <input id="unidadDeMedida" formControlName="unidadDeMedida" type="text" />
+  </div>
+  <div>
+    <label for="precioUnit">Precio Unitario</label>
+    <input id="precioUnit" formControlName="precioUnit" type="number" />
+  </div>
+  <div>
+    <label for="bonif">Bonificación</label>
+    <input id="bonif" formControlName="bonif" type="number" />
+  </div>
+  <div>
+    <label for="subtotal">Subtotal</label>
+    <input id="subtotal" formControlName="subtotal" type="number" />
+  </div>
+  <div>
+    <label for="iva">IVA</label>
+    <input id="iva" formControlName="iva" type="number" />
+  </div>
+  <div>
+    <label for="idViaje">ID Viaje</label>
+    <input id="idViaje" formControlName="idViaje" type="number" />
+  </div>
+  <button mat-raised-button color="primary" type="submit">{{ botonAccion }}</button>
+  <button mat-raised-button mat-dialog-close color="warn" type="button" (click)="onCancel()">Cancelar</button>
+</form>

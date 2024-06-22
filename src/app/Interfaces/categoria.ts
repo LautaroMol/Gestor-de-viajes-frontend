@@ -1,5 +1,5 @@
 export interface Categoria {
-    Idcategoria:number;
-    Nombre:string;
-    Borrado?:boolean;
+    idcategoria:number;
+    nombre:string;
+    borrado?:boolean;
 }

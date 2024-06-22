@@ -1,0 +1,9 @@
+<h1>{{ tituloAccion }} Categoría</h1>
+<form [formGroup]="formCategoria" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="nombre">Nombre</label>
+    <input id="nombre" formControlName="nombre" type="text" />
+  </div>
+  <button mat-raised-button color="primary" type="submit">{{ botonAccion }}</button>
+  <button mat-raised-button mat-dialog-close color="warn" type="button" (click)="onCancel()">Cancelar</button>
+</form>

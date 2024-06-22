@@ -1,8 +1,8 @@
 export interface Cliente {
-    Idcliente:number;
-    RazonSoc:string;
-    Domicilio:string;
-    Condicion:string;
-    Cuit:string;
-    Borrado:boolean;
+    idcliente:number;
+    razonSoc:string;
+    domicilio:string;
+    condicion:string;
+    cuit:string;
+    borrado:boolean;
 }

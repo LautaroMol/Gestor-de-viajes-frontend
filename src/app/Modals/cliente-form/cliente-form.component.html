@@ -1,0 +1,26 @@
+<form [formGroup]="formCliente" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="razonSoc">Razón Social:</label>
+    <input id="razonSoc" type="text" formControlName="razonSoc" required>
+  </div>
+
+  <div>
+    <label for="domicilio">Domicilio:</label>
+    <input id="domicilio" type="text" formControlName="domicilio" required>
+  </div>
+
+  <div>
+    <label for="condicion">Condición:</label>
+    <input id="condicion" type="text" formControlName="condicion">
+  </div>
+
+  <div>
+    <label for="cuit">CUIT:</label>
+    <input id="cuit" type="text" formControlName="cuit" required>
+  </div>
+
+  <div>
+    <button mat-raised-button color="primary" type="submit">{{ botonAccion }}</button>
+    <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
+  </div>
+</form>

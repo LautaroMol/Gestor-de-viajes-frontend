@@ -1,8 +1,8 @@
 export interface Factura {
-    IdFactura: number,
-    Usuario: number,
-    Cliente: number,
-    Cargas: number[],
-    Cuit:string;
-    Borrado:Boolean;
+    idFactura: number,
+    usuario: number,
+    cliente: number,
+    cargas: number[],
+    cuit:string;
+    borrado:Boolean;
 }

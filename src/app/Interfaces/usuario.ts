@@ -1,9 +1,9 @@
 export interface Usuario {
-    IdUsuario: number,
-    Razon: string,
-    Domicilio: string,
-    Condicion: string,
-    Cuit: string,
-    Facturas:number[],
-    Borrado:boolean
+    idUsuario: number,
+    razon: string,
+    domicilio: string,
+    condicion: string,
+    cuit: string,
+    facturas:number[],
+    borrado:boolean
 }
