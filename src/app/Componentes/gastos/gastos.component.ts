@@ -13,9 +13,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./gastos.component.css'],
 })
 export class GastosComponent implements OnInit {
-eliminarGasto(_t17: Gasto) {
+borrarGasto(_t15: Gasto) {
 throw new Error('Method not implemented.');
 }
+
 editarGasto(_t17: Gasto) {
 throw new Error('Method not implemented.');
 }

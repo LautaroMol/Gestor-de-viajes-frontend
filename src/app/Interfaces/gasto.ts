@@ -1,9 +1,9 @@
 export interface Gasto {
-    Idgasto:number;
-    Nombre:string;
-    Cantidad:number;
-    Categoria:number;
-    Viaje:number;
-    Fecha:Date;
-    Borrado:boolean;
+    idgasto:number;
+    nombre:string;
+    cantidad:number;
+    categoria:number;
+    viaje:number;
+    fecha:Date;
+    borrado:boolean;
 }

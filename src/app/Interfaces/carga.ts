@@ -1,13 +1,13 @@
 export interface Carga {
-    Idcarga:number;
-    Codigo:number;
-    Producto:string;
-    Cantidad:number;
-    UnidadDeMedida:string;
-    PrecioUnit:number;
-    Bonif:number;
-    Subtotal:number;
-    Iva:number;
-    Borrado:boolean;
-    IdViaje:number;
+    idcarga:number;
+    codigo:number;
+    producto:string;
+    cantidad:number;
+    unidadDeMedida:string;
+    precioUnit:number;
+    bonif:number;
+    subtotal:number;
+    iva:number;
+    borrado:boolean;
+    idViaje:number;
 }

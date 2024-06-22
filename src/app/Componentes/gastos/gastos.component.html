@@ -1,0 +1,29 @@
+<div>
+    <h2>Listado de Gastos</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>Categoría</th>
+          <th>Viaje</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gasto of gastos">
+          <td>{{ gasto.nombre }}</td>
+          <td>{{ gasto.cantidad }}</td>
+          <td>{{ gasto.categoria }}</td>
+          <td>{{ gasto.viaje }}</td>
+          <td>{{ gasto.fecha | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <button (click)="editarGasto(gasto)" class="btn btn-primary">Editar</button>
+            <button (click)="borrarGasto(gasto)" class="btn btn-danger">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
