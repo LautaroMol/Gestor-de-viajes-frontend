@@ -4,6 +4,6 @@ export interface Usuario {
     domicilio: string,
     condicion: string,
     cuit: string,
-    facturas:number[],
-    borrado:boolean
+    facturas: number[],
+    borrado: boolean
 }

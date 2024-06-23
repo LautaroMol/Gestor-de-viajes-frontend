@@ -3,6 +3,6 @@ export interface Factura {
     usuario: number,
     cliente: number,
     cargas: number[],
-    cuit:string;
-    borrado:Boolean;
+    cuit: string;
+    borrado: Boolean;
 }

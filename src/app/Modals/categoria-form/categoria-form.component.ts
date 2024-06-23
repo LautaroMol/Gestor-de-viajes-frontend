@@ -44,7 +44,7 @@ export class CategoriaFormComponent implements OnInit {
   onSubmit() {
     if (this.formCategoria.valid) {
       const categoria: Categoria = {
-        idcategoria: this.dataCategoria ? this.dataCategoria.idcategoria : 0,
+        idCategoria: this.dataCategoria ? this.dataCategoria.idCategoria : 0,
         ...this.formCategoria.value
       };
 
@@ -59,7 +59,7 @@ export class CategoriaFormComponent implements OnInit {
           }
         });
       } else {
-        this._categoriaServicio.update(categoria,categoria.idcategoria).subscribe({
+        this._categoriaServicio.update(categoria,categoria.idCategoria).subscribe({
           next: () => {
             console.log("Categoría actualizada correctamente");
             this.dialogoReferencia.close("Editada");

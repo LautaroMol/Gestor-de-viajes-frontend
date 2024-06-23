@@ -1,26 +1,73 @@
-<form [formGroup]="formCliente" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="razonSoc">Razón Social:</label>
-    <input id="razonSoc" type="text" formControlName="razonSoc" required>
-  </div>
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+	<div class="fixed inset-0 transition-opacity">
+		<div class="absolute inset-0 bg-black opacity-50"></div>
+	</div>
 
-  <div>
-    <label for="domicilio">Domicilio:</label>
-    <input id="domicilio" type="text" formControlName="domicilio" required>
-  </div>
+	<div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+		<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+			<form class="bg-white shadow-md rounded-lg" [formGroup]="formCliente" (ngSubmit)="onSubmit()">
+				<div class="p-3">
+					<label for="razonSoc" class="block text-indigo-600 font-bold">Razon Social</label>
+					<input 
+						id="razonSoc" 
+						name="razonSoc" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="razonSoc" 
+						required
+					>
+				</div>
+				<div class="p-3">
+					<label for="cuit" class="block text-indigo-600	font-bold">CUIT</label>
+					<input 
+						id="cuit" 
+						name="cuit" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="cuit" 
+						required
+					>
+				</div>
+				<div class="p-3">
+					<label for="domicilio" class="block text-indigo-600	font-bold">Domicilio</label>
+					<input 
+						id="domicilio" 
+						name="domicilio" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="domicilio" 
+						required
+					>
+				</div>
+				<div class="p-3">
+					<label for="domicilio" class="block text-indigo-600	font-bold">Condicion</label>
+					<select 
+						name="condicion" 
+						id="condicion"
+						class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="condicion"
+					>
+						<option disabled >-- Selecciones --</option>
+						<option >Responsable Inscripto</option>
+					</select>
+				</div>
+	
+				<div class="flex justify-between gap-3 p-3">
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+						type="submit">
+						{{ botonAccion }}
+					</button>
 
-  <div>
-    <label for="condicion">Condición:</label>
-    <input id="condicion" type="text" formControlName="condicion">
-  </div>
-
-  <div>
-    <label for="cuit">CUIT:</label>
-    <input id="cuit" type="text" formControlName="cuit" required>
-  </div>
-
-  <div>
-    <button mat-raised-button color="primary" type="submit">{{ botonAccion }}</button>
-    <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
-  </div>
-</form>
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+						type="button"
+						(click)="onCancel()"	
+					>Cancelar
+					</button>
+					
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
