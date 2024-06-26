@@ -44,7 +44,7 @@ export class CategoriaFormComponent implements OnInit {
   onSubmit() {
     if (this.formCategoria.valid) {
       const categoria: Categoria = {
-        idcategoria: this.dataCategoria ? this.dataCategoria.idCategoria : 0,
+        idCategoria: this.dataCategoria ? this.dataCategoria.idCategoria : 0,
         ...this.formCategoria.value
       };
 

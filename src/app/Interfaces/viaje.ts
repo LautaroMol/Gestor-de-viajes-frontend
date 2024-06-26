@@ -4,7 +4,7 @@ export interface Viaje {
     final: string,
     gastos: number[],
     fecha: Date,
-    cp:number;
+    cp: number;
     facturado: boolean,
     cuitUsuario: number,
     distancia: number,

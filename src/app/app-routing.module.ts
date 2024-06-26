@@ -5,14 +5,14 @@ import { TravelComponent } from './Componentes/travel/travel.component';
 import { GastosComponent } from './Componentes/gastos/gastos.component';
 
 const routes: Routes = [
-  { path: 'travel', component: TravelComponent },
-  { path: 'viajes', component: ViajesComponent },
-  { path: 'gastos', component: GastosComponent },
-  { path: '', redirectTo: '/viajes', pathMatch: 'full' },
+	{ path: 'travel', component: TravelComponent },
+	{ path: 'viajes', component: ViajesComponent },
+	{ path: 'gastos', component: GastosComponent },
+	{ path: '', redirectTo: '/viajes', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }

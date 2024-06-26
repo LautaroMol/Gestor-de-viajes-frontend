@@ -3,7 +3,7 @@ export interface Usuario {
     razon: string,
     domicilio: string,
     condicion: string,
-    cuitUsuario: string,
-    facturas:number[],
-    borrado:boolean
+    cuit: string,
+    facturas?: number[],
+    borrado: boolean
 }

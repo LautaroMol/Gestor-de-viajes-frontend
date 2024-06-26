@@ -6,32 +6,32 @@ import { Cliente } from '../Interfaces/cliente';
 
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class ClienteService {
 
-  private endpoint: string = environment.endpoint;
-  private apiUrl: string = this.endpoint + "cliente/";
+	private endpoint: string = environment.endpoint;
+	private apiUrl: string = this.endpoint + "cliente/";
 
-  constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient) { }
 
-  getList(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(`${this.apiUrl}lista`);
-  }
+	getList(): Observable<Cliente[]> {
+		return this.http.get<Cliente[]>(`${this.apiUrl}lista`);
+	}
 
-  get(idCliente: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.apiUrl}${idCliente}`);
-  }  
+	get(idCliente: number): Observable<Cliente> {
+		return this.http.get<Cliente>(`${this.apiUrl}${idCliente}`);
+	}  
 
-  add(modelo: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(`${this.apiUrl}add`, modelo);
-  }
+	add(modelo: Cliente): Observable<Cliente> {
+		return this.http.post<Cliente>(`${this.apiUrl}add`, modelo);
+	}
 
-  delete(idCliente: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}delete/${idCliente}`);
-  }
+	delete(idCliente: number): Observable<any> {
+		return this.http.delete<any>(`${this.apiUrl}delete/${idCliente}`);
+	}
 
-  update(modelo: Cliente, idCliente: number): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.apiUrl}update/${idCliente}`, modelo);
-  }
+	update(modelo: Cliente, idCliente: number): Observable<Cliente> {
+		return this.http.put<Cliente>(`${this.apiUrl}update/${idCliente}`, modelo);
+	}
 }

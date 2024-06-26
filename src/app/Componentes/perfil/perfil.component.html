@@ -1,95 +1,126 @@
-<div>
-    <h2>Listado de Cargas</h2>
-    <button mat-raised-button color="primary" (click)="nuevaCarga()">Nueva Carga</button>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Unidad de Medida</th>
-          <th>Precio Unitario</th>
-          <th>Bonificación</th>
-          <th>Subtotal</th>
-          <th>IVA</th>
-          <th>ID Viaje</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let carga of cargas">
-          <td>{{ carga.codigo }}</td>
-          <td>{{ carga.producto }}</td>
-          <td>{{ carga.cantidad }}</td>
-          <td>{{ carga.unidadDeMedida }}</td>
-          <td>{{ carga.precioUnit }}</td>
-          <td>{{ carga.bonif }}</td>
-          <td>{{ carga.subtotal }}</td>
-          <td>{{ carga.iva }}</td>
-          <td>{{ carga.idViaje }}</td>
-          <td>
-            <button (click)="editarCarga(carga)" class="btn btn-primary">Editar</button>
-            <button (click)="borrarCarga(carga)" class="btn btn-danger">Borrar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <h2>Listado de Categorías</h2>
-    <button mat-raised-button color="primary" (click)="nuevaCategoria()">Nueva Categoría</button>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Código Categoría</th>
-          <th>Nombre</th>
-          <th>Borrado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let categoria of categorias">
-          <td>{{ categoria.idCategoria }}</td>
-          <td>{{ categoria.nombre }}</td>
-          <td>{{ categoria.borrado ? 'Sí' : 'No' }}</td>
-          <td>
-            <button (click)="editarCategoria(categoria)" class="btn btn-primary">Editar</button>
-            <button (click)="borrarCategoria(categoria)" class="btn btn-danger">Borrar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <h2>Listado de Clientes</h2>
-    <button (click)="nuevoCliente()" class="btn btn-primary">Nuevo Cliente</button>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Razón Social</th>
-          <th>Domicilio</th>
-          <th>Condición</th>
-          <th>CUIT</th>
-          <th>Borrado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cliente of clientes">
-          <td>{{ cliente.idCliente }}</td>
-          <td>{{ cliente.razonSoc }}</td>
-          <td>{{ cliente.domicilio }}</td>
-          <td>{{ cliente.condicion }}</td>
-          <td>{{ cliente.cuitCliente }}</td>
-          <td>{{ cliente.borrado ? 'Sí' : 'No' }}</td>
-          <td>
-            <button (click)="editarCliente(cliente)" class="btn btn-primary">Editar</button>
-            <button (click)="borrarCliente(cliente)" class="btn btn-danger">Borrar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  
+<div class="flex justify-center">
+    <div class="bg-white p-4  text-center rounded-lg shadow-md w-1/2">
+        <p class="font-black text-2xl text-indigo-600 mb-0">Mi Perfil</p>
+    </div>
+</div>
+
+<div class="mt-4 flex gap-4 justify-around">
+	<div class="bg-white w-1/3 shadow-md rounded-lg h-full">
+		<div class="p-3">
+			<label for="razonSoc" class="block text-indigo-600	font-bold">Razon Social</label>
+			<div class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300 cursor-not-allowed">
+				{{user?.razon}}
+			</div>
+		</div>
+		<div class="p-3">
+			<label for="cuit" class="block text-indigo-600	font-bold">CUIT</label>
+			<div class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300 cursor-not-allowed">
+				{{user?.cuit}}
+			</div>
+		</div>
+		<div class="p-3">
+			<label for="domicilio" class="block text-indigo-600	font-bold">Domicilio</label>
+			<div class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300 cursor-not-allowed">
+				{{user?.domicilio}}
+			</div>
+		</div>
+		<div class="p-3">
+			<label for="domicilio" class="block text-indigo-600	font-bold">Condicion</label>
+			<div class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300 cursor-not-allowed">
+				{{user?.condicion}}
+			</div>
+		</div>
+
+		<div class="flex justify-center p-3">
+			<input 
+				type="submit" 
+				class="w-full shadow-md text-white text-center font-bold bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all"
+				value="Modificar"
+				(click)="editarUsuario(user)"
+			/>
+		</div>
+	</div>
+
+	<div class="flex flex-col w-1/3 justify-between gap-3">
+		<!-- Clientes Registrados -->
+		<div class="shadow-md rounded-lg">
+			<div class="bg-indigo-600 p-1 rounded-t-lg text-center text-white border-b-2 font-semibold">
+				Clientes Registrados
+			</div>
+			
+			<div class="bg-white max-h-32 overflow-y-auto no-scrollbar">
+				<div class="text-gray-900 border-b-2 font-semibold" *ngFor="let cliente of clientes">
+					<div class="px-6 py-4 flex justify-between items-center">
+						<p>{{cliente.razonSoc}}</p>
+						<div class="flex gap-3">
+							<button class="text-black" (click)="editarCliente(cliente)">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+								</svg>
+							</button>
+							<button class="text-black" (click)="borrarCliente(cliente.idCliente)">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Viajes Facturados -->
+		<div class="shadow-md rounded-lg">
+			<div class="bg-indigo-600 p-1 text-center rounded-t-lg text-white border-b-2 font-semibold">
+				Viajes Facturados
+			</div>
+
+			<div class="bg-white max-h-32 overflow-y-auto no-scrollbar">
+				<div class="text-gray-900 border-b-2 font-semibold" *ngFor="let cliente of clientes">
+					<div class="px-6 py-4 flex justify-between items-center">
+						<p>{{cliente.razonSoc}}</p>
+						<div class="flex gap-3">
+							<button class="text-black" (click)="editarCliente(cliente)">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+								</svg>
+							</button>
+							<button class="text-black" (click)="borrarCliente(cliente.idCliente)">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Viajes No Facturados -->
+		<div class="shadow-md rounded-lg">
+			<div class="bg-indigo-600 p-1 text-center rounded-t-lg text-white border-b-2 font-semibold">
+				Viajes No Facturados
+			</div>
+			
+			<div class="bg-white max-h-32 overflow-y-auto no-scrollbar">
+				<div class="text-gray-900 border-b-2 font-semibold" *ngFor="let cliente of clientes">
+					<div class="px-6 py-4 flex justify-between items-center">
+						<p>{{cliente.razonSoc}}</p>
+						<div class="flex gap-3">
+							<button class="text-black" (click)="editarCliente(cliente)">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+								</svg>
+							</button>
+							<button class="text-black" (click)="borrarCliente(cliente.idCliente)">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 
