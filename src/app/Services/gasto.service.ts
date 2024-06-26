@@ -27,10 +27,10 @@ export class GastoService {
   }
 
   delete(gasto: Gasto): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}delete/${gasto.idgasto}`);
+    return this.http.delete<any>(`${this.apiUrl}delete/${gasto.idGasto}`);
   }
 
   update(modelo: Gasto): Observable<Gasto> {
-    return this.http.put<Gasto>(`${this.apiUrl}update/${modelo.idgasto}`, modelo);
+    return this.http.put<Gasto>(`${this.apiUrl}update/${modelo.idGasto}`, modelo);
   }
 }

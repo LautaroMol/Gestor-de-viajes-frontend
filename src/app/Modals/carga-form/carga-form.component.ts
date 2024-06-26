@@ -52,7 +52,7 @@ export class CargaFormComponent implements OnInit {
   onSubmit() {
     if (this.formCarga.valid) {
       const carga: Carga = {
-        idcarga: this.dataCarga ? this.dataCarga.idcarga : 0,
+        idcarga: this.dataCarga ? this.dataCarga.idCarga : 0,
         idViaje: 1,
         ...this.formCarga.value
       };
@@ -68,7 +68,7 @@ export class CargaFormComponent implements OnInit {
           }
         });
       } else {
-        this._cargaServicio.update(carga,carga.idcarga).subscribe({
+        this._cargaServicio.update(carga,carga.idCarga).subscribe({
           next: () => {
             console.log("Carga editada correctamente");
             this.dialogoReferencia.close("Editada");

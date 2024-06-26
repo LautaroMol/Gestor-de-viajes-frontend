@@ -41,11 +41,11 @@ export class ClienteFormComponent implements OnInit {
   onSubmit() {
     if (this.formCliente.valid) {
       const cliente: Cliente = {
-        idcliente: this.dataCliente ? this.dataCliente.idcliente : 0,
+        idCliente: this.dataCliente ? this.dataCliente.idCliente : 0,
         razonSoc: this.formCliente.value.razonSoc,
         domicilio: this.formCliente.value.domicilio,
         condicion: this.formCliente.value.condicion,
-        cuit: this.formCliente.value.cuit,
+        cuitCliente: this.formCliente.value.cuit,
         borrado: false
       };
 
@@ -60,7 +60,7 @@ export class ClienteFormComponent implements OnInit {
           }
         });
       } else {
-        this._clienteServicio.update(cliente, cliente.idcliente).subscribe({
+        this._clienteServicio.update(cliente, cliente.idCliente).subscribe({
           next: () => {
             console.log("Cliente actualizado correctamente");
             this.dialogoReferencia.close({ action: "Editado", data: cliente });

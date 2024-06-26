@@ -1,5 +1,5 @@
 export interface Gasto {
-    idgasto:number;
+    idGasto:number;
     nombre:string;
     cantidad:number;
     categoria:number;

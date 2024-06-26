@@ -49,7 +49,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let categoria of categorias">
-          <td>{{ categoria.idcategoria }}</td>
+          <td>{{ categoria.idCategoria }}</td>
           <td>{{ categoria.nombre }}</td>
           <td>{{ categoria.borrado ? 'Sí' : 'No' }}</td>
           <td>
@@ -77,11 +77,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let cliente of clientes">
-          <td>{{ cliente.idcliente }}</td>
+          <td>{{ cliente.idCliente }}</td>
           <td>{{ cliente.razonSoc }}</td>
           <td>{{ cliente.domicilio }}</td>
           <td>{{ cliente.condicion }}</td>
-          <td>{{ cliente.cuit }}</td>
+          <td>{{ cliente.cuitCliente }}</td>
           <td>{{ cliente.borrado ? 'Sí' : 'No' }}</td>
           <td>
             <button (click)="editarCliente(cliente)" class="btn btn-primary">Editar</button>

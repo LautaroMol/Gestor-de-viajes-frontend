@@ -1,5 +1,5 @@
 export interface Carga {
-    idcarga:number;
+    idCarga:number;
     codigo:number;
     producto:string;
     cantidad:number;

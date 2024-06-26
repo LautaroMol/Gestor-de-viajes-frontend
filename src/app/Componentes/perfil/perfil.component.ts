@@ -80,7 +80,7 @@ export class PerfilComponent implements OnInit {
       data: carga
     }).afterClosed().subscribe(result => {
       if (result === "Eliminar") {
-        this.cargaService.delete(carga.idcarga).subscribe({
+        this.cargaService.delete(carga.idCarga).subscribe({
           next: () => {
             console.log("Carga borrada");
             this.obtenerCargas();
@@ -134,7 +134,7 @@ export class PerfilComponent implements OnInit {
       data: categoria
     }).afterClosed().subscribe(result => {
       if (result === "Eliminar") {
-        this.categoriaService.delete(categoria.idcategoria).subscribe({
+        this.categoriaService.delete(categoria.idCategoria).subscribe({
           next: () => {
             console.log("Categoría eliminada");
             this.obtenerCategorias();
@@ -178,7 +178,7 @@ export class PerfilComponent implements OnInit {
       data: cliente
     }).afterClosed().subscribe(result => {
       if (result && result.action === "Editado") {
-        const index = this.clientes.findIndex(c => c.idcliente === result.data.idcliente);
+        const index = this.clientes.findIndex(c => c.idCliente === result.data.idcliente);
         if (index !== -1) {
           this.clientes[index] = result.data;
         }
@@ -193,7 +193,7 @@ export class PerfilComponent implements OnInit {
       data: cliente
     }).afterClosed().subscribe(result => {
       if (result === "Eliminar") {
-        this.clienteService.delete(cliente.idcliente).subscribe({
+        this.clienteService.delete(cliente.idCliente).subscribe({
           next: () => {
             console.log("Cliente eliminado");
             this.obtenerClientes();

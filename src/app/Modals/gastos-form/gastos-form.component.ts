@@ -56,7 +56,7 @@ export class GastosFormComponent implements OnInit {
   onSubmit() {
     if (this.formGasto.valid) {
       const gasto: Gasto = {
-        idgasto: this.dataGasto ? this.dataGasto.idgasto : 0,
+        idGasto: this.dataGasto ? this.dataGasto.idGasto : 0,
         nombre: this.formGasto.value.nombre,
         cantidad: this.formGasto.value.cantidad,
         categoria: this.formGasto.value.categoria,
