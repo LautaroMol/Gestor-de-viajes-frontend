@@ -3,28 +3,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cliente } from '../../Interfaces/cliente';
 
 @Component({
-  selector: 'app-cliente-delete',
-  standalone: true,
-  imports: [],
-  templateUrl: './cliente-delete.component.html',
-  styleUrls: ['./cliente-delete.component.css']
+	selector: 'app-cliente-delete',
+	standalone: true,
+	imports: [],
+	templateUrl: './cliente-delete.component.html',
+	styleUrls: ['./cliente-delete.component.css']
 })
 export class ClienteDeleteComponent implements OnInit {
 
-  constructor(
-    private dialogRef: MatDialogRef<ClienteDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Cliente
-  ) {}
+	constructor(
+		private dialogRef: MatDialogRef<ClienteDeleteComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: Cliente
+	) {}
 
-  ngOnInit(): void {
-  }
+	ngOnInit(): void {}
 
-  confirmacion() {
-    if (this.data) {
-      this.dialogRef.close("Eliminar");
-    }
-  }
-  onCancel() {
-    this.dialogRef.close();
-  }
+	confirmacion() {
+		if (this.data) {
+			this.dialogRef.close("Eliminar");
+		}
+	}
+	onCancel() {
+		this.dialogRef.close();
+	}
 }

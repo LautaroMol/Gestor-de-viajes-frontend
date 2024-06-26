@@ -16,6 +16,7 @@ import { ClienteService } from '../../Services/cliente.service';
 import { ClienteDeleteComponent } from '../../Modals/cliente-delete/cliente-delete.component';
 import { UserService } from '../../Services/user.service';
 import { Usuario } from '../../Interfaces/usuario';
+import { UsuarioFormComponent } from '../../Modals/usuario-form/usuario-form.component';
 
 
 @Component({
@@ -47,11 +48,23 @@ export class PerfilComponent implements OnInit {
 		this.userService.get(1).subscribe({
 			next: (data) => {
 				this.user = data
-				console.log(this.user);
+				// console.log(this.user);
 			},
 			error: (e) => {
 				console.error(e);
 			},
+		});
+	}
+
+	editarUsuario(usuario: Usuario) {
+		this.dialog.open(UsuarioFormComponent, {
+			disableClose: true,
+			width: "400px",
+			data: usuario
+		}).afterClosed().subscribe(result => {
+			if (result === "Editada") {
+				this.obtenerCargas();
+			}
 		});
 	}
 
@@ -206,7 +219,7 @@ export class PerfilComponent implements OnInit {
 	borrarCliente(id: Cliente['idCliente']) {
 		this.dialog.open(ClienteDeleteComponent, {
 			disableClose: true,
-			width: "400px",
+			width: "200px",
 			data: id
 		}).afterClosed().subscribe(result => {
 			if (result === "Eliminar") {

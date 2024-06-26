@@ -1,9 +1,22 @@
-<h1 mat-dialog-title>Eliminar Cliente</h1>
-<div mat-dialog-content>
-    ¿Está seguro de eliminar al cliente "{{data.razonSoc}}"?
-</div>
 
-<div mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close color="warn" (click)="onCancel()">Volver</button>
-  <button mat-raised-button color="primary" (click)="confirmacion()">Eliminar</button>
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+	<div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full p-4">
+		<div>
+			¿Está seguro de eliminar al cliente {{data.razonSoc}} ?
+		</div>
+		
+		<div class="flex justify-between gap-4">
+			<button 
+				(click)="onCancel()"
+				class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+				type="submit"
+			>Volver
+			</button>
+			<button 
+				(click)="confirmacion()"
+				class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+				type="button"
+			>Eliminar</button>
+		</div>
+	</div>
 </div>
