@@ -3,52 +3,53 @@
 </div>
 
 <div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
-    <form  [formGroup]="formUsuario" class="bg-white w-1/3 shadow-md rounded-lg ">
-		<div class="p-3">
-			<label for="razon" class="block text-indigo-600	font-bold">Razon Social</label>
+    <form [formGroup]="formUsuario" (ngSubmit)="onSubmit()" class="bg-white w-1/3 shadow-md rounded-lg">
+        <div class="p-3">
+            <label for="razon" class="block text-indigo-600 font-bold">Razon Social</label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
-                formControlName="razon"
+                formControlName="razon" id="razon"
             >
-		</div>
-		<div class="p-3">
-			<label for="cuit" class="block text-indigo-600	font-bold">CUIT</label>
+        </div>
+        <div class="p-3">
+            <label for="cuit" class="block text-indigo-600 font-bold">CUIT</label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
-                formControlName="cuit"
+                formControlName="cuit" id="cuit"
             >
-		</div>
-		<div class="p-3">
-			<label for="domicilio" class="block text-indigo-600	font-bold">Domicilio</label>
+        </div>
+        <div class="p-3">
+            <label for="domicilio" class="block text-indigo-600 font-bold">Domicilio</label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
-                formControlName="domicilio"
+                formControlName="domicilio" id="domicilio"
             >
-		</div>
-		<div class="p-3">
-			<label for="condicion" class="block text-indigo-600	font-bold">Condicion</label>
+        </div>
+        <div class="p-3">
+            <label for="condicion" class="block text-indigo-600 font-bold">Condicion</label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
-                formControlName="condicion"
+                formControlName="condicion" id="condicion"
             >
-		</div>
-
+        </div>
         <div class="flex justify-between gap-3 p-3">
             <button 
-                class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
-                type="submit">
+                class="w-1/2 shadow-md text-white text-center font-bold p-1 rounded-md transition-all"
+                [ngClass]="{'bg-yellow-600 hover:bg-yellow-700': !formUsuario.invalid, 'bg-gray-500': formUsuario.invalid}"
+                type="submit" [disabled]="formUsuario.invalid">
                 {{ botonAccion }}
             </button>
+
             <button 
                 class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
                 type="button"
-                (click)="onCancel()"	
+                (click)="onCancel()"
             >Cancelar
             </button>
         </div>
-	</form>
+    </form>
 </div>
