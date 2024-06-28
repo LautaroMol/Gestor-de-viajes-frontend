@@ -41,7 +41,7 @@
       </div>
       <div class="bg-white max-h-64 overflow-y-auto no-scrollbar">
           <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let categoria of categorias">
-              <div class="px-6 py-4 flex justify-between items-center">
+              <div class="px-6 py-4 flex justify-between items-center" *ngIf="!categoria.borrado">
                   <p>{{ categoria.idCategoria }}: {{ categoria.nombre }}</p>
                   <div class="flex gap-3">
                       <button class="text-black" (click)="editarCategoria(categoria)">
