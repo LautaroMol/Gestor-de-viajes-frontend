@@ -3,6 +3,6 @@ export interface Cliente {
     razonSoc: string;
     domicilio: string;
     condicion: string;
-    cuit: string;
+    cuitCliente: string;
     borrado: boolean;
 }

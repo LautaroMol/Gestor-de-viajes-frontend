@@ -26,7 +26,7 @@ export class ClienteFormComponent implements OnInit {
 		razonSoc: ['', Validators.required],
 		domicilio: ['', Validators.required],
 		condicion: [''],
-		cuit: ['', Validators.required]
+		cuitCliente: ['', Validators.required]
 		});
 
 		if (data) {
@@ -43,12 +43,8 @@ export class ClienteFormComponent implements OnInit {
 			
 			const cliente: Cliente = {
 				idCliente: this.dataCliente ? this.dataCliente.idCliente : 0,
-				razonSoc: this.formCliente.value.razonSoc,
-				domicilio: this.formCliente.value.domicilio,
-				condicion: this.formCliente.value.condicion,
-				cuit: this.formCliente.value.cuit,
-				borrado: false
-			};
+				...this.formCliente.value
+			  };
 
 			if (this.dataCliente == null) {
 				this._clienteServicio.add(cliente).subscribe({
