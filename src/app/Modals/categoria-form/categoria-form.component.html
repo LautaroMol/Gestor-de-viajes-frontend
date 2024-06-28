@@ -1,9 +1,33 @@
-<h1>{{ tituloAccion }} Categoría</h1>
-<form [formGroup]="formCategoria" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="nombre">Nombre</label>
-    <input id="nombre" formControlName="nombre" type="text" />
-  </div>
-  <button mat-raised-button color="primary" type="submit">{{ botonAccion }}</button>
-  <button mat-raised-button mat-dialog-close color="warn" type="button" (click)="onCancel()">Cancelar</button>
-</form>
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+	<div class="bg-white px-4 pt-5">
+		<form 
+			[formGroup]="formCategoria" 
+			(ngSubmit)="onSubmit()"
+			class="bg-white rounded-lg"
+		>
+			<div>
+				<label for="nombre">Nombre</label>
+				<input 
+					id="nombre" 
+					formControlName="nombre" 
+					type="text"
+					class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg"	
+				/>
+			</div>
+
+			<div class="p-3 flex justify-between gap-3" >
+				<button 
+					type="submit"
+					class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+				>{{ botonAccion }}
+				</button>
+				<button 
+					type="button" 
+					class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+					(click)="onCancel()"
+				>Cancelar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
