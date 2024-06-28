@@ -6,10 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { GastosFormComponent } from '../../Modals/gastos-form/gastos-form.component';
 import { DeleteGastoComponent } from '../../Modals/gastos-delete/gastos-delete.component';
-import { Categoria } from '../../Interfaces/categoria';
-import { CategoriaService } from '../../Services/categoria.service';
-import { CategoriaDeleteComponent } from '../../Modals/categoria-delete/categoria-delete.component';
-import { CategoriaFormComponent } from '../../Modals/categoria-form/categoria-form.component';
 
 @Component({
 	selector: 'app-gastos',
@@ -21,17 +17,13 @@ import { CategoriaFormComponent } from '../../Modals/categoria-form/categoria-fo
 })
 export class GastosComponent implements OnInit {
 	gastos: Gasto[] = [];
-	categorias: Categoria[] = [];
 	mostrarFormulario: boolean = false;
 	modoEdicion: boolean = false;
 
-	constructor(private gastoService: GastoService, private dialog: MatDialog,
-		private categoriaService: CategoriaService,
-	) { }
+	constructor(private gastoService: GastoService, private dialog: MatDialog) { }
 
 	ngOnInit(): void {
 		this.obtenerGastos();
-		this.obtenerCategorias();
 	}
 
  	obtenerGastos() {
@@ -86,66 +78,6 @@ export class GastosComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result === 'Creado') {
 				this.obtenerGastos();
-			}
-		});
-	}
- 	obtenerCategorias() {
-		this.categoriaService.getList().subscribe({
-			next: (data) => {
-				this.categorias = data;
-				console.log(this.categorias);
-			},
-			error: (e) => {
-				console.error(e);
-			}
-		});
-	}
-
-	nuevaCategoria() {
-		this.dialog.open(CategoriaFormComponent, {
-			disableClose: true,
-			width: '400px',
-			data: null
-		}).afterClosed().subscribe(result => {
-			if (result && result.action === 'Creado') {
-				this.categorias.push(result.data);
-			}
-			this.obtenerCategorias();
-		});
-	}
-
-	editarCategoria(categoria: Categoria) {
-		this.dialog.open(CategoriaFormComponent, {
-			disableClose: false,
-			width: '300px',
-			data: categoria
-		}).afterClosed().subscribe(result => {
-			if (result && result.action === 'Editado') {
-				const index = this.categorias.findIndex(c => c.idCategoria === result.data.idCategoria);
-				if (index !== -1) {
-					this.categorias[index] = result.data;
-				}
-			}
-			this.obtenerCategorias();
-		});
-	}
-
-	borrarCategoria(id: Categoria['idCategoria']) {
-		this.dialog.open(CategoriaDeleteComponent, {
-			disableClose: true,
-			width: '200px',
-			data: id
-		}).afterClosed().subscribe(result => {
-			if (result === 'Eliminar') {
-				this.categoriaService.delete(id).subscribe({
-				next: () => {
-						console.log('Categoría eliminada');
-						this.obtenerCategorias();
-					},
-					error: (e) => {
-						console.error(e);
-					}
-				});
 			}
 		});
 	}
