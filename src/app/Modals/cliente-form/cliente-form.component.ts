@@ -57,6 +57,7 @@ export class ClienteFormComponent implements OnInit {
 					}
 				});
 			} else {
+				console.log(cliente.idCliente);
 				this._clienteServicio.update(cliente, cliente.idCliente).subscribe({
 					next: () => {
 						console.log("Cliente actualizado correctamente");

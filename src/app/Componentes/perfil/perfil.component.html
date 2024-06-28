@@ -62,7 +62,7 @@
             </div>
             <div class="bg-white max-h-32 overflow-y-auto no-scrollbar">
                 <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let cliente of clientes">
-                    <div class="px-6 py-4 flex justify-between items-center">
+                    <div class="px-6 py-4 flex justify-between items-center" *ngIf="!cliente.borrado">
                         <p>{{cliente.razonSoc}}</p>
                         <div class="flex gap-3">
                             <button class="text-black" (click)="editarCliente(cliente)">

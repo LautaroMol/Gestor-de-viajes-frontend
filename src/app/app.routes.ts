@@ -4,6 +4,7 @@ import { TravelComponent } from './Componentes/travel/travel.component';
 import { CargaFormComponent } from './Modals/carga-form/carga-form.component';
 import { GastosComponent } from './Componentes/gastos/gastos.component';
 import { PerfilComponent } from './Componentes/perfil/perfil.component';
+import { ConfiguracionComponent } from './Componentes/configuracion/configuracion.component';
 
 export const routes: Routes = [
     {path: 'viajes', component:ViajesComponent},
@@ -11,5 +12,6 @@ export const routes: Routes = [
     {path: 'carga',component:CargaFormComponent},
     {path: 'gastos',component:GastosComponent},
     {path: 'perfil',component:PerfilComponent},
+    {path: 'configuracion',component:ConfiguracionComponent},
     { path: '', redirectTo: '/viajes', pathMatch: 'full' },
 ];
