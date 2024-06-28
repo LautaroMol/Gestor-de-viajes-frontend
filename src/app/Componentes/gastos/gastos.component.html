@@ -1,4 +1,37 @@
-<div>
+<div class="flex justify-center">
+	<div class="bg-white p-4  text-center rounded-lg shadow-md w-1/2">
+		<p class="font-black text-2xl text-indigo-600 mb-0">Ultimos Gastos</p>
+	</div>
+</div>
+
+<section class="">
+	<div class="flex p-4 overflow-hidden bg-white h-auto rounded-lg shadow-md mt-8">
+		<img src="../../../assets/img/pie-chart.png" height="200px" width="200px" alt="pie-chart">
+		
+		<div *ngFor="let gasto of gastos" class="flex flex-col">
+			{{ gasto.nombre}}
+		</div>
+	</div>
+
+	<div class="overflow-y-auto max-h-64 mt-4">
+		<div class="grid grid-cols-3 gap-3">
+			<div class="grid grid-cols-3 items-center p-4 bg-white h-auto rounded-lg shadow-md my-3 font-bold" *ngFor="let gasto of gastos">
+				<p>{{ gasto.categoria }}</p>
+				<div class="text-center ">
+					<p>{{ gasto.nombre }}</p>
+					<p class="text-xs">{{ gasto.fecha }}</p>
+				</div>
+				<p class="text-xl font-black">$ {{ gasto.cantidad }}</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+<!-- <div>
   <h2>Listado de Gastos</h2>
   <button class="btn btn-success" (click)="nuevoGasto()">Nuevo Gasto</button>
   <table class="table">
@@ -28,4 +61,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->
