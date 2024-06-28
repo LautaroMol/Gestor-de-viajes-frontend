@@ -17,6 +17,7 @@ import { ClienteDeleteComponent } from '../../Modals/cliente-delete/cliente-dele
 import { UserService } from '../../Services/user.service';
 import { Usuario } from '../../Interfaces/usuario';
 import { UsuarioFormComponent } from '../../Modals/usuario-form/usuario-form.component';
+import { Viaje } from '../../Interfaces/viaje';
 
 @Component({
   selector: 'app-perfil',
@@ -249,4 +250,6 @@ export class PerfilComponent implements OnInit {
       }
     });
   }
+
+
 }
