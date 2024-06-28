@@ -64,9 +64,9 @@ export class PerfilComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       if (result === "Editada") {
         this.obtenerCargas();
-        this.obtenerUser();
       }
     });
+    this.obtenerUser();
   }
 
   darseDeAlta() {
