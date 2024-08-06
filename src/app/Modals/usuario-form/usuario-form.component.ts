@@ -29,7 +29,7 @@ export class UsuarioFormComponent implements OnInit {
             domicilio: ['', Validators.required],
             condicion: ['', Validators.required],
             cuit: ['', Validators.required],
-            borrado: [false]
+            borrado: false
         });
 
         if (data) {
