@@ -1,0 +1,42 @@
+<div class="container" *ngIf="unidad">
+    <div class="details">
+      <h3>Detalles del Camión</h3>
+      <div *ngIf="selectedWheel !== null">
+        <p>Rueda elegida: {{ selectedWheel + 1 }}</p>
+        <p>Kilómetros recorridos: {{ unidad.estadoRueda[selectedWheel] }}</p>
+      </div>
+      <div class="oil-details">
+        <img src="assets/oil-icon.png" alt="Oil Icon" class="oil-icon">
+        <div>
+          <p>Fecha de último cambio de aceite: {{ unidad.aceite | date }}</p>
+          <p>Kilómetros recorridos con el aceite: {{ unidad.kmAceite }}</p>
+        </div>
+      </div>
+      <div>
+        <label for="wheelSelect">Seleccionar Rueda:</label>
+        <select id="wheelSelect" (change)="onWheelSelect($event)">
+          <option *ngFor="let wheel of unidad.ruedas; let i = index" [value]="i">
+            Rueda {{ i + 1 }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="truck">
+      <div class="cab"></div>
+      <div class="trailer"></div>
+      <div
+        *ngFor="let wheel of unidad.ruedas; let i = index"
+        class="wheel"
+        [ngClass]="{
+          'selected': selectedWheel === i,
+          'front-left': i === 0,
+          'front-right': i === 1,
+          'rear-left': i === 2,
+          'rear-right': i === 3
+        }"
+        (click)="selectWheel(i)"
+      >
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,92 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+  }
+  
+  .details {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .oil-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .oil-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .truck {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    background: #888;
+    border: 2px solid #333;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .cab {
+    width: 100px;
+    height: 70px;
+    background: #555;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    border-radius: 5px;
+  }
+  
+  .trailer {
+    width: 220px;
+    height: 80px;
+    background: #777;
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+    border-radius: 5px;
+  }
+  
+  .wheel {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: black;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .wheel.selected {
+    background: white;
+  }
+  
+  /* Adjust positions of the wheels */
+  .wheel.front-left {
+    top: 50px;
+    left: 20px;
+  }
+  
+  .wheel.front-right {
+    top: 50px;
+    right: 20px;
+  }
+  
+  .wheel.rear-left {
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .wheel.rear-right {
+    bottom: 20px;
+    right: 20px;
+  }
+  
