@@ -8,7 +8,7 @@
             <label for="razon" class="block text-indigo-600 font-bold">Razon Social</label>
             <input 
                 type="text"
-                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
+                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-200"
                 formControlName="razon" id="razon"
             >
         </div>
@@ -16,7 +16,7 @@
             <label for="cuit" class="block text-indigo-600 font-bold">CUIT</label>
             <input 
                 type="text"
-                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
+                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-200"
                 formControlName="cuit" id="cuit"
             >
         </div>
@@ -24,17 +24,21 @@
             <label for="domicilio" class="block text-indigo-600 font-bold">Domicilio</label>
             <input 
                 type="text"
-                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
+                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-200"
                 formControlName="domicilio" id="domicilio"
             >
         </div>
         <div class="p-3">
             <label for="condicion" class="block text-indigo-600 font-bold">Condicion</label>
-            <input 
-                type="text"
-                class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-300"
-                formControlName="condicion" id="condicion"
+            <select 
+                name="condicion" 
+                id="condicion"
+                class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+                formControlName="condicion"
             >
+                <option disabled >-- Selecciones --</option>
+                <option >Responsable Inscripto</option>
+            </select>
         </div>
         <div class="flex justify-between gap-3 p-3">
             <button 

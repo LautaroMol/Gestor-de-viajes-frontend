@@ -77,6 +77,8 @@ export class PerfilComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       if (result === "Creado") {
         this.obtenerUser();
+        this.obtenerCategorias();
+        this.obtenerClientes();
       }
     });
   }
@@ -250,6 +252,4 @@ export class PerfilComponent implements OnInit {
       }
     });
   }
-
-
 }

@@ -18,19 +18,17 @@
         </div>
     </div>
 
-    <div class="overflow-y-auto max-h-64 mt-4">
-        <div class="flex flex-wrap gap-3">
-            <div class="flex items-center p-4 bg-white h-auto rounded-lg shadow-md my-3 font-bold min-w-0" *ngFor="let gasto of gastos">
-                <p class="flex-shrink-0">{{ gasto.categoria }}</p>
-                <div class="text-center flex-grow">
-                    <p>{{ gasto.nombre }}</p>
-                    <p class="text-xs">{{ gasto.fecha }}</p>
-                </div>
-                <div class="flex items-center flex-shrink-0">
-                    <p class="text-xl font-black whitespace-nowrap">$ {{ gasto.cantidad }}</p>
-                    <span class="material-icons cursor-pointer mx-2" (click)="editarGasto(gasto)">edit</span>
-                    <span class="material-icons cursor-pointer mx-2" (click)="borrarGasto(gasto)">delete</span>
-                </div>
+    <div class="overflow-y-auto flex flex-wrap gap-3 max-h-64 mt-4">
+        <div class="flex items-center p-4 bg-white h-auto rounded-lg shadow-md my-3 font-bold min-w-0" *ngFor="let gasto of gastos">
+            <p class="flex-shrink-0">{{ gasto.categoria }}</p>
+            <div class="text-center flex-grow">
+                <p>{{ gasto.nombre }}</p>
+                <p class="text-xs">{{ gasto.fecha }}</p>
+            </div>
+            <div class="flex items-center flex-shrink-0">
+                <p class="text-xl font-black whitespace-nowrap">$ {{ gasto.cantidad }}</p>
+                <span class="material-icons cursor-pointer mx-2" (click)="editarGasto(gasto)">edit</span>
+                <span class="material-icons cursor-pointer mx-2" (click)="borrarGasto(gasto)">delete</span>
             </div>
         </div>
     </div>
