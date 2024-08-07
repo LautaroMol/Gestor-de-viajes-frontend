@@ -14,15 +14,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 export class DeleteGastoComponent implements OnInit {
 
   constructor(
-    private dialogoReferencia: MatDialogRef<DeleteGastoComponent>,
+    private dialogRef: MatDialogRef<DeleteGastoComponent>,
     @Inject(MAT_DIALOG_DATA) public dataGasto: Gasto
   ) {}
 
   ngOnInit(): void {}
 
   confirmacion() {
-    if (this.dataGasto) {
-      this.dialogoReferencia.close("Eliminar");
-    }
+      if (this.dataGasto) {
+          this.dialogRef.close("Eliminar");
+      }
   }
+
+  onCancel() {
+		  this.dialogRef.close();
+	}
 }

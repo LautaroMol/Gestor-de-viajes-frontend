@@ -1,34 +1,43 @@
 <div class="flex justify-center">
     <div class="bg-white p-4 text-center rounded-lg shadow-md w-1/2 flex justify-between items-center">
         <p class="font-black text-2xl text-indigo-600 mb-0">Ultimos Gastos</p>
-        <button (click)="nuevoGasto()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg ml-4 hover:bg-indigo-700">
-            Nuevo gasto
-        </button>
     </div>
 </div>
 
 <section class="">
-    <div class="flex p-4 overflow-hidden bg-white h-auto rounded-lg shadow-md mt-8 justify-around">
+    <div class="flex p-4 overflow-hidden bg-white h-auto rounded-lg shadow-md mt-8 justify-between">
         <img src="../../../assets/img/pie-chart.png" height="200px" width="200px" alt="pie-chart">
         
-        <div class="flex flex-col">
-            <div *ngFor="let gasto of gastos" class="flex flex-col">
-                <p>{{ gasto.nombre }} = $ {{ gasto.cantidad }}</p>
+        <div class="flex gap-10">
+            <div class="flex flex-col">
+                <div *ngFor="let gasto of gastos" class="flex flex-col">
+                    <p>{{ gasto.nombre }} = $ {{ gasto.cantidad }}</p>
+                </div>
+            </div>
+            <div>
+                <button (click)="nuevoGasto()" class="bg-indigo-600 px-4 py-2 font-bold text-white rounded-lg hover:bg-indigo-700">
+                    Nuevo gasto
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="overflow-y-auto flex flex-wrap gap-3 max-h-64 mt-4">
-        <div class="flex items-center p-4 bg-white h-auto rounded-lg shadow-md my-3 font-bold min-w-0" *ngFor="let gasto of gastos">
-            <p class="flex-shrink-0">{{ gasto.categoria }}</p>
+    <div class="overflow-y-auto grid grid-cols-2 gap-4 max-h-64 mt-3">
+        <div 
+            class="flex items-center py-5 px-4 bg-white h-auto rounded-lg shadow-md my-3 font-bold min-w-0 cursor-pointer hover:bg-gray-300" 
+            *ngFor="let gasto of gastos"
+        >
+            <p class="">{{ gasto.categoria }}</p>
             <div class="text-center flex-grow">
-                <p>{{ gasto.nombre }}</p>
+                <p class=text-xl>{{ gasto.nombre }}</p>
                 <p class="text-xs">{{ gasto.fecha }}</p>
             </div>
-            <div class="flex items-center flex-shrink-0">
-                <p class="text-xl font-black whitespace-nowrap">$ {{ gasto.cantidad }}</p>
-                <span class="material-icons cursor-pointer mx-2" (click)="editarGasto(gasto)">edit</span>
-                <span class="material-icons cursor-pointer mx-2" (click)="borrarGasto(gasto)">delete</span>
+            <div class="flex items-center gap-3">
+                <p class="text-xl font-black">$ {{ gasto.cantidad }}</p>
+                <div>
+                    <span class="material-icons cursor-pointer mx-2 text-gray-400 hover:text-gray-500" (click)="editarGasto(gasto)">edit</span>
+                    <span class="material-icons cursor-pointer mx-2 text-gray-400 hover:text-gray-500" (click)="borrarGasto(gasto)">delete</span>
+                </div>
             </div>
         </div>
     </div>

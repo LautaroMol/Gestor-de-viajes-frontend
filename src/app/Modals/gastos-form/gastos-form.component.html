@@ -1,32 +1,84 @@
-<form [formGroup]="formGasto" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="nombre">Nombre:</label>
-      <input id="nombre" type="text" formControlName="nombre">
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+    <div class="fixed inset-0 transition-opacity">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
     </div>
   
-    <div>
-      <label for="cantidad">Cantidad:</label>
-      <input id="cantidad" type="number" formControlName="cantidad">
+    <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 py-2 ">
+            <form class="bg-white shadow-md rounded-lg" [formGroup]="formGasto" (ngSubmit)="onSubmit()">
+                <div class="p-3">
+                    <label for="nombre" class="block text-indigo-600 font-bold">Nombre:</label>
+                    <input 
+                        id="nombre" 
+                        type="text"
+                        name="nombre"
+                        formControlName="nombre"
+                        class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+                        required
+                    >
+                </div>
+                <div class="p-3">
+                    <label for="cantidad" class="block text-indigo-600	font-bold">Cantidad:</label>
+                    <input 
+                        id="cantidad" 
+                        name="cantidad" 
+                        type="number"
+                        class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+                        formControlName="cantidad" 
+                        required
+                    >
+                </div>
+                <div class="p-3">
+                    <label for="categoria" class="block text-indigo-600	font-bold">Categoria:</label>
+                    <select 
+                        name="categoria" 
+                        id="categoria"
+                        class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+                        formControlName="categoria" 
+                        required
+                    >
+                        <option disabled >-- Selecciones --</option>
+                        <option >listar categorias</option>
+                    </select>
+                </div>
+                <div class="p-3">
+                    <label for="viaje" class="block text-indigo-600	font-bold">Viaje:</label>
+                    <input 
+                        id="viaje" 
+                        name="viaje" 
+                        type="number"
+                        class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+                        formControlName="viaje" 
+                        required
+                    >
+                </div>
+                <div class="p-3">
+                    <label for="fecha" class="block text-indigo-600	font-bold">Fecha:</label>
+                    <input 
+                        id="fecha" 
+                        name="fecha" 
+                        type="date"
+                        class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+                        formControlName="fecha" 
+                        required
+                    >
+                </div>        
+                <div class="flex justify-between gap-3 p-3">
+                    <button 
+                        class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+                        type="submit"
+                        [disabled]="formGasto.invalid" 
+                    >{{ botonAccion }}
+                    </button>
+        
+                    <button 
+                        class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+                        type="button"
+                        (click)="onCancel()"	
+                    >Cancelar
+                    </button>
+                </div>        
+            </form>
+        </div>
     </div>
-  
-    <div>
-      <label for="categoria">Categoría:</label>
-      <input id="categoria" type="number" formControlName="categoria">
-    </div>
-  
-    <div>
-      <label for="viaje">Viaje:</label>
-      <input id="viaje" type="number" formControlName="viaje">
-    </div>
-  
-    <div>
-      <label for="fecha">Fecha:</label>
-      <input id="fecha" type="date" formControlName="fecha">
-    </div>
-  
-    <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="formGasto.invalid" >{{botonAccion}}</button>
-      <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
-    </div>
-  </form>
-  
+</div>
