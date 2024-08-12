@@ -4,11 +4,12 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
 import { ViajeService } from '../../Services/viaje.service';
+import { MapComponent } from '../map/map.component';
 
 @Component({
 	selector: 'app-nuevo-viaje-form',
 	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule],
+	imports: [CommonModule, ReactiveFormsModule, MapComponent],
 	templateUrl: './nuevo-viaje-form.component.html',
 	styleUrl: './nuevo-viaje-form.component.css'
 })
