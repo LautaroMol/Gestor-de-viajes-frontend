@@ -38,10 +38,10 @@ export class PerfilComponent implements OnInit {
               private userService: UserService) {}
 
   ngOnInit(): void {
-    this.obtenerCargas();
+    this.obtenerUser();
+    //this.obtenerCargas();
     this.obtenerCategorias();
     this.obtenerClientes();
-    this.obtenerUser();
   }
 
   obtenerUser() {
@@ -62,10 +62,9 @@ export class PerfilComponent implements OnInit {
       width: "400px",
       data: usuario
     }).afterClosed().subscribe(result => {
-      if (result === "Editada") {
-        this.obtenerCargas();
+      if (result === "Editado") {
+        //this.obtenerCargas();
         this.obtenerUser();
-        
       }
     });
   }
@@ -84,60 +83,60 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  obtenerCargas() {
-    this.cargaService.getList().subscribe({
-      next: (data) => {
-        this.cargas = data;
-        console.log(this.cargas);
-      },
-      error: (e) => {
-        console.error(e);
-      },
-    });
-  }
+//   obtenerCargas() {
+//     this.cargaService.getList().subscribe({
+//       next: (data) => {
+//         this.cargas = data;
+//         console.log(this.cargas);
+//       },
+//       error: (e) => {
+//         console.error(e);
+//       },
+//     });
+//   }
 
-  nuevaCarga() {
-    this.dialog.open(CargaFormComponent, {
-      disableClose: true,
-      width: "400px"
-    }).afterClosed().subscribe(result => {
-      if (result === "Creada") {
-        this.obtenerCargas();
-      }
-    });
-  }
+//   nuevaCarga() {
+//     this.dialog.open(CargaFormComponent, {
+//       disableClose: true,
+//       width: "400px"
+//     }).afterClosed().subscribe(result => {
+//       if (result === "Creada") {
+//         this.obtenerCargas();
+//       }
+//     });
+//   }
 
-  editarCarga(carga: Carga) {
-    this.dialog.open(CargaFormComponent, {
-      disableClose: true,
-      width: "400px",
-      data: carga
-    }).afterClosed().subscribe(result => {
-      if (result === "Editada") {
-        this.obtenerCargas();
-      }
-    });
-  }
+//   editarCarga(carga: Carga) {
+//     this.dialog.open(CargaFormComponent, {
+//       disableClose: true,
+//       width: "400px",
+//       data: carga
+//     }).afterClosed().subscribe(result => {
+//       if (result === "Editad") {
+//         this.obtenerCargas();
+//       }
+//     });
+//   }
 
-  borrarCarga(carga: Carga) {
-    this.dialog.open(DeleteCargaComponent, {
-      disableClose: true,
-      width: "400px",
-      data: carga
-    }).afterClosed().subscribe(result => {
-      if (result === "Eliminar") {
-        this.cargaService.delete(carga.idCarga).subscribe({
-          next: () => {
-            console.log("Carga borrada");
-            this.obtenerCargas();
-          },
-          error: (e) => {
-            console.error(e);
-          }
-        });
-      }
-    });
-  }
+//   borrarCarga(carga: Carga) {
+//     this.dialog.open(DeleteCargaComponent, {
+//       disableClose: true,
+//       width: "400px",
+//       data: carga
+//     }).afterClosed().subscribe(result => {
+//       if (result === "Eliminar") {
+//         this.cargaService.delete(carga.idCarga).subscribe({
+//           next: () => {
+//             console.log("Carga borrada");
+//             this.obtenerCargas();
+//           },
+//           error: (e) => {
+//             console.error(e);
+//           }
+//         });
+//       }
+//     });
+//   }
 
   obtenerCategorias() {
     this.categoriaService.getList().subscribe({
@@ -168,7 +167,7 @@ export class PerfilComponent implements OnInit {
       width: "400px",
       data: categoria
     }).afterClosed().subscribe(result => {
-      if (result === "Editada") {
+      if (result === "Editad") {
         this.obtenerCategorias();
       }
     });

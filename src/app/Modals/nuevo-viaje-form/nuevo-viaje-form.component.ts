@@ -30,7 +30,7 @@ export class NuevoViajeFormComponent implements OnInit {
 			inicio: ['', Validators.required],
 			final: ['', Validators.required],
 			distancia: ['', Validators.required],
-			gastos: ['', Validators.required],
+			gastos: [null],
 			fecha: ['', Validators.required],
 			cp: ['', Validators.required],
 			facturado: ['', Validators.required],
