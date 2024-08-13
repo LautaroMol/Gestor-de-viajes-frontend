@@ -2,10 +2,9 @@
 	<div class="fixed inset-0 transition-opacity">
 		<div class="absolute inset-0 bg-black opacity-50"></div>
 	</div>
-
-	<div class="grid grid-cols-2 gap-5">
-		<div class="bg-white rounded-lg text-left overflow-hidden transform transition-all sm:max-w-lg ">
-			<form class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 rounded-lg" [formGroup]="formViaje" (ngSubmit)="onSubmit()">
+	
+	<div class="grid grid-cols-2 p-3 rounded-lg bg-white gap-5 overflow-hidden transform transition-all ">
+		<form class="" [formGroup]="formViaje" (ngSubmit)="onSubmit()">
 				<div class="p-3">
 					<label for="inicio" class="block text-indigo-600 font-bold">Inicio</label>
 					<input 
@@ -25,6 +24,28 @@
 						type="text"
 						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
 						formControlName="final" 
+						required
+					>
+				</div>
+				<div class="p-3">
+					<label for="distancia" class="block text-indigo-600	font-bold">Distancia</label>
+					<input 
+						id="distancia" 
+						name="distancia" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="distancia" 
+						required
+					>
+				</div>
+				<div class="p-3">
+					<label for="fecha" class="block text-indigo-600	font-bold">Fecha</label>
+					<input 
+						id="fecha" 
+						name="fecha" 
+						type="date"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="fecha" 
 						required
 					>
 				</div>
@@ -55,10 +76,7 @@
 						</button>
 						
 				</div>
-			</form>
-		</div>
-		<div class="">
-			<app-map class="h-full"></app-map>
-		</div>
+		</form>
+		<app-map></app-map>	
 	</div>
 </div>

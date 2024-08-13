@@ -27,7 +27,7 @@ export class AppComponent {
 	nuevoViaje() {
 		this.dialog.open(NuevoViajeFormComponent, {
 			disableClose: true,
-			width: '400px',
+			width: '900px',
 			data: null
 		}).afterClosed().subscribe(result => {
 			if (result) {

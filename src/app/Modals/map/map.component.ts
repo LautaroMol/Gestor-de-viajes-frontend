@@ -94,7 +94,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 					if (this.geo) {
 						localStorage.setItem('geoLoc', JSON.stringify(this.geo));
 					}
-				}, 2000);
+				}, 500);
 			});
 		}
 	}
