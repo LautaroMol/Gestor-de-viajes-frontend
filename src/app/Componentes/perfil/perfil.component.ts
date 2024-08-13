@@ -18,6 +18,7 @@ import { UserService } from '../../Services/user.service';
 import { Usuario } from '../../Interfaces/usuario';
 import { UsuarioFormComponent } from '../../Modals/usuario-form/usuario-form.component';
 import { Viaje } from '../../Interfaces/viaje';
+import { ViajeService } from '../../Services/viaje.service';
 
 @Component({
   selector: 'app-perfil',
@@ -28,20 +29,26 @@ import { Viaje } from '../../Interfaces/viaje';
 })
 
 export class PerfilComponent implements OnInit {
+editarViaje(_t67: Viaje) {
+throw new Error('Method not implemented.');
+}
+
   cargas: Carga[] = [];
   categorias: Categoria[] = [];
   clientes: Cliente[] = [];
   user!: Usuario;
+  viajes: Viaje[] = [];
 
   constructor(private cargaService: CargaService, private dialog: MatDialog,
               private categoriaService: CategoriaService, private clienteService: ClienteService,
-              private userService: UserService) {}
+              private userService: UserService,private viajeService: ViajeService) {}
 
   ngOnInit(): void {
     this.obtenerUser();
     //this.obtenerCargas();
     this.obtenerCategorias();
     this.obtenerClientes();
+    this.obtenerViajes();
   }
 
   obtenerUser() {
@@ -55,6 +62,21 @@ export class PerfilComponent implements OnInit {
       },
     });
   }
+  obtenerViajes(){
+    this.viajeService.getList().subscribe({
+      next: (data) => {
+        this.viajes = data;
+        console.log(this.viajes);
+      },
+      error: (e) => {
+        console.error(e);
+        console.log(e.message);
+      },
+    });
+  }
+  borrarViaje(viaje: Viaje) {
+    console.log("borrar viaje: " + viaje.idViaje);
+    }
 
   editarUsuario(usuario: Usuario) {
     this.dialog.open(UsuarioFormComponent, {
