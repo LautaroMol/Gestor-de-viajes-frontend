@@ -112,11 +112,14 @@
                 Viajes Facturados
             </div>
             <div class="bg-white max-h-32 overflow-y-auto no-scrollbar">
-                <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let cliente of clientes">
-                <div class="px-6 py-4 flex justify-between items-center">
-                    <p>{{cliente.razonSoc}}</p>
+                <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let viaje of viajes">
+                <div class="px-6 py-4 flex justify-between items-center" *ngIf="viaje.facturado && !viaje.borrado">
+                    <div>
+                        <h2>{{viaje.inicio}} - {{viaje.final}}</h2>
+                        <h5>{{viaje.fecha}}</h5>
+                    </div>
                     <div class="flex gap-3">
-                    <button class="text-black" (click)="editarCliente(cliente)">
+                    <button class="text-black" (click)="(viaje)">
                         <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -132,7 +135,7 @@
                         />
                         </svg>
                     </button>
-                    <button class="text-black" (click)="borrarCliente(cliente.idCliente)">
+                    <button class="text-black" (click)="borrarViaje(viaje)">
                         <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -160,11 +163,14 @@
                 Viajes No Facturados
             </div>
             <div class="bg-white max-h-32 overflow-y-auto no-scrollbar">
-                <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let cliente of clientes">
-                    <div class="px-6 py-4 flex justify-between items-center">
-                        <p>{{cliente.razonSoc}}</p>
+                <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let viaje of viajes">
+                    <div class="px-6 py-4 flex justify-between items-center" *ngIf="!viaje.facturado && !viaje.borrado">
+                        <div>
+                            <h2>{{viaje.inicio}} - {{viaje.final}}</h2>
+                            <h5>{{viaje.fecha}}</h5>
+                        </div>
                         <div class="flex gap-3">
-                            <button class="text-black" (click)="editarCliente(cliente)">
+                            <button class="text-black" (click)="editarViaje(viaje)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -179,7 +185,7 @@
                                     />
                                 </svg>
                             </button>
-                            <button class="text-black" (click)="borrarCliente(cliente.idCliente)">
+                            <button class="text-black" (click)="borrarViaje(viaje)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
