@@ -19,6 +19,7 @@ import { Usuario } from '../../Interfaces/usuario';
 import { UsuarioFormComponent } from '../../Modals/usuario-form/usuario-form.component';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
+import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.component';
 
 @Component({
   selector: 'app-perfil',
@@ -75,7 +76,23 @@ throw new Error('Method not implemented.');
     });
   }
   borrarViaje(viaje: Viaje) {
-    console.log("borrar viaje: " + viaje.idViaje);
+    this.dialog.open(ViajeDeleteComponent, {
+      disableClose: true,
+      width: "400px",
+      data: viaje
+    }).afterClosed().subscribe(result => {
+      if (result === "Eliminar") {
+        this.viajeService.delete(viaje.idViaje).subscribe({
+          next: () => {
+            console.log("Viaje eliminado");
+            this.obtenerViajes();
+          },
+          error: (e) => {
+            console.error(e);
+          }
+        });
+      }
+    });
     }
 
   editarUsuario(usuario: Usuario) {
