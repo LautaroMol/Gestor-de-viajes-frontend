@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
 import { ViajeService } from '../../Services/viaje.service';
@@ -110,8 +110,26 @@ export class NuevoViajeFormComponent implements OnInit {
 			// 	this.viajeServicio.push(result.data);
 			// }
 		});
-	  }
+	}
+
+	onLocationSelected(coords: [number, number]) {
+		this.formViaje.patchValue({
+			inicio: coords.join(', ') 
+		});
+	}
+
+	onDestinationSelected(coords: [number, number]) {
+		this.formViaje.patchValue({
+			final: coords.join(', ')
+		});
+	}
 	
+	onDistanceCalculated(distance: number) {
+		this.formViaje.patchValue({
+			distancia: `${distance.toFixed(2)} Km`
+		});
+	}
+
 	onCancel() {
 		this.formViaje.reset();
 		this.dialog.closeAll();
