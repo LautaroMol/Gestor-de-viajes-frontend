@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -53,6 +53,14 @@
     "/api": {
       "target": "https://localhost:5002",
       "secure": false
+    }
+  },
+  "usuario":{
+    "/usuario":{
+      "target":"https://186.182.86.136:2030",
+      "secure":true,
+      "loglevel":"debug",
+      "changeOrigin":true
     }
   }
 }
