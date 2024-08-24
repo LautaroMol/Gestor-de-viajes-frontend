@@ -5,4 +5,22 @@
     "loglevel":"debug",
     "changeOrigin":true
   }
+  "/categoria/*":{
+    "target":"https://186.182.86.136:2030",
+    "secure":true,
+    "loglevel":"debug",
+    "changeOrigin":true
+  }
+  "/cliente/*":{
+    "target":"https://186.182.86.136:2030",
+    "secure":true,
+    "loglevel":"debug",
+    "changeOrigin":true
+  }
+  "/viaje/*":{
+    "target":"https://186.182.86.136:2030",
+    "secure":true,
+    "loglevel":"debug",
+    "changeOrigin":true
+  }
 }
