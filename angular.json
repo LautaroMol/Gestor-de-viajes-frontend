@@ -69,7 +69,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Camiones:build:production"
+              "buildTarget": "Camiones:build:production",
+              "proxyConfig": "proxy.conf.json"              
             },
             "development": {
               "buildTarget": "Camiones:build:development"
