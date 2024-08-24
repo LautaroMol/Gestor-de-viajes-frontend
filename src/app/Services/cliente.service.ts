@@ -11,7 +11,7 @@ import { Cliente } from '../Interfaces/cliente';
 export class ClienteService {
 
 	private endpoint: string = environment.endpoint;
-	private apiUrl: string = this.endpoint + "cliente/";
+	private apiUrl: string = "cliente/";
 
 	constructor(private http: HttpClient) { }
 
