@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { PlacesService } from '../../Services/place.service';
 
 @Component({
@@ -16,14 +16,18 @@ export class MapComponent implements OnInit, AfterViewInit {
 	chosenLocationMarker: any;
 	isLocated = false;
 	routeControl: any;
+	
+	@Output() locationSelected = new EventEmitter<[number, number]>();	
+	@Output() destinationSelect = new EventEmitter<[number, number]>();
+	@Output() distanceCalculated = new EventEmitter<number>();
 
 	constructor(private placeSvc: PlacesService) {}
-
+	
 	Reload() {
 		localStorage.removeItem('geoLoc');
 		location.reload();
 	}
-
+	
 	Locate() {
 		if (this.map && this.geo && !this.isLocated) {
 
@@ -46,7 +50,9 @@ export class MapComponent implements OnInit, AfterViewInit {
 					console.log(latLng.lng, latLng.lat);
 					localStorage.setItem('geoLoc', JSON.stringify(this.geo));
 				});
-
+				
+				//obtengo las coordenadas del inicio
+				this.locationSelected.emit(this.geo);
 				this.map.flyTo(this.geo, 13);
 			}).catch(err => {
 				console.error('Error loading Leaflet marker:', err)
@@ -74,10 +80,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 					routeWhileDragging: true,
 					show: false
 				}).addTo(this.map);
-		
-				const distanceInMeters = this.map.distance(start, end);
-				const distanceInKilometers = distanceInMeters / 1000;
-				alert(`La distancia entre los marcadores es de ${distanceInKilometers.toFixed(2)} kilómetros.`);
+
+				const distanceInKilometers = (this.map.distance(start, end)) / 1000;
+	
+				this.distanceCalculated.emit(distanceInKilometers);
 			}).catch(err => {
 				console.error('Error loading Leaflet Routing Machine:', err)
 			});
@@ -112,7 +118,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	private initializeMap() {
+	initializeMap() {
 		if (typeof window === 'undefined' || typeof document === 'undefined') {
 			// Evita ejecutar en servidor y evitar errores en consola
 			return; 
@@ -170,6 +176,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 													.bindPopup('<b>Ubicación destino</b>')
 													.openPopup();
 					}
+					//emito las coordenadas
+					this.destinationSelect.emit([lat, lng]);
 				});
 			}).catch(err => {
 				console.error('Error loading Leaflet:', err)
