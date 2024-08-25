@@ -43,6 +43,7 @@ export class ClienteFormComponent implements OnInit {
 			
 			const cliente: Cliente = {
 				idCliente: this.dataCliente ? this.dataCliente.idCliente : 0,
+				borrado: false,
 				...this.formCliente.value
 			  };
 
