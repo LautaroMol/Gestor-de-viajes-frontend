@@ -55,6 +55,7 @@ export class ClienteFormComponent implements OnInit {
 					},
 					error: () => {
 						console.error("No se pudo crear el cliente");
+						console.log(cliente);
 					}
 				});
 			} else {
