@@ -43,9 +43,13 @@ export class ClienteFormComponent implements OnInit {
 			
 			const cliente: Cliente = {
 				idCliente: this.dataCliente ? this.dataCliente.idCliente : 0,
-				borrado: false,
-				...this.formCliente.value
-			  };
+				razonSoc: this.formCliente.value.razonSoc,
+				domicilio: this.formCliente.value.domicilio,
+				condicion: this.formCliente.value.condicion,
+				cuitCliente: String(this.formCliente.value.cuitCliente),
+				borrado: false
+			};
+			
 
 			if (this.dataCliente == null) {
 				this._clienteServicio.add(cliente).subscribe({
