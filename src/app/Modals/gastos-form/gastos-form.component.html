@@ -38,7 +38,8 @@
                         required
                     >
                         <option disabled >-- Selecciones --</option>
-                        <option >listar categorias</option>
+                        
+                        <option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{categoria.nombre}}</option>
                     </select>
                 </div>
                 <div class="p-3">

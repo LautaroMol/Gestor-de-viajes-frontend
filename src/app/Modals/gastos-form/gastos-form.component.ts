@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Gasto } from '../../Interfaces/gasto';
 import { GastoService } from '../../Services/gasto.service';
 import { CommonModule } from '@angular/common';
+import { CategoriaService } from '../../Services/categoria.service';
+import { Categoria } from '../../Interfaces/categoria';
 
 @Component({
 	selector: 'app-gastos-form',
@@ -17,12 +19,14 @@ export class GastosFormComponent implements OnInit {
 	tituloAccion: string = "Nuevo";
 	botonAccion: string = "Guardar";
 	dataGasto: Gasto | null = null;
+	categorias: Categoria[] = [];
 
 	constructor(
 		private dialogoReferencia: MatDialogRef<GastosFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: Gasto,
 		private fb: FormBuilder,
-		private _gastoServicio: GastoService
+		private _gastoServicio: GastoService,
+		private categoriaService: CategoriaService
 	) {
 		this.formGasto = this.fb.group({
 			nombre: ['', Validators.required],
@@ -39,6 +43,7 @@ export class GastosFormComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.obtenerCategorias();
 		if (this.dataGasto) {
 			this.formGasto.patchValue({
 				nombre: this.dataGasto.nombre,
@@ -96,5 +101,18 @@ export class GastosFormComponent implements OnInit {
 
 	mostrarAlerta(mensaje: string) {
 		console.log(mensaje);
+	}
+	obtenerCategorias() {
+		this.categoriaService.getList().subscribe({
+			next: (data) => {
+				this.categorias = data.filter( categoria => 
+					categoria.borrado === false
+				);
+				console.log(this.categorias);
+			},
+			error: (e) => {
+				console.error(e);
+			}
+		});
 	}
 }
