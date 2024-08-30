@@ -87,4 +87,69 @@ export class MapComponent implements AfterViewInit {
       });
     }
   }
+  Reload() {
+		localStorage.removeItem('geoLoc');
+		location.reload();
+	}
+  Locate() {
+		if (this.map && this.geo && !this.isLocated) {
+
+			import('leaflet').then(L => {
+				this.geo = this.placeSvc.userLocation;
+				
+				this.currentLocationMarker = L.marker(this.geo)
+											.addTo(this.map)
+											.bindPopup('<b>Ubicación actual</b>')
+											.openPopup();
+				
+				this.isLocated = true;
+				
+				localStorage.setItem('geoLoc', JSON.stringify(this.geo));
+
+				this.currentLocationMarker.on('moveend', () => {
+					const latLng = this.currentLocationMarker.getLatLng();
+					this.geo = [latLng.lat, latLng.lng];
+					console.log(latLng.lat, latLng.lng);
+					console.log(latLng.lng, latLng.lat);
+					localStorage.setItem('geoLoc', JSON.stringify(this.geo));
+				});
+				
+				//obtengo las coordenadas del inicio
+				this.locationSelected.emit(this.geo);
+				this.map.flyTo(this.geo, 13);
+			}).catch(err => {
+				console.error('Error loading Leaflet marker:', err)
+			});
+		}
+	}
+
+	CalculateRoute() {
+		if (this.map && this.currentLocationMarker && this.chosenLocationMarker) {
+			const start = this.currentLocationMarker.getLatLng();
+			const end = this.chosenLocationMarker.getLatLng();
+		
+			import('leaflet-routing-machine').then(() => {
+				const { latLng, Routing } = (window as any).L;
+		
+				if (this.routeControl) {
+					this.map.removeControl(this.routeControl);
+				}
+		
+				this.routeControl = Routing.control({
+					waypoints: [
+						latLng(start.lat, start.lng),
+						latLng(end.lat, end.lng)
+					],
+					routeWhileDragging: true,
+					show: false
+				}).addTo(this.map);
+
+				const distanceInKilometers = (this.map.distance(start, end)) / 1000;
+	
+				this.distanceCalculated.emit(distanceInKilometers);
+			}).catch(err => {
+				console.error('Error loading Leaflet Routing Machine:', err)
+			});
+		}
+	}
 }
