@@ -33,7 +33,12 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "allowedCommonJsDependencies": [
+              "leaflet",
+              "leaflet-routing-machine",
+              "leaflet-control-geocoder"
+            ]
           },
           "configurations": {
             "production": {

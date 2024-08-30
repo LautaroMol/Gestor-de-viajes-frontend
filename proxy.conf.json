@@ -1,8 +1,0 @@
-{
-  "/usuario/*":{
-    "target":"https://186.182.86.136:2030",
-    "secure":true,
-    "loglevel":"debug",
-    "changeOrigin":true
-  }
-}
