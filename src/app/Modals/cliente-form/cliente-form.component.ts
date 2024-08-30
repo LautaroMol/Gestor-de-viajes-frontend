@@ -28,7 +28,7 @@ export class ClienteFormComponent implements OnInit {
 		condicion: [''],
 		cuitCliente: ['', Validators.required]
 		});
-
+		
 		if (data) {
 			this.dataCliente = data;
 			this.formCliente.patchValue(data);

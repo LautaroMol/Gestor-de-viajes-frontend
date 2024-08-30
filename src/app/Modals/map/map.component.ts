@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { PlacesService } from '../Services/place.service';
+import { PlacesService } from '../../Services/place.service';
 
 @Component({
 	selector: 'app-map',

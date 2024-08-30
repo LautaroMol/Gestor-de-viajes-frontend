@@ -1,15 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
 import { ViajeService } from '../../Services/viaje.service';
-import { MapComponent } from '../../map/map.component';
+import { MapComponent } from '../map/map.component';
+
 
 @Component({
 	selector: 'app-nuevo-viaje-form',
 	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule, MapComponent],
+	imports: [CommonModule, ReactiveFormsModule, MapComponent,MatDialogModule],
 	templateUrl: './nuevo-viaje-form.component.html',
 	styleUrl: './nuevo-viaje-form.component.css'
 })
@@ -21,10 +22,10 @@ export class NuevoViajeFormComponent implements OnInit {
 	dataViaje: Viaje | null = null;
 
 	constructor(
+		@Inject(MAT_DIALOG_DATA) public data: Viaje | null,
 		private dialog: MatDialog,
-		@Inject(MAT_DIALOG_DATA) public data: Viaje,
 		private fb: FormBuilder,
-		private viajeServicio: ViajeService
+		private viajeServicio: ViajeService,
 	) {
 		this.formViaje = this.fb.group({
 			inicio: ['', Validators.required],
@@ -40,6 +41,8 @@ export class NuevoViajeFormComponent implements OnInit {
 
 		if (data) {
 			this.dataViaje = data;
+			this.formViaje.patchValue(data);
+			this.tituloAccion = "Editar";
 		}
 	}
 
