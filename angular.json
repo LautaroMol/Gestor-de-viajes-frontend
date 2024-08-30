@@ -33,12 +33,7 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            },
-            "allowedCommonJsDependencies": [
-              "leaflet",
-              "leaflet-routing-machine",
-              "leaflet-control-geocoder"
-            ]
+            }
           },
           "configurations": {
             "production": {
@@ -54,7 +49,12 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "allowedCommonJsDependencies": [
+                "leaflet",
+                "leaflet-routing-machine",
+                "leaflet-control-geocoder"
+              ]
             },
             "development": {
               "optimization": false,
