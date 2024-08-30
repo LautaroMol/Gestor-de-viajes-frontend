@@ -129,7 +129,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
-		//uso de imports dinamicos
+		//uso de imports dinamicos 
 		this.geo = this.placeSvc.userLocation;
 		if (this.geo) {
 			import('leaflet').then(L => {
