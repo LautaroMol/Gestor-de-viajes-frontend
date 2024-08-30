@@ -30,9 +30,7 @@ import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.com
 })
 
 export class PerfilComponent implements OnInit {
-editarViaje(_t67: Viaje) {
-throw new Error('Method not implemented.');
-}
+
 
   cargas: Carga[] = [];
   categorias: Categoria[] = [];
@@ -93,6 +91,9 @@ throw new Error('Method not implemented.');
         });
       }
     });
+    }
+    editarViaje(_t67: Viaje) {
+      throw new Error('Method not implemented.');
     }
 
   editarUsuario(usuario: Usuario) {
