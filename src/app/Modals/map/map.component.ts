@@ -1,97 +1,34 @@
-import { Component, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { PlacesService } from '../../Services/place.service';
 
 @Component({
-  selector: 'app-map',
-  standalone: true,
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+	selector: 'app-map',
+	standalone: true,
+	imports: [],
+	templateUrl: './map.component.html',
+	styleUrl: './map.component.css'
 })
-export class MapComponent implements AfterViewInit {
-  geo: any;
-  map: any;
-  currentLocationMarker: any;
-  chosenLocationMarker: any;
-  isLocated = false;
-  routeControl: any;
 
-  @Output() locationSelected = new EventEmitter<[number, number]>();
-  @Output() destinationSelect = new EventEmitter<[number, number]>();
-  @Output() distanceCalculated = new EventEmitter<number>();
+export class MapComponent implements OnInit, AfterViewInit {
+	geo: any;
+	map: any;
+	currentLocationMarker: any;
+	chosenLocationMarker: any;
+	isLocated = false;
+	routeControl: any;
+	
+	@Output() locationSelected = new EventEmitter<[number, number]>();	
+	@Output() destinationSelect = new EventEmitter<[number, number]>();
+	@Output() distanceCalculated = new EventEmitter<number>();
 
-  constructor(private placeSvc: PlacesService) {}
-
-  ngAfterViewInit() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      this.initializeMap();
-    }
-  }
-
-  initializeMap() {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return;
-    }
-
-    if (this.map) {
-      return;
-    }
-
-    this.geo = this.placeSvc.userLocation;
-    if (this.geo) {
-      import('leaflet').then(L => {
-        this.map = L.map('map').setView(this.geo, 13);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.map);
-
-        import('leaflet-control-geocoder').then(() => {
-          if ((window as any).L.Control && (window as any).L.Control.Geocoder) {
-            (window as any).L.Control.geocoder({ defaultMarkGeocode: false })
-              .on('markgeocode', (e: { geocode: { bbox: any; }; }) => {
-                var bbox = e.geocode.bbox;
-                var poly = L.polygon([
-                  bbox.getSouthEast(),
-                  bbox.getNorthEast(),
-                  bbox.getNorthWest(),
-                  bbox.getSouthWest()
-                ]).addTo(this.map);
-
-                this.map.fitBounds(poly.getBounds());
-              })
-              .addTo(this.map);
-          } else {
-            console.error('Leaflet Control Geocoder is not available.');
-          }
-        }).catch(err => {
-          console.error('Error loading Leaflet Control Geocoder:', err);
-        });
-
-        this.map.on('click', (e: L.LeafletMouseEvent) => {
-          const { lat, lng } = e.latlng;
-
-          if (this.chosenLocationMarker) {
-            this.chosenLocationMarker.setLatLng([lat, lng]);
-          } else {
-            this.chosenLocationMarker = L.marker([lat, lng], { draggable: true })
-              .addTo(this.map)
-              .bindPopup('<b>Ubicación destino</b>')
-              .openPopup();
-          }
-
-          this.destinationSelect.emit([lat, lng]);
-        });
-      }).catch(err => {
-        console.error('Error loading Leaflet:', err);
-      });
-    }
-  }
-  Reload() {
+	constructor(private placeSvc: PlacesService) {}
+	
+	Reload() {
 		localStorage.removeItem('geoLoc');
 		location.reload();
 	}
-  Locate() {
+	
+	Locate() {
 		if (this.map && this.geo && !this.isLocated) {
 
 			import('leaflet').then(L => {
@@ -149,6 +86,101 @@ export class MapComponent implements AfterViewInit {
 				this.distanceCalculated.emit(distanceInKilometers);
 			}).catch(err => {
 				console.error('Error loading Leaflet Routing Machine:', err)
+			});
+		}
+	}
+	
+	ngOnInit() {
+		this.isLocated = false;
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+			document.addEventListener('userLocationReady', () => {
+				this.initializeMap();
+				setTimeout(() => {
+					this.geo = this.placeSvc.userLocation;
+					if (this.geo) {
+						localStorage.setItem('geoLoc', JSON.stringify(this.geo));
+					}
+				}, 500);
+			});
+		}
+	}
+
+	ngAfterViewInit() {
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+			if (this.placeSvc.userLocation) {
+				setTimeout(() => {
+					this.geo = this.placeSvc.userLocation;
+					if (this.geo) {
+						this.initializeMap();
+					}
+				}, 2000);
+			}
+		}
+	}
+
+	initializeMap() {
+		if (typeof window === 'undefined' || typeof document === 'undefined') {
+			// Evita ejecutar en servidor y evitar errores en consola
+			return; 
+		}
+
+		if (this.map) {
+			// Evita reinicializar el mapa
+			return;
+		}
+
+		//uso de imports dinamicos
+		this.geo = this.placeSvc.userLocation;
+		if (this.geo) {
+			import('leaflet').then(L => {
+				this.map = L.map('map').setView(this.geo, 13);
+			
+				L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					maxZoom: 19,
+					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(this.map);
+				
+				import('leaflet-control-geocoder').then(() => {
+					if ((window as any).L.Control && (window as any).L.Control.Geocoder) {
+						(window as any).L.Control.geocoder({defaultMarkGeocode: false})
+												.on('markgeocode', (e: { geocode: { bbox: any; }; }) => {
+							var bbox = e.geocode.bbox;
+							
+							var poly = L.polygon(
+								[
+									bbox.getSouthEast(),
+									bbox.getNorthEast(),
+									bbox.getNorthWest(),
+									bbox.getSouthWest()
+								]
+							).addTo(this.map);
+
+							this.map.fitBounds(poly.getBounds());
+						})
+						.addTo(this.map);
+					} else {
+						console.error('Leaflet Control Geocoder is not available.');
+					}
+				}).catch(err => {
+					console.error('Error loading Leaflet Control Geocoder:', err)
+				});
+
+				this.map.on('click', (e: L.LeafletMouseEvent) => {
+					const { lat, lng } = e.latlng;
+
+					if (this.chosenLocationMarker) {
+						this.chosenLocationMarker.setLatLng([lat, lng]);
+					} else {
+						this.chosenLocationMarker = L.marker([lat, lng], { draggable: true })
+													.addTo(this.map)
+													.bindPopup('<b>Ubicación destino</b>')
+													.openPopup();
+					}
+					//emito las coordenadas
+					this.destinationSelect.emit([lat, lng]);
+				});
+			}).catch(err => {
+				console.error('Error loading Leaflet:', err)
 			});
 		}
 	}
