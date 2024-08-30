@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
 import { ViajeService } from '../../Services/viaje.service';
-import { MapComponent } from '../map/map.component';
+import { MapComponent } from '../../map/map.component';
 
 @Component({
 	selector: 'app-nuevo-viaje-form',
