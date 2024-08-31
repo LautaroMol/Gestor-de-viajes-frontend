@@ -12,17 +12,20 @@ import { Viaje } from '../../Interfaces/viaje';
   styleUrl: './viaje-delete.component.css',
 })
 export class ViajeDeleteComponent implements OnInit {
-  constructor(
-    private dialogRef: MatDialogRef<ViajeDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataViaje: Viaje
-  ) {}
-  ngOnInit(): void {}
-  confirmacion() {
-    if (this.dataViaje) {
-      this.dialogRef.close("Eliminar");
-  }
-  }
-  onCancel() {
-    this.dialogRef.close();
-  }
+  	constructor(
+		private dialogRef: MatDialogRef<ViajeDeleteComponent>,
+		@Inject(MAT_DIALOG_DATA) public dataViaje: Viaje
+	) {}
+	
+	ngOnInit(): void {}
+	
+	confirmacion() {
+		if (this.dataViaje) {
+			this.dialogRef.close("Eliminar");
+		}
+	}
+	
+	onCancel() {
+		this.dialogRef.close();
+	}
 }

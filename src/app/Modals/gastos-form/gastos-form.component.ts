@@ -6,6 +6,8 @@ import { GastoService } from '../../Services/gasto.service';
 import { CommonModule } from '@angular/common';
 import { CategoriaService } from '../../Services/categoria.service';
 import { Categoria } from '../../Interfaces/categoria';
+import { Viaje } from '../../Interfaces/viaje';
+import { ViajeService } from '../../Services/viaje.service';
 
 @Component({
 	selector: 'app-gastos-form',
@@ -20,12 +22,14 @@ export class GastosFormComponent implements OnInit {
 	botonAccion: string = "Guardar";
 	dataGasto: Gasto | null = null;
 	categorias: Categoria[] = [];
+	viajes: Viaje[] = [];
 
 	constructor(
 		private dialogoReferencia: MatDialogRef<GastosFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: Gasto,
 		private fb: FormBuilder,
-		private _gastoServicio: GastoService,
+		private gastoService: GastoService,
+		private viajeService: ViajeService,
 		private categoriaService: CategoriaService
 	) {
 		this.formGasto = this.fb.group({
@@ -44,6 +48,7 @@ export class GastosFormComponent implements OnInit {
 
 	ngOnInit() {
 		this.obtenerCategorias();
+		this.obtenerViajes();
 		if (this.dataGasto) {
 			this.formGasto.patchValue({
 				nombre: this.dataGasto.nombre,
@@ -71,7 +76,7 @@ export class GastosFormComponent implements OnInit {
 			};
 
 			if (this.dataGasto == null) {
-				this._gastoServicio.add(gasto).subscribe({
+				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
 						this.mostrarAlerta("Gasto cargado al sistema exitosamente");
 						this.dialogoReferencia.close("Creado");
@@ -81,7 +86,7 @@ export class GastosFormComponent implements OnInit {
 					}
 				});
 			} else {
-				this._gastoServicio.update(gasto).subscribe({
+				this.gastoService.update(gasto).subscribe({
 					next: (data) => {
 						this.mostrarAlerta("Gasto editado correctamente");
 						this.dialogoReferencia.close("Editado");
@@ -94,14 +99,19 @@ export class GastosFormComponent implements OnInit {
 		}
 	}
 
-	onCancel() {
-		this.formGasto.reset();
-		this.dialogoReferencia.close();
+	obtenerViajes(){
+		this.viajeService.getList().subscribe({
+			next: (data) => {
+				this.viajes = data.filter(viaje => !viaje.borrado)
+				console.log(this.viajes);
+			},
+			error: (e) => {
+				console.log(e.message);
+				
+			}
+		});
 	}
 
-	mostrarAlerta(mensaje: string) {
-		console.log(mensaje);
-	}
 	obtenerCategorias() {
 		this.categoriaService.getList().subscribe({
 			next: (data) => {
@@ -114,5 +124,14 @@ export class GastosFormComponent implements OnInit {
 				console.error(e);
 			}
 		});
+	}
+
+	onCancel() {
+		this.formGasto.reset();
+		this.dialogoReferencia.close();
+	}
+
+	mostrarAlerta(mensaje: string) {
+		console.log(mensaje);
 	}
 }

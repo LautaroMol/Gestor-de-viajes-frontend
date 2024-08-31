@@ -42,16 +42,20 @@
                         <option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{categoria.nombre}}</option>
                     </select>
                 </div>
+
                 <div class="p-3">
                     <label for="viaje" class="block text-indigo-600	font-bold">Viaje:</label>
-                    <input 
+                    <select 
                         id="viaje" 
                         name="viaje" 
-                        type="number"
                         class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
                         formControlName="viaje" 
                         required
                     >
+                        <option disabled >-- Selecciones --</option>
+                        
+                        <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{viaje.idViaje}}</option>
+                    </select>
                 </div>
                 <div class="p-3">
                     <label for="fecha" class="block text-indigo-600	font-bold">Fecha:</label>
