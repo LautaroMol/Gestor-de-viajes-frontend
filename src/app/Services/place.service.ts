@@ -1,13 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable,PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   	providedIn: 'root'
 })
+@Injectable()
 export class PlacesService {
-  
-	public userLocation?: [number, number];
 
-	constructor() {
+	public L:any = null;
+	public Routing:any = null;
+;	public userLocation?: [number, number];
+
+	constructor(@Inject(PLATFORM_ID) private platformId:object) {
+		if(isPlatformBrowser(platformId)) {
+			this.L = require('leaflet');{
+				this.L = require('leaflet');
+				this.Routing = require('leaflet-routing-machine');
+			}
+		}
 		this.initUserLocation();
 	}
 

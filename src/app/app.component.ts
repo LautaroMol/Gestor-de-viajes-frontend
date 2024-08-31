@@ -22,8 +22,17 @@ export class AppComponent {
 
 	title = 'Camiones';
 
-	constructor(private dialog: MatDialog) {}
-  
+	constructor(private dialog: MatDialog) {
+		if (globalThis.window === undefined) {
+			globalThis.window =
+			  ({
+				addEventListener: () => {},
+				// add more methods as you wish
+			  } as never);
+		  }
+	}
+
+	
 	nuevoViaje() {
 		this.dialog.open(NuevoViajeFormComponent, {
 			disableClose: true,
