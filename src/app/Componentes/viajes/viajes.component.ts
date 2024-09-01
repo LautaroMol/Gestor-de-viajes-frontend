@@ -4,11 +4,12 @@ import { TotalsCardsComponent } from '../totals-cards/totals-cards.component';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
 import { CommonModule } from '@angular/common';
+import { MapComponent } from "../../Modals/map/map.component";
 
 @Component({
   selector: 'app-viajes',
   standalone: true,
-  imports: [MatCardModule, TotalsCardsComponent,CommonModule],
+  imports: [MatCardModule, TotalsCardsComponent, CommonModule, MapComponent],
   templateUrl: './viajes.component.html',
   styleUrl: './viajes.component.css'
 })
@@ -16,9 +17,12 @@ export class ViajesComponent implements OnInit {
 
   viajes: Viaje[] = [];
 
-  constructor(private viajeService: ViajeService) { }
+  constructor(private viajeService: ViajeService,
+    
+  ) { }
   ngOnInit(): void {
     this.obtenerViajes();
+    
   }
 
   obtenerViajes(){

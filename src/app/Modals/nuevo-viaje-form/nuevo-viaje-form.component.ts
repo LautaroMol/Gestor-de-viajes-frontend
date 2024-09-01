@@ -5,6 +5,7 @@ import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
 import { ViajeService } from '../../Services/viaje.service';
 import { MapComponent } from '../map/map.component';
+import { PlacesService } from '../../Services/place.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class NuevoViajeFormComponent implements OnInit {
 		private dialog: MatDialog,
 		private fb: FormBuilder,
 		private viajeServicio: ViajeService,
+		private placeSvc: PlacesService
 	) {
 		this.formViaje = this.fb.group({
 			inicio: ['', Validators.required],
@@ -47,6 +49,7 @@ export class NuevoViajeFormComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		console.log("placesvc: ", this.placeSvc);
 		if (this.dataViaje) {
 			this.formViaje.patchValue({
 				inicio: this.dataViaje.inicio,

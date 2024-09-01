@@ -9,35 +9,38 @@ export class PlacesService {
 
 	public L:any = null;
 	public Routing:any = null;
-;	public userLocation?: [number, number];
+	public userLocation?: [number, number];
 
-	constructor(@Inject(PLATFORM_ID) private platformId:object) {
-		if(isPlatformBrowser(platformId)) {
-			this.L = require('leaflet');{
-				this.L = require('leaflet');
-				this.Routing = require('leaflet-routing-machine');
-			}
-		}
-		this.initUserLocation();
+	// constructor(@Inject(PLATFORM_ID) private platformId:object) {
+	// 	if(isPlatformBrowser(platformId)) {
+	// 		this.L = require('leaflet');{
+	// 			this.L = require('leaflet');
+	// 			this.Routing = require('leaflet-routing-machine');
+	// 		}
+	// 	}
+	// 	this.initUserLocation();
+	// }
+	constructor(){
+		this.getUserLocation();
 	}
 
-	private initUserLocation() {
-		if (typeof window !== 'undefined' && navigator.geolocation) {
-			this.getUserLocation();
-		} else {
-			this.userLocation = undefined;
-		}
-	}
+	// private initUserLocation() {
+	// 	if (typeof window !== 'undefined' && navigator.geolocation) {
+	// 		this.getUserLocation();
+	// 	} else {
+	// 		this.userLocation = undefined;
+	// 	}
+	// }
 
-	private getUserLocation() {
-		navigator.geolocation.getCurrentPosition(
-			({ coords }) => {
-				this.userLocation = [coords.latitude, coords.longitude];
-				document.dispatchEvent(new Event('userLocationReady'));
-			}, (error) => {
-				console.error('Error getting location:', error);
-				this.userLocation = undefined;
-			}
-		);
-	}
+	 private getUserLocation() {
+	 	navigator.geolocation.getCurrentPosition(
+	 		({ coords }) => {
+	 			this.userLocation = [coords.latitude, coords.longitude];
+	 			document.dispatchEvent(new Event('userLocationReady'));
+	 		}, (error) => {
+	 			console.error('Error getting location:', error);
+	 			this.userLocation = undefined;
+	 		}
+	 	);
+	 }
 }

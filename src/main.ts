@@ -4,6 +4,7 @@ import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 
 if(!navigator.geolocation){
+  alert('navegador no compatible')
   throw new Error('Navegador no compatible')
 }
 

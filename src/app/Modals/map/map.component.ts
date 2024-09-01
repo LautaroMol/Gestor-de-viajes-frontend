@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter, Inject, PLATFORM_ID,Input } from '@angular/core';
-import { geocoder } from 'leaflet-control-geocoder';
 import { PlacesService } from '../../Services/place.service';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import {icon,Map,Marker,tileLayer} from 'leaflet';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
@@ -79,8 +79,16 @@ export class MapComponent implements OnInit {
   // }
 
   ngOnInit():void {
-    console.log(this.placeSvc)
+    setTimeout(() => {
+      console.log("placesvc: ", this.placeSvc);
+    }, 2000);
+  }
 
+  ngAferViewInit(){
+    setTimeout(() => {
+      this.map = new Map('map').setView([51.505, -0.09], 13);
+    }, 2000);
+  }
     // if (isPlatformBrowser(this.platformId)) {
     //   document.addEventListener('userLocationReady', () => {
     //     this.initializeMap();
@@ -92,7 +100,7 @@ export class MapComponent implements OnInit {
     //     }, 500);
     //   });
     // }
-  }
+  
 
   // ngAfterViewInit() {
   //   if (isPlatformBrowser(this.platformId)) {
