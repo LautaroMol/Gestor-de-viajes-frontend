@@ -1,7 +1,11 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter, Inject, PLATFORM_ID,Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { PlacesService } from '../../Services/place.service';
 import { CommonModule } from '@angular/common';
-import {icon,Map,Marker,tileLayer} from 'leaflet';
+import { Map, MapStyle, config } from '@maptiler/sdk';
+import '@maptiler/sdk/dist/maptiler-sdk.css';
+
+
+
 
 @Component({
   selector: 'app-map',
@@ -10,9 +14,12 @@ import {icon,Map,Marker,tileLayer} from 'leaflet';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit,AfterViewInit,OnDestroy {
   geo: any;
-  map: any;
+  map: Map | undefined;
+  
+  @ViewChild('map')
+  private mapContainer!: ElementRef<HTMLElement>;
   // currentLocationMarker: any;
   // chosenLocationMarker: any;
   // isLocated = false;
@@ -25,6 +32,26 @@ export class MapComponent implements OnInit {
     private placeSvc: PlacesService,
 
   ) {}
+  ngOnDestroy(): void {
+    this.map?.remove();
+  }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.geo = this.placeSvc.userLocation;
+    console.log('ubicacion segun el service lat: ', this.geo[0]," long: ", this.geo[1]);
+    const initialState = { lng: this.geo[1], lat: this.geo[0], zoom: 14 };
+
+    this.map = new Map({
+    container: this.mapContainer.nativeElement,
+    style: MapStyle.STREETS,
+    center: [initialState.lng, initialState.lat],
+    zoom: initialState.zoom
+   });
+    }, 2000);
+  }
+  ngOnInit():void {
+    config.apiKey = 'oEDh6mPK2TIhdFrpa70J';
+  }
   //    @Inject(PLATFORM_ID) private platformId: Object
   // Reload() {
   //   localStorage.removeItem('geoLoc');
@@ -77,30 +104,6 @@ export class MapComponent implements OnInit {
   //     this.distanceCalculated.emit(distanceInKilometers);
   //   }
   // }
-
-  ngOnInit():void {
-    setTimeout(() => {
-      console.log("placesvc: ", this.placeSvc);
-    }, 2000);
-  }
-
-  ngAferViewInit(){
-    setTimeout(() => {
-      this.map = new Map('map').setView([51.505, -0.09], 13);
-    }, 2000);
-  }
-    // if (isPlatformBrowser(this.platformId)) {
-    //   document.addEventListener('userLocationReady', () => {
-    //     this.initializeMap();
-    //     setTimeout(() => {
-    //       this.geo = this.placeSvc.userLocation;
-    //       if (this.geo) {
-    //         localStorage.setItem('geoLoc', JSON.stringify(this.geo));
-    //       }
-    //     }, 500);
-    //   });
-    // }
-  
 
   // ngAfterViewInit() {
   //   if (isPlatformBrowser(this.platformId)) {

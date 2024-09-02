@@ -11,15 +11,7 @@ export class PlacesService {
 	public Routing:any = null;
 	public userLocation?: [number, number];
 
-	// constructor(@Inject(PLATFORM_ID) private platformId:object) {
-	// 	if(isPlatformBrowser(platformId)) {
-	// 		this.L = require('leaflet');{
-	// 			this.L = require('leaflet');
-	// 			this.Routing = require('leaflet-routing-machine');
-	// 		}
-	// 	}
-	// 	this.initUserLocation();
-	// }
+
 	constructor(){
 		this.getUserLocation();
 	}
