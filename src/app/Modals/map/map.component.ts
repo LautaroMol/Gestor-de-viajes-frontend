@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import {Component,OnInit,ViewChild,ElementRef,AfterViewInit,OnDestroy,} from '@angular/core';
 import { PlacesService } from '../../Services/place.service';
 import { CommonModule } from '@angular/common';
-import { Map, MapStyle, config } from '@maptiler/sdk';
+import { Map, MapStyle, config,Marker } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
-
-
-
+import * as maptilerClient from '@maptiler/client';
 
 @Component({
   selector: 'app-map',
@@ -14,43 +12,93 @@ import '@maptiler/sdk/dist/maptiler-sdk.css';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements OnInit,AfterViewInit,OnDestroy {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   geo: any;
   map: Map | undefined;
-  
+  currentLocationMarker: Marker | undefined;
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
-  // currentLocationMarker: any;
-  // chosenLocationMarker: any;
-  // isLocated = false;
-  // routeControl: any;
-  // @Output() locationSelected = new EventEmitter<[number, number]>();
-  // @Output() destinationSelect = new EventEmitter<[number, number]>();
-  // @Output() distanceCalculated = new EventEmitter<number>();
 
-  constructor(
-    private placeSvc: PlacesService,
-
-  ) {}
+  constructor(private placeSvc: PlacesService) {}
   ngOnDestroy(): void {
     this.map?.remove();
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.geo = this.placeSvc.userLocation;
-    console.log('ubicacion segun el service lat: ', this.geo[0]," long: ", this.geo[1]);
-    const initialState = { lng: this.geo[1], lat: this.geo[0], zoom: 14 };
-
-    this.map = new Map({
-    container: this.mapContainer.nativeElement,
-    style: MapStyle.STREETS,
-    center: [initialState.lng, initialState.lat],
-    zoom: initialState.zoom
-   });
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+  
+            console.log('con alta precisión lat: ', lat, ' long: ', lng);
+  
+            const initialState = {
+              lng: lng,
+              lat: lat,
+              zoom: 14
+            };
+  
+            this.map = new Map({
+              container: this.mapContainer.nativeElement,
+              style: MapStyle.STREETS,
+              center: [initialState.lng, initialState.lat],
+              zoom: initialState.zoom,
+            });
+          },
+          (error) => {
+            console.error('Error al obtener la geolocalización', error);
+          },
+          {
+            enableHighAccuracy: true, // Alta precisión
+            timeout: 5000, // 5 segundos de tiempo máximo
+            maximumAge: 0 // No usar una posición en caché
+          }
+        );
+      } else {
+        console.error('La geolocalización no es compatible con este navegador');
+      }
     }, 2000);
   }
-  ngOnInit():void {
+  
+  ngOnInit(): void {
     config.apiKey = 'oEDh6mPK2TIhdFrpa70J';
+  }
+
+  locate(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          if (this.map) {
+            // Mover el mapa a la ubicación actual
+            this.map.flyTo({center: [lng, lat],zoom: 14});
+
+            // Si hay un amrcador lo actualizamos
+            if (this.currentLocationMarker) {
+              this.currentLocationMarker.setLngLat([lng, lat]);
+            } else {
+              
+              this.currentLocationMarker = new Marker()
+                .setLngLat([lng, lat])
+                .addTo(this.map);
+            }
+          }
+        },
+        (error) => {
+          console.error('Error al obtener la geolocalización', error);
+        },
+        {
+          enableHighAccuracy: true, // Alta precisión
+          timeout: 5000, // 5 segundos de tiempo máximo
+          maximumAge: 0 // No usar una posición en caché
+        }
+      );
+    } else {
+      console.error('La geolocalización no es compatible con este navegador');
+    }
   }
   //    @Inject(PLATFORM_ID) private platformId: Object
   // Reload() {
