@@ -6,11 +6,13 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { GastosFormComponent } from '../../Modals/gastos-form/gastos-form.component';
 import { DeleteGastoComponent } from '../../Modals/gastos-delete/gastos-delete.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
 	selector: 'app-gastos',
 	standalone: true,
-	imports: [CommonModule, MatDialogModule],
+	imports: [CommonModule, MatDialogModule, NgxChartsModule, BrowserAnimationsModule],
 	providers: [GastoService, HttpClient],
 	templateUrl: './gastos.component.html',
 	styleUrls: ['./gastos.component.css'],
@@ -19,8 +21,39 @@ export class GastosComponent implements OnInit {
 	gastos: Gasto[] = [];
 	mostrarFormulario: boolean = false;
 	modoEdicion: boolean = false;
+	view: [number, number] = [700, 400];
 
-	constructor(private gastoService: GastoService, private dialog: MatDialog) { }
+	single = [
+		{
+		  "name": "Germany",
+		  "value": 8940000
+		},
+		{
+		  "name": "USA",
+		  "value": 5000000
+		},
+		{
+		  "name": "France",
+		  "value": 7200000
+		},
+		  {
+		  "name": "UK",
+		  "value": 6200000
+		}
+	];
+	// options
+	gradient: boolean = true;
+	showLegend: boolean = true;
+	showLabels: boolean = true;
+	isDoughnut: boolean = false;
+
+	constructor(
+		private gastoService: GastoService,
+		private dialog: MatDialog
+	)
+	{
+		// Object.assign(this, { single });
+	}
 
 	ngOnInit(): void {
 		this.obtenerGastos();
@@ -80,5 +113,17 @@ export class GastosComponent implements OnInit {
 				this.obtenerGastos();
 			}
 		});
+	}
+ 
+	onSelect(data: any): void {
+		console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+	}
+
+	onActivate(data: any): void {
+		console.log('Activate', JSON.parse(JSON.stringify(data)));
+	}
+
+	onDeactivate(data: any): void {
+		console.log('Deactivate', JSON.parse(JSON.stringify(data)));
 	}
 }
