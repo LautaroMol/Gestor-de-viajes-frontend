@@ -1,7 +1,7 @@
 import {Component,OnInit,ViewChild,ElementRef,AfterViewInit,OnDestroy,} from '@angular/core';
 import { PlacesService } from '../../Services/place.service';
 import { CommonModule } from '@angular/common';
-import { Map, MapStyle, config,Marker } from '@maptiler/sdk';
+import { Map, MapStyle, config,Marker, MaptilerNavigationControl, MaptilerGeolocateControl } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import * as maptilerClient from '@maptiler/client';
 
@@ -28,6 +28,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           async (position) => {
+            
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
   
@@ -44,7 +45,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
               style: MapStyle.STREETS,
               center: [initialState.lng, initialState.lat],
               zoom: initialState.zoom,
+              terrainControl: true
             });
+            this.map.addControl(new MaptilerGeolocateControl({
+              positionOptions:{
+                enableHighAccuracy:true
+              },
+              trackUserLocation: true,
+              showAccuracyCircle: true,
+              showUserLocation: true
+            }));
           },
           (error) => {
             console.error('Error al obtener la geolocalización', error);
