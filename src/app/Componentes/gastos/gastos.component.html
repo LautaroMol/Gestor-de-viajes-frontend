@@ -1,26 +1,32 @@
 <div class="flex justify-center">
     <div class="bg-white p-4 text-center rounded-lg shadow-md w-1/2">
-        <p class="font-black text-2xl text-indigo-600 mb-0">Ultimos Gastos</p>
+        <p class="font-black text-2xl text-indigo-600 mb-0">Últimos Gastos</p>
     </div>
 </div>
 
 <section class="">
     <div class="flex p-4 overflow-hidden bg-white h-auto rounded-lg shadow-md mt-8 justify-between">
-        <!-- <img src="../../../assets/img/pie-chart.png" height="200px" width="200px" alt="pie-chart"> -->
-        
+        <div class="flex justify-center">
+            <div class="bg-white p-4 text-center rounded-lg shadow-md w-1/2">
+              <p class="font-black text-2xl text-indigo-600 mb-0">Seleccionar Viaje</p>
+              <select (change)="onViajeChange($event)" class="mt-2">
+                <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{ viaje.inicio }} - {{ viaje.final }}</option>
+              </select>
+            </div>
+        </div>
+          
         <ngx-charts-advanced-pie-chart
             [view]="view"
             [results]="single"
             [gradient]="gradient"
             (select)="onSelect($event)"
             (activate)="onActivate($event)"
-            (deactivate)="onDeactivate($event)"
-            >
+            (deactivate)="onDeactivate($event)">
         </ngx-charts-advanced-pie-chart>
 
         <div class="flex gap-10">
             <div class="flex flex-col">
-                <div *ngFor="let gasto of gastos" class="flex flex-col">
+                <div *ngFor="let gasto of gastosFiltrados" class="flex flex-col">
                     <p>{{ gasto.nombre }} = $ {{ gasto.cantidad }}</p>
                 </div>
             </div>
@@ -39,7 +45,7 @@
         >
             <p class="">{{ gasto.categoria }}</p>
             <div class="text-center flex-grow">
-                <p class=text-xl>{{ gasto.nombre }}</p>
+                <p class="text-xl">{{ gasto.nombre }}</p>
                 <p class="text-xs">{{ gasto.fecha }}</p>
             </div>
             <div class="flex items-center gap-3">

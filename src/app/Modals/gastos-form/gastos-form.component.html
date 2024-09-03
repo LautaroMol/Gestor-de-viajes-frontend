@@ -54,7 +54,7 @@
                     >
                         <option disabled >-- Selecciones --</option>
                         
-                        <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{viaje.idViaje}}</option>
+                        <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{viaje.inicio}}  -  {{viaje.final}}</option>
                     </select>
                 </div>
                 <div class="p-3">
