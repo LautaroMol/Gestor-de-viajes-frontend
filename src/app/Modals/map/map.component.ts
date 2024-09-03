@@ -4,6 +4,11 @@ import { CommonModule } from '@angular/common';
 import { Map, MapStyle, config,Marker, MaptilerNavigationControl, MaptilerGeolocateControl } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import * as maptilerClient from '@maptiler/client';
+import * as maptilersdk from '@maptiler/sdk';
+import { GeocodingControl } from "@maptiler/geocoding-control/maptilersdk";
+import "@maptiler/sdk/dist/maptiler-sdk.css";
+import "@maptiler/geocoding-control/style.css";
+
 
 @Component({
   selector: 'app-map',
@@ -47,6 +52,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
               zoom: initialState.zoom,
               terrainControl: true
             });
+            const gc = new GeocodingControl();
+            this.map.addControl(gc);
             this.map.addControl(new MaptilerGeolocateControl({
               positionOptions:{
                 enableHighAccuracy:true
