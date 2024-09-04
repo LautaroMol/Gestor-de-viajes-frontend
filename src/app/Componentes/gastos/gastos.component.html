@@ -5,43 +5,32 @@
 </div>
 
 <section class="">
-    <div class="flex p-4 overflow-hidden bg-white h-auto rounded-lg shadow-md mt-8 justify-between">
-        <div class="flex justify-center">
-            <div class="bg-white p-4 text-center rounded-lg shadow-md w-1/2">
-              <p class="font-black text-2xl text-indigo-600 mb-0">Seleccionar Viaje</p>
-              <select (change)="onViajeChange($event)" class="mt-2">
-                <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{ viaje.inicio }} - {{ viaje.final }}</option>
-              </select>
+
+    <div class="flex justify-around p-4 overflow-hidden bg-white rounded-lg shadow-md mt-8">
+        <div class="flex flex-col justify-between">
+            <div>
+                <p class="font-black text-xl text-center text-indigo-600">Seleccionar Viaje</p>
+                <select (change)="onViajeChange($event)" class="mt-2 p-2">
+                    <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{ viaje.inicio }} - {{ viaje.final }}</option>
+                </select> 
             </div>
+            <button (click)="nuevoGasto()" class="bg-indigo-600 px-4 py-2 font-bold text-white rounded-lg hover:bg-indigo-700 w-full">
+                Nuevo gasto
+            </button>
         </div>
-          
-        <ngx-charts-advanced-pie-chart
+
+        <ngx-charts-advanced-pie-chart 
             [view]="view"
             [results]="single"
             [gradient]="gradient"
-            (select)="onSelect($event)"
-            (activate)="onActivate($event)"
-            (deactivate)="onDeactivate($event)">
+        >
         </ngx-charts-advanced-pie-chart>
-
-        <div class="flex gap-10">
-            <div class="flex flex-col">
-                <div *ngFor="let gasto of gastosFiltrados" class="flex flex-col">
-                    <p>{{ gasto.nombre }} = $ {{ gasto.cantidad }}</p>
-                </div>
-            </div>
-            <div>
-                <button (click)="nuevoGasto()" class="bg-indigo-600 px-4 py-2 font-bold text-white rounded-lg hover:bg-indigo-700">
-                    Nuevo gasto
-                </button>
-            </div>
-        </div>
     </div>
 
     <div class="overflow-y-auto grid grid-cols-2 gap-4 max-h-64 mt-3">
         <div 
             class="flex items-center py-5 px-4 bg-white h-auto rounded-lg shadow-md my-3 font-bold min-w-0 cursor-pointer hover:bg-gray-300" 
-            *ngFor="let gasto of gastos"
+            *ngFor="let gasto of gastosFiltrados"
         >
             <p class="">{{ gasto.categoria }}</p>
             <div class="text-center flex-grow">
@@ -49,7 +38,7 @@
                 <p class="text-xs">{{ gasto.fecha }}</p>
             </div>
             <div class="flex items-center gap-3">
-                <p class="text-xl font-black">$ {{ gasto.cantidad }}</p>
+                <p class="text-xl font-black">$ {{ gasto.cantidad | currency }}</p>
                 <div>
                     <span class="material-icons cursor-pointer mx-2 text-gray-400 hover:text-gray-500" (click)="editarGasto(gasto)">edit</span>
                     <span class="material-icons cursor-pointer mx-2 text-gray-400 hover:text-gray-500" (click)="borrarGasto(gasto)">delete</span>

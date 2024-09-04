@@ -27,12 +27,11 @@ export class GastosComponent implements OnInit {
 	viajeSeleccionado: number | null = null;
 	mostrarFormulario: boolean = false;
 	modoEdicion: boolean = false;
-	view: [number, number] = [700, 400];
+	view: [number, number] = [850, 300];
 	gastosFiltrados: Gasto[] = [];
 
 	// datos con los que se maneja el gráfico
 	single: any[] = [];
-	// options
 	gradient: boolean = true;
 	showLegend: boolean = true;
 	showLabels: boolean = true;
@@ -52,7 +51,7 @@ export class GastosComponent implements OnInit {
 	obtenerGastos() {
 		this.gastoService.getList().subscribe({
 			next: (data) => {
-				this.gastos = data;
+				this.gastos = data.filter(gasto => !gasto.borrado);
 				this.filtrarGastosPorViaje();
 				this.actualizarGrafico();
 			},
@@ -69,6 +68,7 @@ export class GastosComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(result => {
 			if (result === 'Editado') {
+				this.actualizarGrafico();
 				this.obtenerGastos();
 			}
 		});
@@ -86,6 +86,7 @@ export class GastosComponent implements OnInit {
 				this.gastoService.delete(gasto).subscribe({
 					next: (data) => {
 						console.log("Gasto borrado exitosamente");
+						this.actualizarGrafico();
 						this.obtenerGastos();
 					},
 					error: (e) => {
@@ -110,7 +111,12 @@ export class GastosComponent implements OnInit {
 		this.viajeService.getList().subscribe({
 			next: (data) => {
 				this.viajes = data.filter(viaje => !viaje.borrado);
-				console.log(this.viajes);
+				
+				if (this.viajes.length > 0 && this.viajeSeleccionado === null) {
+					this.viajeSeleccionado = this.viajes[0].idViaje;
+					this.filtrarGastosPorViaje();
+					this.actualizarGrafico(); 
+				}
 			},
 			error: (e) => {
 				console.error(e);
@@ -152,6 +158,7 @@ export class GastosComponent implements OnInit {
 				name: `Categoría ${categoria}`,
 				value: categoriaGastos[categoria],
 			}));
+			
 		}
 	}
 
@@ -167,13 +174,5 @@ export class GastosComponent implements OnInit {
 		this.gastosFiltrados = this.gastos.filter(
 			gasto => gasto.viaje === this.viajeSeleccionado && gasto.categoria === idCategoria
 		);
-	}
-
-	onActivate(data: any): void {
-		console.log('Activate', JSON.parse(JSON.stringify(data)));
-	}
-
-	onDeactivate(data: any): void {
-		console.log('Deactivate', JSON.parse(JSON.stringify(data)));
 	}
 }
