@@ -3,8 +3,6 @@ import { PlacesService } from '../../Services/place.service';
 import { CommonModule } from '@angular/common';
 import { Map, MapStyle, config,Marker, MaptilerNavigationControl, MaptilerGeolocateControl } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
-import * as maptilerClient from '@maptiler/client';
-import * as maptilersdk from '@maptiler/sdk';
 import { GeocodingControl } from "@maptiler/geocoding-control/maptilersdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "@maptiler/geocoding-control/style.css";
