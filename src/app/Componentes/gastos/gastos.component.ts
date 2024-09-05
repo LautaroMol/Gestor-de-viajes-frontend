@@ -30,6 +30,7 @@ export class GastosComponent implements OnInit {
 	modoEdicion: boolean = false;
 	view: [number, number] = [850, 300];
 	gastosFiltrados: Gasto[] = [];
+	categoriaSeleccionadaNombre: string | null = null;
 
 	// datos con los que se maneja el gráfico
 	single: any[] = [];
@@ -185,16 +186,17 @@ export class GastosComponent implements OnInit {
 
 	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
-		// Usar el idCategoria directamente en lugar de extraerlo del nombre
+		
 		const idCategoria = data.idCategoria;
+		this.categoriaSeleccionadaNombre = this.categorias.find(c => c.idCategoria === idCategoria)?.nombre || 'Desconocida';
 		this.filtrarGastosPorCategoria(idCategoria);
 	}
 	
-
 	// Filtrar los gastos por la categoría seleccionada y el viaje seleccionado
 	filtrarGastosPorCategoria(idCategoria: number) {
 		this.gastosFiltrados = this.gastos.filter(
 			gasto => gasto.viaje === this.viajeSeleccionado && gasto.categoria === idCategoria
 		);
 	}
+	
 }
