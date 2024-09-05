@@ -41,11 +41,13 @@ export class CamionComponent implements OnInit {
 
   getOilLevel(): number {
     const maxKm = 50000;
-    let oilLevel = 0;
-    if (this.unidad != null){
-      oilLevel = Math.max(0, (maxKm - this.unidad.kmAceite) / maxKm);
+    if (this.unidad) {
+      // Calcular el porcentaje de llenado en base a los kilómetros recorridos
+      const kmAceite = this.unidad.kmAceite;
+      const oilLevel = Math.max(0, (maxKm - kmAceite) / maxKm);
+      return oilLevel * 110; // La altura del barril es 110, entonces usamos eso como referencia
     }
-    return oilLevel * 100; // Retorna el porcentaje del llenado
+    return 0;
   }
 
   updateOilBarrel() {

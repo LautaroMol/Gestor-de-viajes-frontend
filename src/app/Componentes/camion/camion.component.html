@@ -1,52 +1,47 @@
 <div class="container" *ngIf="unidad">
   <div class="layout">
-    <!-- Contenedor del ícono de aceite y detalles -->
+    <!-- Columna izquierda: Aceite -->
     <div class="oil-column">
       <div class="oil-barrel-container">
         <svg class="oil-barrel" viewBox="0 0 100 150">
           <rect class="barrel-border" x="10" y="20" width="80" height="110" fill="none" stroke="black" stroke-width="5"/>
-          <rect class="barrel-fill" x="10" [attr.y]="110 - getOilLevel()" width="80" [attr.height]="getOilLevel()" fill="black"/>
+          <!-- Barril lleno según el nivel de aceite -->
+          <rect class="barrel-fill" x="10" [attr.y]="130 - getOilLevel()" width="80" [attr.height]="getOilLevel()" fill="black"/>
         </svg>
       </div>
+
+      <!-- Detalles del aceite justo debajo del barril -->
+      <div class="oil-details">
+        <p>Kilómetros recorridos con este aceite: {{ unidad?.kmAceite }} km</p>
+        <p>Ultimo cambio de aceite realizado : {{ unidad.aceite}} </p>
+      </div>
+
+      <!-- Advertencia si es necesario el cambio de aceite -->
       <div *ngIf="showWarning" class="warning-message">Atención: ¡Cambio de aceite necesario!</div>
     </div>
 
+    <!-- Columna derecha: Camión -->
     <div class="truck-column">
-      <div *ngIf="selectedWheel !== null">
-        <p>Rueda elegida: {{ selectedWheel + 1 }}</p>
-        <p>Kilómetros recorridos: {{ unidad.estadoRueda[selectedWheel] }}</p>
-      </div>
-
-      <div>
-        <label for="wheelSelect">Seleccionar Rueda:</label>
-        <select id="wheelSelect" (change)="onWheelSelect($event)">
-          <option *ngFor="let wheel of unidad.ruedas; let i = index" [value]="i">
-            Rueda {{ i + 1 }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="truck">
-      <div class="cab"></div>
-      <div class="trailer"></div>
-      <div
-        *ngFor="let wheel of unidad.ruedas; let i = index"
-        class="wheel"
-        [ngClass]="{
-          'selected': selectedWheel === i,
-          'front-left': i === 0,
-          'front-right': i === 1,
-          'rear-left': i === 2,
-          'rear-right': i === 3,
-          'back-left': i === 4,
-          'back-right': i === 5
-        }"
-        (click)="selectWheel(i)"
-      >
+      <!-- Aquí ya está la lógica del camión y las ruedas -->
+      <div class="truck">
+        <div class="cab"></div>
+        <div class="trailer"></div>
+        <div
+          *ngFor="let wheel of unidad?.ruedas; let i = index"
+          class="wheel"
+          [ngClass]="{
+            'selected': selectedWheel === i,
+            'front-left': i === 0,
+            'front-right': i === 1,
+            'rear-left': i === 2,
+            'rear-right': i === 3,
+            'back-left': i === 4,
+            'back-right': i === 5
+          }"
+          (click)="selectWheel(i)"
+        >
+        </div>
       </div>
     </div>
-    </div>
-    
-      
   </div>
-  
+</div>

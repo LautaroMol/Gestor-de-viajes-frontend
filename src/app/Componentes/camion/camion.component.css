@@ -1,24 +1,3 @@
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.oil-column, .truck-column {
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.oil-barrel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .layout {
   display: flex;
   align-items: center;
@@ -114,6 +93,43 @@
   color: red;
   font-weight: bold;
 }
+.warning-message {
+  color: red;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.oil-column, .truck-column {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.oil-barrel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.oil-barrel {
+  width: 100px;
+  height: 150px;
+}
+
+.oil-details {
+  margin-top: 10px;
+  text-align: center;
+}
+
 .warning-message {
   color: red;
   font-weight: bold;
