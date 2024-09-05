@@ -100,37 +100,30 @@
     right: 20px;
   }
 
-  .oil-icon-container svg {
-    transition: fill 0.5s ease;
-  }
-  
-  .oil-icon-container svg.low-oil {
-    fill: red; /* Color cuando el nivel de aceite es bajo */
-  }
-  
-  .oil-icon-container svg.medium-oil {
-    fill: orange; /* Color para nivel medio */
-  }
-  
-  .oil-icon-container svg.full-oil {
-    fill: green; /* Color cuando el nivel de aceite es alto */
-  }
-  .oil-icon-container {
+  .layout {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+  }
+  
+  .oil-icon-container {
+    margin-right: 20px;
+    position: relative;
   }
   
   .oil-details {
     margin-top: 10px;
-    text-align: center;
   }
   
-  .oil-details p {
-    margin: 0;
-    font-size: 14px;
-    color: #333;
+  .warning {
+    color: red;
+    font-weight: bold;
   }
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  
   
   

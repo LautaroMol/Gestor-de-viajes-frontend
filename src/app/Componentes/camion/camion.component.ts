@@ -13,11 +13,15 @@ import { UnidadService } from '../../Services/unidad.service';
 export class CamionComponent implements OnInit {
   unidad: Unidad | null = null;
   selectedWheel: number | null = null;
+  oilBarrelColor: string = '#e8eaed'; 
+  oilAnimation: string = '';           
+  showWarning: boolean = false;
 
   constructor(private unidadService: UnidadService) {}
 
   ngOnInit(): void {
     this.getCamion(1); // se busca por id
+    this.updateOilBarrel();
   }
 
   getCamion(id: number): void {
@@ -63,6 +67,27 @@ export class CamionComponent implements OnInit {
       return 'medium-oil';
     } else {
       return 'full-oil';
+    }
+  }
+
+  updateOilBarrel() {
+    let oilLevel = 0;
+    let kmAceite = 0;
+    if (this.unidad !=  null ){
+      const kmAceite = this.unidad.kmAceite;
+      const oilLevel = 1 - (kmAceite / 50000);
+    }
+
+    // Modificar el color del barril según el nivel
+    this.oilBarrelColor = `rgba(0, 0, 255, ${oilLevel})`;  // Cuanto mayor sea el kilometraje, más vacío el barril (menos azul)
+
+    // Mostrar advertencia si está cerca de 50,000 km
+    if (kmAceite >= 45000) {
+      this.showWarning = true;
+      this.oilAnimation = 'blink 1s infinite';  // Activar parpadeo
+    } else {
+      this.showWarning = false;
+      this.oilAnimation = '';  // Desactivar parpadeo
     }
   }
   
