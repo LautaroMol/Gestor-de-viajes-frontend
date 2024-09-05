@@ -86,7 +86,18 @@
   }
   
   .wheel.rear-right {
-    bottom: 20px;
+    bottom: 30px;
     right: 20px;
   }
+  
+  .back-left {
+    bottom: 15px;
+    left: 20px;
+  }
+
+  .back-right {
+    bottom: 15px;
+    right: 20px;
+  }
+
   
