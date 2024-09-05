@@ -1,8 +1,22 @@
 .container {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  margin: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.oil-column, .truck-column {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.oil-barrel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .layout {
@@ -100,9 +114,17 @@
   color: red;
   font-weight: bold;
 }
+.warning-message {
+  color: red;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
 
 @keyframes blink {
-  50% {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
     opacity: 0;
   }
 }
