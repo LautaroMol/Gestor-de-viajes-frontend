@@ -187,18 +187,20 @@ export class GastosComponent implements OnInit {
 
 	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
-		console.log('Datos seleccionados:', data); // Verifica qué se está recibiendo
-		const idCategoria = data.idCategoria;
-		
-		// Si idCategoria es undefined, intenta obtenerlo de otra manera
-		if (!idCategoria) {
-			console.error('idCategoria no está definido en los datos seleccionados');
+		console.log('Datos seleccionados en el gráfico:', data); // Verifica qué se está recibiendo
+	
+		const nombreCategoria = data.name; // Usar el nombre devuelto por el gráfico
+		const categoria = this.categorias.find(c => c.nombre === nombreCategoria);
+	
+		if (!categoria) {
+			console.error('No se pudo encontrar la categoría seleccionada');
 			return;
 		}
-		
-		this.categoriaSeleccionadaNombre = this.categorias.find(c => c.idCategoria === idCategoria)?.nombre || 'Desconocida';
-		this.filtrarGastosPorCategoria(idCategoria);
+	
+		this.categoriaSeleccionadaNombre = categoria.nombre;
+		this.filtrarGastosPorCategoria(categoria.idCategoria);
 	}
+	
 	
 	// Filtrar los gastos por la categoría seleccionada y el viaje seleccionado
 	filtrarGastosPorCategoria(idCategoria: number) {
