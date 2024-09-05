@@ -158,36 +158,38 @@ export class GastosComponent implements OnInit {
 			const gastosFiltrados = this.gastos.filter(gasto => gasto.viaje === this.viajeSeleccionado);
 		
 			const diccionarioCategorias = this.categorias.reduce((acc, categoria) => {
-				// le asigno el nombre de la categoria a cada id
 				acc[categoria.idCategoria] = categoria.nombre;
 				return acc;
 			}, {});
-
+	
 			// Acumular gastos por categoría
 			const categoriaGastos = gastosFiltrados.reduce((acc, gasto) => {
 				const nombreCategoria = diccionarioCategorias[gasto.categoria] || `Categoría ${gasto.categoria}`;
 				
-				if (!acc[nombreCategoria]) {
-					acc[nombreCategoria] = 0;
+				if (!acc[gasto.categoria]) {
+					acc[gasto.categoria] = { nombre: nombreCategoria, total: 0 };
 				}
-				acc[nombreCategoria] += gasto.cantidad;
+				acc[gasto.categoria].total += gasto.cantidad;
 				return acc;
 			}, {});
-			
+	
 			// Convertir el objeto a un array para el gráfico
-			this.single = Object.keys(categoriaGastos).map(nombreCategoria => ({
-				name: nombreCategoria,
-				value: categoriaGastos[nombreCategoria],
+			this.single = Object.keys(categoriaGastos).map(idCategoria => ({
+				name: categoriaGastos[Number(idCategoria)].nombre,
+				value: categoriaGastos[Number(idCategoria)].total,
+				idCategoria: Number(idCategoria), // Agregar idCategoria al objeto
 			}));
 		}
 	}
+	
 
-	// Aquí se maneja el evento al clickear en el grafico.
+	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
-		// Extraer el idCategoria del nombre de la categoría seleccionada
-		const idCategoria = Number(data.name.split(' ')[1]);
+		// Usar el idCategoria directamente en lugar de extraerlo del nombre
+		const idCategoria = data.idCategoria;
 		this.filtrarGastosPorCategoria(idCategoria);
 	}
+	
 
 	// Filtrar los gastos por la categoría seleccionada y el viaje seleccionado
 	filtrarGastosPorCategoria(idCategoria: number) {
