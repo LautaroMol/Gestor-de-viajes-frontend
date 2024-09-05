@@ -186,9 +186,9 @@ export class GastosComponent implements OnInit {
 	
 
 	//evento e clickear sobre el grafico
-	onSelect(data: any): void {
-		console.log('Datos seleccionados:', data); // Verifica qué se está recibiendo
-		const idCategoria = data.idCategoria;
+	onSelect(gasto: Gasto): void {
+		console.log('Datos seleccionados:', gasto); // Verifica qué se está recibiendo
+		const idCategoria = gasto.categoria;
 		
 		// Si idCategoria es undefined, intenta obtenerlo de otra manera
 		if (!idCategoria) {
