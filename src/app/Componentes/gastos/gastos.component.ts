@@ -185,9 +185,9 @@ export class GastosComponent implements OnInit {
 	
 
 	//evento e clickear sobre el grafico
-	onSelect(data: any): void {
+	onSelect(gasto: Gasto): void {
 		
-		const idCategoria = data.idCategoria;
+		const idCategoria = gasto.categoria;
 		this.categoriaSeleccionadaNombre = this.categorias.find(c => c.idCategoria === idCategoria)?.nombre || 'Desconocida';
 		this.filtrarGastosPorCategoria(idCategoria);
 	}
