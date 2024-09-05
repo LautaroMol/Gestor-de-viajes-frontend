@@ -10,8 +10,8 @@
       </div>
 
       <div class="oil-details">
-        <p>Kilómetros recorridos con este aceite: {{ unidad?.kmAceite }} km</p>
-        <p>Último cambio de aceite realizado: {{ unidad?.aceite | date:'dd/MM/yyyy' }} </p>
+        <p>Kilómetros recorridos con este aceite: {{ unidad.kmAceite }} km</p>
+        <p>Último cambio de aceite realizado: {{ unidad.aceite | date:'dd/MM/yyyy' }} </p>
       </div>
 
       <div *ngIf="showWarning" class="warning-message">Atención: ¡Cambio de aceite recomendado!</div>
