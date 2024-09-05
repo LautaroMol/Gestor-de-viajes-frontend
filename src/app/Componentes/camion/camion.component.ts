@@ -29,6 +29,7 @@ export class CamionComponent implements OnInit {
       this.unidad = data;
       console.log('Camion:', this.unidad);
     });
+    this.updateOilBarrel();
   }
 
   selectWheel(wheelIndex: number): void {
