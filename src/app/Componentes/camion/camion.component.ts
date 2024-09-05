@@ -46,4 +46,24 @@ export class CamionComponent implements OnInit {
       top: `${baseY}px`
     };
   }
+  getOilLevel(): number {
+    const maxKm = 50000;
+    let oilLevel = 0;
+    if (this.unidad != null){
+      oilLevel = Math.max(0, (maxKm - this.unidad.kmAceite) / maxKm);
+    }
+    return oilLevel * 100; // Retorna el porcentaje del llenado
+  }
+
+  getOilClass(): string {
+    const oilLevel = this.getOilLevel();
+    if (oilLevel < 25) {
+      return 'low-oil';
+    } else if (oilLevel < 75) {
+      return 'medium-oil';
+    } else {
+      return 'full-oil';
+    }
+  }
+  
 }
