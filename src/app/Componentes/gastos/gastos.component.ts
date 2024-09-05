@@ -178,16 +178,24 @@ export class GastosComponent implements OnInit {
 			this.single = Object.keys(categoriaGastos).map(idCategoria => ({
 				name: categoriaGastos[Number(idCategoria)].nombre,
 				value: categoriaGastos[Number(idCategoria)].total,
-				idCategoria: Number(idCategoria), // Agregar idCategoria al objeto
+				idCategoria: Number(idCategoria), // Asegurarte de agregar correctamente el idCategoria
 			}));
 		}
 	}
 	
+	
 
 	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
-		
+		console.log('Datos seleccionados:', data); // Verifica qué se está recibiendo
 		const idCategoria = data.idCategoria;
+		
+		// Si idCategoria es undefined, intenta obtenerlo de otra manera
+		if (!idCategoria) {
+			console.error('idCategoria no está definido en los datos seleccionados');
+			return;
+		}
+		
 		this.categoriaSeleccionadaNombre = this.categorias.find(c => c.idCategoria === idCategoria)?.nombre || 'Desconocida';
 		this.filtrarGastosPorCategoria(idCategoria);
 	}
