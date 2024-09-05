@@ -13,16 +13,22 @@
       <!-- Detalles del aceite justo debajo del barril -->
       <div class="oil-details">
         <p>Kilómetros recorridos con este aceite: {{ unidad?.kmAceite }} km</p>
-        <p>Ultimo cambio de aceite realizado : {{ unidad.aceite}} </p>
+        <p>Último cambio de aceite realizado: {{ unidad.aceite | date:'shortDate' }}</p>
       </div>
 
       <!-- Advertencia si es necesario el cambio de aceite -->
-      <div *ngIf="showWarning" class="warning-message">Atención: ¡Cambio de aceite necesario!</div>
+      <div *ngIf="showWarning" class="warning-message">Atención: ¡Cambio de aceite recomendado!</div>
     </div>
 
     <!-- Columna derecha: Camión -->
     <div class="truck-column">
-      <!-- Aquí ya está la lógica del camión y las ruedas -->
+      <!-- Información de la rueda seleccionada -->
+      <div *ngIf="selectedWheel !== null">
+        <p>Rueda seleccionada: {{ selectedWheel + 1 }}</p>
+        <p>Kilómetros recorridos: {{ unidad.estadoRueda[selectedWheel] }} km</p>
+      </div>
+
+      <!-- Lógica del camión y las ruedas -->
       <div class="truck">
         <div class="cab"></div>
         <div class="trailer"></div>
@@ -39,8 +45,7 @@
             'back-right': i === 5
           }"
           (click)="selectWheel(i)"
-        >
-        </div>
+        ></div>
       </div>
     </div>
   </div>
