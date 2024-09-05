@@ -10,6 +10,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
 import { Categoria } from '../../Interfaces/categoria';
+import { CategoriaService } from '../../Services/categoria.service';
 
 @Component({
 	selector: 'app-gastos',
@@ -41,11 +42,13 @@ export class GastosComponent implements OnInit {
 		private gastoService: GastoService,
 		private dialog: MatDialog,
 		private viajeService: ViajeService,
+		private categoriaService: CategoriaService
 	) {}
 
 	ngOnInit(): void {
 		this.obtenerGastos();
 		this.obtenerViajes();
+		this.obtenerCategorias()
 	}
 
 	obtenerGastos() {
@@ -59,6 +62,17 @@ export class GastosComponent implements OnInit {
 				console.error(e);
 			},
 		});
+	}
+
+	obtenerCategorias() {
+		this.categoriaService.getList().subscribe({
+			next: (data) => {
+				this.categorias = data.filter(categoria => !categoria.borrado)
+			},
+			error: (e) => {
+				console.log(e);
+			}
+		})
 	}
 
 	editarGasto(gasto: Gasto) {
@@ -142,23 +156,29 @@ export class GastosComponent implements OnInit {
 	actualizarGrafico() {
 		if (this.viajeSeleccionado !== null) {
 			const gastosFiltrados = this.gastos.filter(gasto => gasto.viaje === this.viajeSeleccionado);
-
-			// Acumular gastos por categoría
-			const categoriaGastos = gastosFiltrados.reduce((acc, gasto) => {
-				const categoria = gasto.categoria;
-				if (!acc[categoria]) {
-					acc[categoria] = 0;
-				}
-				acc[categoria] += gasto.cantidad;
+		
+			const diccionarioCategorias = this.categorias.reduce((acc, categoria) => {
+				// le asigno el nombre de la categoria a cada id
+				acc[categoria.idCategoria] = categoria.nombre;
 				return acc;
 			}, {});
 
-			// Convertir el objeto a un array para el gráfico
-			this.single = Object.keys(categoriaGastos).map(categoria => ({
-				name: `Categoría ${categoria}`,
-				value: categoriaGastos[categoria],
-			}));
+			// Acumular gastos por categoría
+			const categoriaGastos = gastosFiltrados.reduce((acc, gasto) => {
+				const nombreCategoria = diccionarioCategorias[gasto.categoria] || `Categoría ${gasto.categoria}`;
+				
+				if (!acc[nombreCategoria]) {
+					acc[nombreCategoria] = 0;
+				}
+				acc[nombreCategoria] += gasto.cantidad;
+				return acc;
+			}, {});
 			
+			// Convertir el objeto a un array para el gráfico
+			this.single = Object.keys(categoriaGastos).map(nombreCategoria => ({
+				name: nombreCategoria,
+				value: categoriaGastos[nombreCategoria],
+			}));
 		}
 	}
 
