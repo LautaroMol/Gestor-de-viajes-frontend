@@ -38,22 +38,21 @@
         >
         </div>
       </div>
+    </div>
+    <!-- Detalles de la rueda seleccionada -->
+    <div class="wheel-details" *ngIf="selectedWheel !== null">
+      <p><strong>Rueda seleccionada: {{ selectedWheel + 1 }}</strong></p>
+      <p>Kilómetros recorridos: {{ unidad.estadoRueda[selectedWheel] }} km</p>
+    </div>
 
-      <!-- Detalles de la rueda seleccionada -->
-      <div class="wheel-details" *ngIf="selectedWheel !== null">
-        <p><strong>Rueda seleccionada: {{ selectedWheel + 1 }}</strong></p>
-        <p>Kilómetros recorridos: {{ unidad.estadoRueda[selectedWheel] }} km</p>
-      </div>
-
-      <!-- Selector de rueda -->
-      <div>
-        <label for="wheelSelect">Seleccionar Rueda:</label>
-        <select id="wheelSelect" (change)="onWheelSelect($event)">
-          <option *ngFor="let wheel of unidad?.ruedas; let i = index" [value]="i">
-            Rueda {{ i + 1 }}
-          </option>
-        </select>
-      </div>
+    <!-- Selector de rueda -->
+    <div>
+      <label for="wheelSelect">Seleccionar Rueda:</label>
+      <select id="wheelSelect" (change)="onWheelSelect($event)">
+        <option *ngFor="let wheel of unidad?.ruedas; let i = index" [value]="i">
+          Rueda {{ i + 1 }}
+        </option>
+      </select>
     </div>
   </div>
 </div>
