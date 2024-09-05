@@ -1,12 +1,8 @@
-<div class="map-wrap">
-    <div class="flex justify-around mb-3">
-      <button class="text-white rounded-lg font-black p-2 hover:bg-blue-600 bg-blue-500" (click)="locate()">Ubicar</button>
-      <button class="text-white rounded-lg font-black p-2 hover:bg-red-600 bg-red-500">Recargar</button>
-      <button class="text-white rounded-lg font-black p-2 hover:bg-pink-600 bg-pink-500">Calcular Ruta</button>
-    </div>
-    <div id="results">
-      <ul id="search-results"></ul>
-    </div>
-    <div class="map" #map></div>
+<div class="p-4">
+  <div class="flex justify-around mb-3">
+      <button class="text-white rounded-lg font-black p-2 hover:bg-blue-600 bg-blue-500" (click)="Locate()" >Ubicar</button>
+      <button class="text-white rounded-lg font-black p-2 hover:bg-red-600 bg-red-500" (click)="Reload()">Recargar</button>
+      <button class="text-white rounded-lg font-black p-2 hover:bg-pink-600 bg-pink-500" (click)="CalculateRoute()" >Calcular Ruta</button>
   </div>
-  
+  <div id="map" class="w-96"></div>
+</div>
