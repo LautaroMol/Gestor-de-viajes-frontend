@@ -20,16 +20,14 @@ export class CamionComponent implements OnInit {
   constructor(private unidadService: UnidadService) {}
 
   ngOnInit(): void {
-    this.getCamion(1); // se busca por id
-    this.updateOilBarrel();
+    this.getCamion(1); // Se busca la unidad por id
   }
 
   getCamion(id: number): void {
     this.unidadService.get(id).subscribe(data => {
       this.unidad = data;
-      console.log('Camion:', this.unidad);
+      this.updateOilBarrel(); // Llama a la función después de que los datos se cargan
     });
-    this.updateOilBarrel();
   }
 
   selectWheel(wheelIndex: number): void {
@@ -41,16 +39,6 @@ export class CamionComponent implements OnInit {
     this.selectWheel(Number(target.value));
   }
 
-  getWheelPosition(index: number, totalWheels: number) {
-    const baseX = 30;
-    const baseY = 120;
-    const wheelSpacing = 60;
-
-    return {
-      left: `${baseX + (index * wheelSpacing)}px`,
-      top: `${baseY}px`
-    };
-  }
   getOilLevel(): number {
     const maxKm = 50000;
     let oilLevel = 0;
@@ -60,36 +48,22 @@ export class CamionComponent implements OnInit {
     return oilLevel * 100; // Retorna el porcentaje del llenado
   }
 
-  getOilClass(): string {
-    const oilLevel = this.getOilLevel();
-    if (oilLevel < 25) {
-      return 'low-oil';
-    } else if (oilLevel < 75) {
-      return 'medium-oil';
-    } else {
-      return 'full-oil';
-    }
-  }
-
   updateOilBarrel() {
-    let oilLevel = 0;
-    let kmAceite = 0;
-    if (this.unidad !=  null ){
+    if (this.unidad) {
       const kmAceite = this.unidad.kmAceite;
       const oilLevel = 1 - (kmAceite / 50000);
-    }
 
-    // Modificar el color del barril según el nivel
-    this.oilBarrelColor = `rgba(0, 0, 255, ${oilLevel})`;  // Cuanto mayor sea el kilometraje, más vacío el barril (menos azul)
+      // Modificar el color del barril según el nivel
+      this.oilBarrelColor = `rgba(0, 0, 255, ${oilLevel})`;  // Cuanto mayor el kilometraje, más vacío el barril (menos azul)
 
-    // Mostrar advertencia si está cerca de 50,000 km
-    if (kmAceite >= 45000) {
-      this.showWarning = true;
-      this.oilAnimation = 'blink 1s infinite';  // Activar parpadeo
-    } else {
-      this.showWarning = false;
-      this.oilAnimation = '';  // Desactivar parpadeo
+      // Mostrar advertencia si está cerca de 50,000 km
+      if (kmAceite >= 45000) {
+        this.showWarning = true;
+        this.oilAnimation = 'blink 1s infinite';  // Activar parpadeo
+      } else {
+        this.showWarning = false;
+        this.oilAnimation = '';  // Desactivar parpadeo
+      }
     }
   }
-  
 }
