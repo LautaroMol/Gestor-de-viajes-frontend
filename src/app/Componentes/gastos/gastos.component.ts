@@ -118,6 +118,7 @@ export class GastosComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result === 'Creado') {
 				this.obtenerGastos();
+				this.actualizarGrafico();
 			}
 		});
 	}
@@ -144,6 +145,7 @@ export class GastosComponent implements OnInit {
 		this.viajeSeleccionado = Number(selectElement.value);
 		this.filtrarGastosPorViaje();
 		this.actualizarGrafico();
+		this.categoriaSeleccionadaNombre = null
 	}
 
 	filtrarGastosPorViaje() {
@@ -183,11 +185,9 @@ export class GastosComponent implements OnInit {
 		}
 	}
 	
-	
-
 	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
-		console.log('Datos seleccionados en el gráfico:', data); // Verifica qué se está recibiendo
+		//console.log('Datos seleccionados en el gráfico:', data); // Verifica qué se está recibiendo
 	
 		const nombreCategoria = data.name; // Usar el nombre devuelto por el gráfico
 		const categoria = this.categorias.find(c => c.nombre === nombreCategoria);
@@ -201,12 +201,10 @@ export class GastosComponent implements OnInit {
 		this.filtrarGastosPorCategoria(categoria.idCategoria);
 	}
 	
-	
 	// Filtrar los gastos por la categoría seleccionada y el viaje seleccionado
 	filtrarGastosPorCategoria(idCategoria: number) {
 		this.gastosFiltrados = this.gastos.filter(
 			gasto => gasto.viaje === this.viajeSeleccionado && gasto.categoria === idCategoria
 		);
 	}
-	
 }
