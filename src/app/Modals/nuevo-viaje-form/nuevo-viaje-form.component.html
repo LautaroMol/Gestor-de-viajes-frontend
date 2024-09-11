@@ -77,10 +77,10 @@
 						
 				</div>
 		</form>
-		<app-map></app-map>
+		<app-map
+			(locationSelected)="onLocationSelected($event)"
+			(destinationSelect)="onDestinationSelected($event)"
+			(distanceCalculated)="onDistanceCalculated($event)"	
+		></app-map>
 	</div>
 </div>
-
-<!-- (locationSelected)="onLocationSelected($event)"
-			(destinationSelect)="onDestinationSelected($event)"
-			(distanceCalculated)="onDistanceCalculated($event)" -->

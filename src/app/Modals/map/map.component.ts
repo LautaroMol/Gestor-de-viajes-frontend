@@ -71,9 +71,11 @@ export class MapComponent implements OnInit, AfterViewInit {
 				show: false
 			}).addTo(this.map);
 
-			const distanceInMeters = this.map.distance(start, end);
-			const distanceInKilometers = distanceInMeters / 1000;
-			alert(`La distancia entre los marcadores es de ${distanceInKilometers.toFixed(2)} kilómetros.`);
+			// const distanceInMeters = this.map.distance(start, end);
+			// const distanceInKilometers = distanceInMeters / 1000;
+			// alert(`La distancia entre los marcadores es de ${distanceInKilometers.toFixed(2)} kilómetros.`);
+		
+			this.distanceCalculated.emit(this.map.distance(start, end) / 1000)
 		}
 	}
 
