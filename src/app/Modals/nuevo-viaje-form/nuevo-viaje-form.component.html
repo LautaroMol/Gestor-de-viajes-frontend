@@ -50,16 +50,15 @@
 					>
 				</div>
 				<div class="p-3">
-					<label for="cuitUsuario" class="block text-indigo-600 font-bold">Cliente</label>
-					<select 
+					<label for="cuitUsuario" class="block text-indigo-600 font-bold">Cuit Usuario</label>
+					<input 
+						id="cuitUsuario" 
 						name="cuitUsuario" 
-						id="cuitUsuario"
+						type="text"
 						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
-						formControlName="cuitUsuario"
+						formControlName="cuitUsuario" 
+						required
 					>
-						<option disabled >-- Selecciones --</option>
-						<option>razonsoci</option>
-					</select>
 				</div>
 				<div class="flex justify-between gap-3 p-3">
 						<button 
@@ -74,7 +73,7 @@
 							(click)="onCancel()"	
 						>Cancelar
 						</button>
-						
+
 				</div>
 		</form>
 		<app-map

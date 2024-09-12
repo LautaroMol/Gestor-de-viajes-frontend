@@ -5,6 +5,8 @@ import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
 import { CommonModule } from '@angular/common';
 import { MapComponent } from "../../Modals/map/map.component";
+import { NuevoViajeFormComponent } from '../../Modals/nuevo-viaje-form/nuevo-viaje-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-viajes',
@@ -16,9 +18,10 @@ import { MapComponent } from "../../Modals/map/map.component";
 export class ViajesComponent implements OnInit {
 
   viajes: Viaje[] = [];
+  
 
   constructor(private viajeService: ViajeService,
-    
+    private dialog: MatDialog
   ) { }
   ngOnInit(): void {
     this.obtenerViajes();
@@ -55,7 +58,16 @@ export class ViajesComponent implements OnInit {
   }
 
   editarViaje(viaje: Viaje) {
-    throw new Error('Method not implemented.');
+    const dialogRef = this.dialog.open(NuevoViajeFormComponent, {
+			data: viaje
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			if (result === 'Editado') {
+        console.log(result);
+				this.obtenerViajes();
+			}
+		});
   }
 
 }
