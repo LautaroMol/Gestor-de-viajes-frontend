@@ -37,8 +37,8 @@ export class NuevoViajeFormComponent implements OnInit {
             distancia: ['', Validators.required],
             gastos: [null],
             fecha: ['', Validators.required],
-            cp: ['', Validators.required],
-            facturado: ['', Validators.required],
+            cp: [0,Validators.required],
+            facturado: [false],
             cuitUsuario: [''],
 			totalFacturado: 0,
             borrado: [false]
@@ -133,21 +133,24 @@ export class NuevoViajeFormComponent implements OnInit {
 
     onLocationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
-            const direccion = data.display_name;
+            const direccionCompleta = data.display_name;
+            const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
             this.formViaje.patchValue({
-                inicio: direccion, // convertimos las coordenadas lat y lng a una direccion en el form
+                inicio: direccionSimplificada, //simplificado de direccion
             });
         });
     }
-
+    
     onDestinationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
-            const direccion = data.display_name;
+            const direccionCompleta = data.display_name;
+            const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
             this.formViaje.patchValue({
-                final: direccion, // convertimos las coordenadas lat y lng a una direccion en el form
+                final: direccionSimplificada, //simplificado de direccion
             });
         });
     }
+    
 
     onDistanceCalculated(distance: number) {
         this.formViaje.patchValue({
@@ -169,7 +172,7 @@ export class NuevoViajeFormComponent implements OnInit {
 		console.log('End Coords:', endCoords);
 		
 		if (this.mapComponent) {
-			// Verificar si las coordenadas son válidas
+
 			if (!isNaN(startCoords[0]) && !isNaN(startCoords[1]) &&
 				!isNaN(endCoords[0]) && !isNaN(endCoords[1])) {
 				this.mapComponent.setMapView(startCoords);
@@ -182,5 +185,10 @@ export class NuevoViajeFormComponent implements OnInit {
 			}
 		}
 	}
+
+    simplificarDireccion(direccion: string): string {
+        const partes = direccion.split(',');
+        return partes.slice(0, 4).join(','); // aqui podemos poner hasta que coma tomara los textos
+    }
 	
 }
