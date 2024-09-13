@@ -25,7 +25,6 @@ export class ViajesComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.obtenerViajes();
-    
   }
 
   obtenerViajes(){

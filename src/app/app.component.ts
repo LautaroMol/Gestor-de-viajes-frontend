@@ -8,6 +8,8 @@ import { TravelComponent } from './Componentes/travel/travel.component';
 import { HttpClient } from '@angular/common/http';
 import { NuevoViajeFormComponent } from './Modals/nuevo-viaje-form/nuevo-viaje-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Viaje } from './Interfaces/viaje';
+import { ViajeService } from './Services/viaje.service';
 
 @Component({
     selector: 'app-root',
@@ -20,9 +22,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AppComponent {
 
+	viajes: Viaje[] = [];
 	title = 'Camiones';
 
-	constructor(private dialog: MatDialog) {
+	constructor(private dialog: MatDialog,
+		private viajeService: ViajeService
+	) {
 		if (globalThis.window === undefined) {
 			globalThis.window =
 			  ({
@@ -40,8 +45,18 @@ export class AppComponent {
 			data: null
 		}).afterClosed().subscribe(result => {
 			if (result) {
+				this.obtenerViajes();
 				console.log('Nuevo viaje creado o actualizado:', result);
 			}
 		});
+  }
+  obtenerViajes(){
+    this.viajeService.getList().subscribe({
+      next: (data) => {
+        this.viajes = data.filter(viaje => !viaje.borrado);
+      },
+      error: (e) => {
+      },
+    });
   }
 }
