@@ -40,9 +40,17 @@ export class ViajesComponent implements OnInit {
     });
   }
   
-  calcularSubtotal(gastos: number[]): number {
-    return gastos.reduce((total, gasto) => total + gasto, 0);
+  calcularSubtotal(gastos: (number | null)[] | null): number {
+    // Si el arreglo de gastos es null osea esta recien creado se devuelve 0
+    if (!gastos || gastos.every(g => g === null)) {
+      return 0;
+    }
+    // Filtrar valores nulos y sumar solo los valores numéricos
+    return gastos.filter((g): g is number => g !== null)
+                 .reduce((total, gasto) => total + gasto, 0);
   }
+  
+  
 
   BorrarViajes(viaje: Viaje): void {
     this.viajeService.delete(viaje.idViaje).subscribe({
