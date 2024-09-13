@@ -4,6 +4,7 @@ import "leaflet-routing-machine";
 import { PlacesService } from '../../Services/place.service';
 import Geocoder from 'leaflet-control-geocoder';
 
+
 @Component({
 	selector: 'app-map',
 	standalone: true,
@@ -18,12 +19,14 @@ export class MapComponent implements OnInit, AfterViewInit {
 	chosenLocationMarker: any;
 	isLocated = false;
 	routeControl: any;
+	private baseUrl = 'https://nominatim.openstreetmap.org/reverse?format=json';
 	
 	@Output() locationSelected = new EventEmitter<[number, number]>();
 	@Output() destinationSelect = new EventEmitter<[number, number]>();
 	@Output() distanceCalculated = new EventEmitter<number>();
 
-	constructor(private placeSvc: PlacesService) {}
+	constructor(private placeSvc: PlacesService,
+	) {}
 
 	Reload() {
 		localStorage.removeItem('geoLoc');
@@ -52,7 +55,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 			this.map.flyTo(this.geo, 13);
 		}
 	}
-
 	CalculateRoute() {
 		if (this.map && this.currentLocationMarker && this.chosenLocationMarker) {
 			const start = this.currentLocationMarker.getLatLng();
@@ -76,6 +78,30 @@ export class MapComponent implements OnInit, AfterViewInit {
 			// alert(`La distancia entre los marcadores es de ${distanceInKilometers.toFixed(2)} kilómetros.`);
 		
 			this.distanceCalculated.emit(this.map.distance(start, end) / 1000)
+		}
+	}
+
+	calculaRuta(start: [number, number], end: [number, number]) {
+		if (this.map) {
+			if (this.routeControl) {
+				this.map.removeControl(this.routeControl);
+			}
+	
+			this.routeControl = L.Routing.control({
+				waypoints: [
+					L.latLng(start[0], start[1]),
+					L.latLng(end[0], end[1])
+				],
+				routeWhileDragging: true,
+				show: false
+			}).addTo(this.map);
+	
+			// Emitir distancia calculada
+			const distanceInMeters = this.map.distance(
+				L.latLng(start[0], start[1]),
+				L.latLng(end[0], end[1])
+			);
+			this.distanceCalculated.emit(distanceInMeters / 1000);
 		}
 	}
 
@@ -149,4 +175,19 @@ export class MapComponent implements OnInit, AfterViewInit {
 			});
 		}
 	}
+	setMapView(coords: [number, number]) {
+		if (this.map) {
+			if (!isNaN(coords[0]) && !isNaN(coords[1])) {
+				this.map.setView(coords, 13);
+			} else {
+				console.error('Invalid LatLng object:', coords);
+			}
+		}
+	}
+	
+	addMarker(coords: [number, number], message: string) {
+        if (this.map) {
+            L.marker(coords).addTo(this.map).bindPopup(message);
+        }
+    }
 }

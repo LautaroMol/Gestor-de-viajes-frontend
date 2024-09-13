@@ -8,5 +8,6 @@ export interface Viaje {
     facturado: boolean,
     cuitUsuario: number,
     distancia: number,
+    totalFacturado: number,
     borrado: boolean
 }

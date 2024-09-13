@@ -23,6 +23,7 @@ export class GastosFormComponent implements OnInit {
 	dataGasto: Gasto | null = null;
 	categorias: Categoria[] = [];
 	viajes: Viaje[] = [];
+	viajeElej!: Viaje;
 
 	constructor(
 		private dialogoReferencia: MatDialogRef<GastosFormComponent>,
@@ -74,18 +75,20 @@ export class GastosFormComponent implements OnInit {
 				fecha: this.formGasto.value.fecha,
 				borrado: this.formGasto.value.borrado
 			};
-
+	
+			// camino por nuevo gasto
 			if (this.dataGasto == null) {
 				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
-						this.mostrarAlerta("Gasto cargado al sistema exitosamente");
-						this.dialogoReferencia.close("Creado");
+						const nuevoGastoId = data.idGasto; // El ID del gasto recién creado
+						this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje);
 					},
 					error: (e) => {
 						this.mostrarAlerta("No se ha podido crear el gasto");
 					}
 				});
 			} else {
+				// camino por editar
 				this.gastoService.update(gasto).subscribe({
 					next: (data) => {
 						this.mostrarAlerta("Gasto editado correctamente");
@@ -98,6 +101,7 @@ export class GastosFormComponent implements OnInit {
 			}
 		}
 	}
+	
 
 	obtenerViajes(){
 		this.viajeService.getList().subscribe({
@@ -107,7 +111,6 @@ export class GastosFormComponent implements OnInit {
 			},
 			error: (e) => {
 				console.log(e.message);
-				
 			}
 		});
 	}
@@ -133,5 +136,28 @@ export class GastosFormComponent implements OnInit {
 
 	mostrarAlerta(mensaje: string) {
 		console.log(mensaje);
+	}
+	asignarGastoAlViaje(gastoId: number, viajeId: number) {
+		// Obtén el viaje y actualiza el array de gastos
+		this.viajeService.get(viajeId).subscribe({
+			next: (viaje) => {
+				// Añade el gasto al arreglo
+				viaje.gastos.push(gastoId);
+	
+				// Actualizar el viaje con el nuevo arreglo
+				this.viajeService.update(viaje, viajeId).subscribe({
+					next: () => {
+						this.mostrarAlerta("Gasto asignado correctamente al viaje");
+						this.dialogoReferencia.close("Creado");
+					},
+					error: (e) => {
+						this.mostrarAlerta("Error al asignar el gasto al viaje");
+					}
+				});
+			},
+			error: (e) => {
+				this.mostrarAlerta("Error al obtener el viaje");
+			}
+		});
 	}
 }
