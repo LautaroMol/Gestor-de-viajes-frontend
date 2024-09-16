@@ -25,7 +25,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Viaje | null,
-        private dialog: MatDialog,
+        private dialog: MatDialogRef<NuevoViajeFormComponent>,
         private fb: FormBuilder,
         private viajeServicio: ViajeService,
         private placeSvc: PlacesService,
@@ -117,7 +117,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 this.viajeServicio.add(viaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje cargado al sistema exitosamente");
-                        this.dialog.closeAll;
+                        this.dialog.close("Creado");
                     },
                     error: (e) => {
                         this.mostrarAlerta("No se ha podido crear el Viaje");
@@ -127,7 +127,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 this.viajeServicio.update(viaje, viaje.idViaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje editado correctamente");
-                        this.dialog.closeAll;
+                        this.dialog.close("Editado");
                     },
                     error: (e) => {
                         this.mostrarAlerta("No se ha podido editar el Viaje");
@@ -168,7 +168,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
     onCancel() {
         this.formViaje.reset();
-        this.dialog.closeAll();
+        this.dialog.close();
     }
 
     mostrarAlerta(mensaje: string) {
