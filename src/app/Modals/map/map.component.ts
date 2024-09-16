@@ -115,7 +115,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 					if (this.geo) {
 						localStorage.setItem('geoLoc', JSON.stringify(this.geo));
 					}
-				}, 1000);
+				}, 700);
 			});
 		}
 	}
@@ -128,7 +128,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 				if (this.geo) {
 					this.initializeMap();
 				}
-			},800);
+			},500);
 		}
 	}
 
@@ -164,14 +164,18 @@ export class MapComponent implements OnInit, AfterViewInit {
 
 			this.map.on('click', (e: L.LeafletMouseEvent) => {
 				const { lat, lng } = e.latlng;
+			
+
 				if (this.chosenLocationMarker) {
-					this.chosenLocationMarker.setLatLng([lat, lng]);
-				} else {
-					this.chosenLocationMarker = L.marker([lat, lng], { draggable: true })
-						.addTo(this.map)
-						.bindPopup('<b>Ubicación elegida</b>')
-						.openPopup();
+					this.map.removeLayer(this.chosenLocationMarker);
 				}
+			
+
+				this.chosenLocationMarker = L.marker([lat, lng], { draggable: true })
+					.addTo(this.map)
+					.bindPopup('<b>Ubicación elegida</b>')
+					.openPopup();
+			
 				this.destinationSelect.emit([lat, lng]);
 			});
 		}
