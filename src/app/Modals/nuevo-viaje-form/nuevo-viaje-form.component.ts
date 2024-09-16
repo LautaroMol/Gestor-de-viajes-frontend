@@ -65,7 +65,8 @@ export class NuevoViajeFormComponent implements OnInit {
                 cuitUsuario: this.dataViaje.cuitUsuario,
                 borrado: false
             });
-            this.mapComponent.clearMap();
+            setTimeout(() => {
+                this.mapComponent.clearMap();
             this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
 				console.log('Result for start location:', result);
 				if (result && result.length > 0) {
@@ -88,6 +89,8 @@ export class NuevoViajeFormComponent implements OnInit {
 				}
                 
 			});
+            }, 4000);
+            
 			
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
