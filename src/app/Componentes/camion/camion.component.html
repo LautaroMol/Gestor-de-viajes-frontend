@@ -16,6 +16,10 @@
       </div>
 
       <div *ngIf="showWarning" class="warning-message">Atención: ¡Cambio de aceite recomendado!</div>
+
+      <button class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all" (click)="refilOil()">
+        Informar cambio de aceite del camion
+      </button>
     </div>
 
     <!-- Columna derecha: Camión -->

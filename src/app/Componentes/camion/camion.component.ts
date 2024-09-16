@@ -47,6 +47,15 @@ export class CamionComponent implements OnInit {
     return 0; 
   }
   
+  refilOil(){
+    if (this.unidad){
+      this.unidad.kmAceite = 0;
+      this.unidadService.update(this.unidad).subscribe(() => {
+        this.showWarning = false;
+      });
+    }
+    this.getCamion(1);
+  }
 
   checkOilWarning() {
     if (this.unidad && this.unidad.kmAceite >= 45000) {
