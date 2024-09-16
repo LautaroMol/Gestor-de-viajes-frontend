@@ -115,7 +115,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 					if (this.geo) {
 						localStorage.setItem('geoLoc', JSON.stringify(this.geo));
 					}
-				}, 2000);
+				}, 1000);
 			});
 		}
 	}
@@ -128,7 +128,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 				if (this.geo) {
 					this.initializeMap();
 				}
-			}, 3000);
+			},1800);
 		}
 	}
 
