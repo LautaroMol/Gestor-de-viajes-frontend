@@ -123,6 +123,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit() {
 		if (this.placeSvc.userLocation) {
 			setTimeout(() => {
+				this.clearMap();
 				this.geo = this.placeSvc.userLocation;
 				if (this.geo) {
 					this.initializeMap();
@@ -190,4 +191,15 @@ export class MapComponent implements OnInit, AfterViewInit {
             L.marker(coords).addTo(this.map).bindPopup(message);
         }
     }
+
+	clearMap() {
+		if (this.map) {
+			this.map.eachLayer((layer: any) => {
+				if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+					this.map.removeLayer(layer);
+				}
+			});
+		}
+	}
+	
 }

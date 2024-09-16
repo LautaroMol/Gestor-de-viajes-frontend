@@ -168,6 +168,8 @@ export class NuevoViajeFormComponent implements OnInit {
     }
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
+
+        this.mapComponent.clearMap();
 		console.log('Start Coords:', startCoords);
 		console.log('End Coords:', endCoords);
 		
