@@ -115,7 +115,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 					if (this.geo) {
 						localStorage.setItem('geoLoc', JSON.stringify(this.geo));
 					}
-				}, 2000);
+				}, 700);
 			});
 		}
 	}
@@ -123,11 +123,12 @@ export class MapComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit() {
 		if (this.placeSvc.userLocation) {
 			setTimeout(() => {
+				this.clearMap();
 				this.geo = this.placeSvc.userLocation;
 				if (this.geo) {
 					this.initializeMap();
 				}
-			}, 3000);
+			},500);
 		}
 	}
 
@@ -163,14 +164,18 @@ export class MapComponent implements OnInit, AfterViewInit {
 
 			this.map.on('click', (e: L.LeafletMouseEvent) => {
 				const { lat, lng } = e.latlng;
+			
+
 				if (this.chosenLocationMarker) {
-					this.chosenLocationMarker.setLatLng([lat, lng]);
-				} else {
-					this.chosenLocationMarker = L.marker([lat, lng], { draggable: true })
-						.addTo(this.map)
-						.bindPopup('<b>Ubicación elegida</b>')
-						.openPopup();
+					this.map.removeLayer(this.chosenLocationMarker);
 				}
+			
+
+				this.chosenLocationMarker = L.marker([lat, lng], { draggable: true })
+					.addTo(this.map)
+					.bindPopup('<b>Ubicación elegida</b>')
+					.openPopup();
+			
 				this.destinationSelect.emit([lat, lng]);
 			});
 		}
@@ -190,4 +195,29 @@ export class MapComponent implements OnInit, AfterViewInit {
             L.marker(coords).addTo(this.map).bindPopup(message);
         }
     }
+
+	clearMap() {
+		// Elimina todos los marcadores del mapa
+		if (this.map) {
+			this.map.eachLayer((layer) => {
+				if (layer instanceof L.Marker) {
+					this.map.removeLayer(layer);
+				}
+			});
+		}
+	}
+	
+
+	addStartMarker(coords: [number, number]) {
+		if (this.map) {
+			L.marker(coords).addTo(this.map).bindPopup('<b>Inicio del viaje</b>').openPopup();
+		}
+	}
+	
+	addEndMarker(coords: [number, number]) {
+		if (this.map) {
+			L.marker(coords).addTo(this.map).bindPopup('<b>Fin del viaje</b>').openPopup();
+		}
+	}
+	
 }

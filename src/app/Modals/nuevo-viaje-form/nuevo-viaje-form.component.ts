@@ -25,7 +25,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Viaje | null,
-        private dialog: MatDialog,
+        private dialog: MatDialogRef<NuevoViajeFormComponent>,
         private fb: FormBuilder,
         private viajeServicio: ViajeService,
         private placeSvc: PlacesService,
@@ -35,7 +35,7 @@ export class NuevoViajeFormComponent implements OnInit {
             inicio: ['', Validators.required],
             final: ['', Validators.required],
             distancia: ['', Validators.required],
-            gastos: [null],
+            gastos: this.fb.array([]),
             fecha: ['', Validators.required],
             cp: [0,Validators.required],
             facturado: [false],
@@ -65,6 +65,8 @@ export class NuevoViajeFormComponent implements OnInit {
                 cuitUsuario: this.dataViaje.cuitUsuario,
                 borrado: false
             });
+            setTimeout(() => {
+                this.mapComponent.clearMap();
             this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
 				console.log('Result for start location:', result);
 				if (result && result.length > 0) {
@@ -76,6 +78,8 @@ export class NuevoViajeFormComponent implements OnInit {
 							const endCoords: [number, number] = [result[0].lat, result[0].lon];
 							console.log('End Coordinates:', endCoords);
 							this.centrarMapa(startCoords, endCoords);
+                            this.mapComponent.addStartMarker(startCoords);
+                            this.mapComponent.addEndMarker(endCoords);
 						} else {
 							console.error('No results for end location');
 						}
@@ -83,7 +87,10 @@ export class NuevoViajeFormComponent implements OnInit {
 				} else {
 					console.error('No results for start location');
 				}
+                
 			});
+            }, 1500);
+            
 			
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
@@ -110,7 +117,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 this.viajeServicio.add(viaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje cargado al sistema exitosamente");
-                        this.dialog.closeAll;
+                        this.dialog.close("Creado");
                     },
                     error: (e) => {
                         this.mostrarAlerta("No se ha podido crear el Viaje");
@@ -120,7 +127,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 this.viajeServicio.update(viaje, viaje.idViaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje editado correctamente");
-                        this.dialog.closeAll;
+                        this.dialog.close("Editado");
                     },
                     error: (e) => {
                         this.mostrarAlerta("No se ha podido editar el Viaje");
@@ -132,6 +139,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
 
     onLocationSelected(coords: [number, number]) {
+        
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
             const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
@@ -160,7 +168,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
     onCancel() {
         this.formViaje.reset();
-        this.dialog.closeAll();
+        this.dialog.close();
     }
 
     mostrarAlerta(mensaje: string) {
@@ -168,6 +176,8 @@ export class NuevoViajeFormComponent implements OnInit {
     }
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
+
+        this.mapComponent.clearMap();
 		console.log('Start Coords:', startCoords);
 		console.log('End Coords:', endCoords);
 		
