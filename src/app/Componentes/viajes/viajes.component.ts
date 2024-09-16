@@ -70,7 +70,7 @@ export class ViajesComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			if (result === 'Editado') {
+			if (result) {
         console.log(result);
 				this.obtenerViajes();
 			}
