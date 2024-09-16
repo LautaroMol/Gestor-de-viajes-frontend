@@ -55,6 +55,7 @@ export class CamionComponent implements OnInit {
       });
     }
     this.getCamion(1);
+    this.getOilLevel();
   }
 
   checkOilWarning() {
