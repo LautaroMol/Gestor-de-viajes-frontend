@@ -201,5 +201,17 @@ export class MapComponent implements OnInit, AfterViewInit {
 			});
 		}
 	}
+
+	addStartMarker(coords: [number, number]) {
+		if (this.map) {
+			L.marker(coords).addTo(this.map).bindPopup('<b>Inicio del viaje</b>').openPopup();
+		}
+	}
+	
+	addEndMarker(coords: [number, number]) {
+		if (this.map) {
+			L.marker(coords).addTo(this.map).bindPopup('<b>Fin del viaje</b>').openPopup();
+		}
+	}
 	
 }

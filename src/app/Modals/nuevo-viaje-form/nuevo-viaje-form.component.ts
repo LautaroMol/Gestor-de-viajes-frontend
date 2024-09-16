@@ -65,6 +65,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 cuitUsuario: this.dataViaje.cuitUsuario,
                 borrado: false
             });
+            this.mapComponent.clearMap();
             this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
 				console.log('Result for start location:', result);
 				if (result && result.length > 0) {
@@ -76,6 +77,8 @@ export class NuevoViajeFormComponent implements OnInit {
 							const endCoords: [number, number] = [result[0].lat, result[0].lon];
 							console.log('End Coordinates:', endCoords);
 							this.centrarMapa(startCoords, endCoords);
+                            this.mapComponent.addStartMarker(startCoords);
+                            this.mapComponent.addEndMarker(endCoords);
 						} else {
 							console.error('No results for end location');
 						}
@@ -83,6 +86,7 @@ export class NuevoViajeFormComponent implements OnInit {
 				} else {
 					console.error('No results for start location');
 				}
+                
 			});
 			
             this.tituloAccion = "Editado";
