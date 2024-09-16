@@ -128,7 +128,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 				if (this.geo) {
 					this.initializeMap();
 				}
-			},1800);
+			},800);
 		}
 	}
 
@@ -193,14 +193,16 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
 
 	clearMap() {
+		// Elimina todos los marcadores del mapa
 		if (this.map) {
-			this.map.eachLayer((layer: any) => {
-				if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+			this.map.eachLayer((layer) => {
+				if (layer instanceof L.Marker) {
 					this.map.removeLayer(layer);
 				}
 			});
 		}
 	}
+	
 
 	addStartMarker(coords: [number, number]) {
 		if (this.map) {

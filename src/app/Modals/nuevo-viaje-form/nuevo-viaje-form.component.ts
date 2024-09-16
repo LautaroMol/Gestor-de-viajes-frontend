@@ -89,7 +89,7 @@ export class NuevoViajeFormComponent implements OnInit {
 				}
                 
 			});
-            }, 2500);
+            }, 1600);
             
 			
             this.tituloAccion = "Editado";
@@ -139,7 +139,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
 
     onLocationSelected(coords: [number, number]) {
-        this.mapComponent.clearMap();
+        
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
             const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
