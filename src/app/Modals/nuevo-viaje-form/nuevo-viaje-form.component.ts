@@ -89,7 +89,7 @@ export class NuevoViajeFormComponent implements OnInit {
 				}
                 
 			});
-            }, 1600);
+            }, 1900);
             
 			
             this.tituloAccion = "Editado";
