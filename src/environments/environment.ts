@@ -1,4 +1,4 @@
 export const environment = {
-    endpoint:"camionesapp.somee.com/",
+    endpoint:"https://camionesapp.somee.com/",
     "secure" : "false"
 };
