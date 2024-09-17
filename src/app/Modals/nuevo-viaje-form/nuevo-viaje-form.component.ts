@@ -10,6 +10,7 @@ import { GeocodingService } from '../../Services/geocoding.service';
 import { ViajesComponent } from '../../Componentes/viajes/viajes.component';
 import { UnidadService } from '../../Services/unidad.service';
 import { Unidad } from '../../Interfaces/unidad';
+import { error } from 'console';
 
 @Component({
     selector: 'app-nuevo-viaje-form',
@@ -137,7 +138,14 @@ export class NuevoViajeFormComponent implements OnInit {
             // Lógica para guardar o actualizar el viaje
             if (this.dataViaje == null) {
                 // Nuevo viaje
-                this.unidadService.update(this.unidad);
+                this.unidadService.update(this.unidad).subscribe({
+                    next: (data) => {
+                    this.mostrarAlerta("camion actualizado");
+                },
+                error: (e) => {
+                    this.mostrarAlerta("No se ha podido actualizar el camión"); 
+                }
+                });
                 console.log(this.unidad);
                 this.viajeServicio.add(viaje).subscribe({
                     next: (data) => {
@@ -150,8 +158,14 @@ export class NuevoViajeFormComponent implements OnInit {
                 });
             } else {
                 // Actualización de viaje existente
-                this.unidadService.update(this.unidad);
-                console.log(this.unidad);
+                this.unidadService.update(this.unidad).subscribe({
+                    next: (data) => {
+                    this.mostrarAlerta("camion actualizado");
+                },
+                error: (e) => {
+                    this.mostrarAlerta("No se ha podido actualizar el camión"); 
+                }
+            });
                 this.viajeServicio.update(viaje, viaje.idViaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje editado correctamente");
