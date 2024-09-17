@@ -57,7 +57,6 @@ export class NuevoViajeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getCamion(1);
         if (this.dataViaje) {
             this.formViaje.patchValue({
                 inicio: this.dataViaje.inicio,
@@ -70,11 +69,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 cuitUsuario: this.dataViaje.cuitUsuario,
                 borrado: false
             });
-            this.unidad.kmAceite -= this.dataViaje.distancia;
-            this.unidad.estadoRueda.forEach(rueda => {
-                if (this.dataViaje)
-                rueda -= this.dataViaje.distancia;
-            });
+            
             setTimeout(() => {
                 this.mapComponent.clearMap();
             this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
@@ -96,10 +91,15 @@ export class NuevoViajeFormComponent implements OnInit {
 					});
 				} else {
 					console.error('No results for start location');
-				}
-                
+				}              
 			});
-            }, 1500);       
+            }, 1500);
+            this.getCamion(1);
+            this.unidad.kmAceite -= this.dataViaje.distancia;
+            this.unidad.estadoRueda.forEach(rueda => {
+                if (this.dataViaje)
+                rueda -= this.dataViaje.distancia;
+            }); 
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
         }
@@ -120,15 +120,12 @@ export class NuevoViajeFormComponent implements OnInit {
                 totalFacturado: 0,
                 borrado: this.formViaje.value.borrado
             };
-    
-            // Sumar la distancia a kmAceite
             if (this.unidad && this.unidad.kmAceite != null) {
                 this.unidad.kmAceite += viaje.distancia;
             } else {
                 console.error('kmAceite no está inicializado o no es válido');
             }
-    
-            // Actualizar el estado de las ruedas usando map en lugar de forEach
+
             if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
                 this.unidad.estadoRueda = this.unidad.estadoRueda.map(rueda => rueda + viaje.distancia);
             } else {
