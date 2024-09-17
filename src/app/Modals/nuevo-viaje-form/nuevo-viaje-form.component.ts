@@ -57,7 +57,9 @@ export class NuevoViajeFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getCamion(1);
         if (this.dataViaje) {
+            this.getCamion(1);
             this.formViaje.patchValue({
                 inicio: this.dataViaje.inicio,
                 final: this.dataViaje.final,
@@ -69,7 +71,6 @@ export class NuevoViajeFormComponent implements OnInit {
                 cuitUsuario: this.dataViaje.cuitUsuario,
                 borrado: false
             });
-            this.getCamion(1);
             setTimeout(() => {
                 this.mapComponent.clearMap();
                 this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
