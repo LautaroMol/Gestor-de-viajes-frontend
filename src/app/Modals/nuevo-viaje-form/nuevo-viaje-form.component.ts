@@ -126,6 +126,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
             if (this.dataViaje == null) {
                 this.unidadService.update(this.unidad);
+                console.log(this.unidad);
                 this.viajeServicio.add(viaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje cargado al sistema exitosamente");
@@ -137,6 +138,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 });
             } else {
                 this.unidadService.update(this.unidad);
+                console.log(this.unidad);
                 this.viajeServicio.update(viaje, viaje.idViaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje editado correctamente");
@@ -152,7 +154,6 @@ export class NuevoViajeFormComponent implements OnInit {
 
 
     onLocationSelected(coords: [number, number]) {
-        
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
             const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
