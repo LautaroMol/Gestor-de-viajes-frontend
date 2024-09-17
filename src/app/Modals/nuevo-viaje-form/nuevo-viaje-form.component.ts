@@ -124,15 +124,19 @@ export class NuevoViajeFormComponent implements OnInit {
             };
             if (this.unidad && this.unidad.kmAceite != null) {
                 this.unidad.kmAceite += viaje.distancia;
+                this.unidad.kmAceite.toFixed(2);
             } else {
                 console.error('kmAceite no está inicializado o no es válido');
             }
 
-            if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
-                this.unidad.estadoRueda = this.unidad.estadoRueda.map(rueda => rueda + viaje.distancia);
-            } else {
-                console.error('estadoRueda no es un array o no está inicializado');
-            }
+            this.unidad.estadoRueda.forEach(rueda => {
+                if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
+                    rueda += viaje.distancia;
+                    rueda.toFixed(2);                    
+                } else {
+                    console.error('estadoRueda no es un array o no está inicializado');
+                }
+            });
     
             // Lógica para guardar o actualizar el viaje
             if (this.dataViaje == null) {
