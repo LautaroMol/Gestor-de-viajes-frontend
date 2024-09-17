@@ -22,106 +22,107 @@ import { ViajeService } from '../../Services/viaje.service';
 import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.component';
 
 @Component({
-  selector: 'app-perfil',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule],
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css']
+	selector: 'app-perfil',
+	standalone: true,
+	imports: [CommonModule, MatDialogModule],
+	templateUrl: './perfil.component.html',
+	styleUrls: ['./perfil.component.css']
 })
 
 export class PerfilComponent implements OnInit {
-
-
-  cargas: Carga[] = [];
-  categorias: Categoria[] = [];
-  clientes: Cliente[] = [];
-  user!: Usuario;
-  viajes: Viaje[] = [];
+	cargas: Carga[] = [];
+	categorias: Categoria[] = [];
+	clientes: Cliente[] = [];
+	user!: Usuario;
+	viajes: Viaje[] = [];
 
   constructor(private cargaService: CargaService, private dialog: MatDialog,
               private categoriaService: CategoriaService, private clienteService: ClienteService,
               private userService: UserService,private viajeService: ViajeService) {}
 
-  ngOnInit(): void {
-    this.obtenerUser();
-    //this.obtenerCargas();
-    this.obtenerCategorias();
-    this.obtenerClientes();
-    this.obtenerViajes();
-  }
+	ngOnInit(): void {
+		this.obtenerUser();
+		//this.obtenerCargas();
+		this.obtenerCategorias();
+		this.obtenerClientes();
+		this.obtenerViajes();
+	}
 
-  obtenerUser() {
-    this.userService.get(1).subscribe({
-      next: (data) => {
-        this.user = data;
-        console.log(this.user);
-      },
-      error: (e) => {
-        console.error(e);
-      },
-    });
-  }
-  obtenerViajes(){
-    this.viajeService.getList().subscribe({
-      next: (data) => {
-        this.viajes = data;
-        console.log(this.viajes);
-      },
-      error: (e) => {
-        console.error(e);
-        console.log(e.message);
-      },
-    });
-  }
-  borrarViaje(viaje: Viaje) {
-    this.dialog.open(ViajeDeleteComponent, {
-      disableClose: true,
-      width: "400px",
-      data: viaje
-    }).afterClosed().subscribe(result => {
-      if (result === "Eliminar") {
-        this.viajeService.delete(viaje.idViaje).subscribe({
-          next: () => {
-            console.log("Viaje eliminado");
-            this.obtenerViajes();
-          },
-          error: (e) => {
-            console.error(e);
-          }
-        });
-      }
-    });
+	obtenerUser() {
+		this.userService.get(1).subscribe({
+			next: (data) => {
+				this.user = data;
+				console.log(this.user);
+			},
+			error: (e) => {
+				console.error(e);
+			},
+		});
+	}
+
+	obtenerViajes(){
+		this.viajeService.getList().subscribe({
+			next: (data) => {
+				this.viajes = data;
+				console.log(this.viajes);
+			},
+			error: (e) => {
+				console.error(e);
+				console.log(e.message);
+			},
+		});
+	}
+
+	borrarViaje(viaje: Viaje) {
+		this.dialog.open(ViajeDeleteComponent, {
+			disableClose: true,
+			width: "400px",
+			data: viaje
+		}).afterClosed().subscribe(result => {
+			if (result === "Eliminar") {
+				this.viajeService.delete(viaje.idViaje).subscribe({
+					next: () => {
+						console.log("Viaje eliminado");
+						this.obtenerViajes();
+					},
+					error: (e) => {
+						console.error(e);
+					}
+				});
+			}
+		});
+	}
+
+	editarViaje(_t67: Viaje) {
+	    throw new Error('Method not implemented.');
     }
-    editarViaje(_t67: Viaje) {
-      throw new Error('Method not implemented.');
-    }
 
-  editarUsuario(usuario: Usuario) {
-    this.dialog.open(UsuarioFormComponent, {
-      disableClose: true,
-      width: "400px",
-      data: usuario
-    }).afterClosed().subscribe(result => {
-      if (result === "Editado") {
-        //this.obtenerCargas();
-        this.obtenerUser();
-      }
-    });
-  }
+	editarUsuario(usuario: Usuario) {
+		this.dialog.open(UsuarioFormComponent, {
+			disableClose: true,
+			width: "400px",
+			data: usuario
+		}).afterClosed().subscribe(result => {
+			if (result === "Editado") {
+				//this.obtenerCargas();
+				this.obtenerUser();
+			}
+		});
+	}
 
-  darseDeAlta() {
-    this.dialog.open(UsuarioFormComponent, {
-      disableClose: true,
-      width: "400px",
-      data: null
-    }).afterClosed().subscribe(result => {
-      if (result === "Creado") {
-        this.obtenerUser();
-        this.obtenerCategorias();
-        this.obtenerClientes();
-      }
-    });
-  }
+	darseDeAlta() {
+		this.dialog.open(UsuarioFormComponent, {
+			disableClose: true,
+			width: "400px",
+			data: null
+		}).afterClosed().subscribe(result => {
+			if (result === "Creado") {
+				this.obtenerUser();
+				this.obtenerCategorias();
+				this.obtenerClientes();
+			}
+		});
+	}
 
 //   obtenerCargas() {
 //     this.cargaService.getList().subscribe({
@@ -178,118 +179,118 @@ export class PerfilComponent implements OnInit {
 //     });
 //   }
 
-  obtenerCategorias() {
-    this.categoriaService.getList().subscribe({
-      next: (data) => {
-        this.categorias = data;
-        console.log(this.categorias);
-      },
-      error: (e) => {
-        console.error(e);
-      },
-    });
-  }
+	obtenerCategorias() {
+		this.categoriaService.getList().subscribe({
+			next: (data) => {
+				this.categorias = data;
+				console.log(this.categorias);
+			},
+			error: (e) => {
+				console.error(e);
+			},
+		});
+	}
 
-  nuevaCategoria() {
-    this.dialog.open(CategoriaFormComponent, {
-      disableClose: true,
-      width: "400px"
-    }).afterClosed().subscribe(result => {
-      if (result === "Creada") {
-        this.obtenerCategorias();
-      }
-    });
-  }
+	nuevaCategoria() {
+		this.dialog.open(CategoriaFormComponent, {
+			disableClose: true,
+			width: "400px"
+		}).afterClosed().subscribe(result => {
+			if (result === "Creada") {
+				this.obtenerCategorias();
+			}
+		});
+	}
 
-  editarCategoria(categoria: Categoria) {
-    this.dialog.open(CategoriaFormComponent, {
-      disableClose: true,
-      width: "400px",
-      data: categoria
-    }).afterClosed().subscribe(result => {
-      if (result === "Editad") {
-        this.obtenerCategorias();
-      }
-    });
-  }
+	editarCategoria(categoria: Categoria) {
+		this.dialog.open(CategoriaFormComponent, {
+			disableClose: true,
+			width: "400px",
+			data: categoria
+		}).afterClosed().subscribe(result => {
+			if (result === "Editad") {
+				this.obtenerCategorias();
+			}
+		});
+	}
 
-  borrarCategoria(categoria: Categoria) {
-    this.dialog.open(CategoriaDeleteComponent, {
-      disableClose: true,
-      width: "400px",
-      data: categoria
-    }).afterClosed().subscribe(result => {
-      if (result === "Eliminar") {
-        this.categoriaService.delete(categoria.idCategoria).subscribe({
-          next: () => {
-            console.log("Categoría eliminada");
-            this.obtenerCategorias();
-          },
-          error: (e) => {
-            console.error(e);
-          }
-        });
-      }
-    });
-  }
+	borrarCategoria(categoria: Categoria) {
+		this.dialog.open(CategoriaDeleteComponent, {
+			disableClose: true,
+			width: "400px",
+			data: categoria
+		}).afterClosed().subscribe(result => {
+		if (result === "Eliminar") {
+			this.categoriaService.delete(categoria.idCategoria).subscribe({
+				next: () => {
+					console.log("Categoría eliminada");
+					this.obtenerCategorias();
+				},
+				error: (e) => {
+					console.error(e);
+				}
+			});
+			}
+		});
+	}
 
-  obtenerClientes() {
-    this.clienteService.getList().subscribe({
-      next: (data) => {
-        this.clientes = data;
-        console.log(this.clientes);
-      },
-      error: (e) => {
-        console.error(e);
-      },
-    });
-  }
+	obtenerClientes() {
+		this.clienteService.getList().subscribe({
+			next: (data) => {
+				this.clientes = data;
+				console.log(this.clientes);
+			},
+			error: (e) => {
+				console.error(e);
+			},
+		});
+	}
 
-  nuevoCliente() {
-    this.dialog.open(ClienteFormComponent, {
-      disableClose: true,
-      width: "400px",
-      data: null
-    }).afterClosed().subscribe(result => {
-      if (result && result.action === "Creado") {
-        this.clientes.push(result.data);
-      }
-    });
-  }
+	nuevoCliente() {
+		this.dialog.open(ClienteFormComponent, {
+			disableClose: true,
+			width: "400px",
+			data: null
+		}).afterClosed().subscribe(result => {
+			if (result && result.action === "Creado") {
+				this.clientes.push(result.data);
+			}
+		});
+	}
 
-  editarCliente(cliente: Cliente) {
-    this.dialog.open(ClienteFormComponent, {
-      disableClose: false,
-      width: "300px",
-      data: cliente
-    }).afterClosed().subscribe(result => {
-      if (result && result.action === "Editado") {
-        const index = this.clientes.findIndex(c => c.idCliente === result.data.idCliente);
+	editarCliente(cliente: Cliente) {
+		this.dialog.open(ClienteFormComponent, {
+			disableClose: false,
+			width: "300px",
+			data: cliente
+		}).afterClosed().subscribe(result => {
+		if (result && result.action === "Editado") {
+			const index = this.clientes.findIndex(c => c.idCliente === result.data.idCliente);
 
-        if (index !== -1) {
-          this.clientes[index] = result.data;
-        }
-      }
-    });
-  }
+			if (index !== -1) {
+			this.clientes[index] = result.data;
+			}
+		}
+		});
+	}
 
-  borrarCliente(id: Cliente['idCliente']) {
-    this.dialog.open(ClienteDeleteComponent, {
-      disableClose: true,
-      width: "200px",
-      data: id
-    }).afterClosed().subscribe(result => {
-      if (result === "Eliminar") {
-        this.clienteService.delete(id).subscribe({
-          next: () => {
-            console.log("Cliente eliminado");
-            this.obtenerClientes();
-          },
-          error: (e) => {
-            console.error(e);
-          }
-        });
-      }
-    });
-  }
+	borrarCliente(id: Cliente['idCliente']) {
+		this.dialog.open(ClienteDeleteComponent, {
+			disableClose: true,
+			width: "200px",
+			data: id
+		}).afterClosed().subscribe(result => {
+			if (result === "Eliminar") {
+				this.clienteService.delete(id).subscribe({
+				next: () => {
+						console.log("Cliente eliminado");
+						this.obtenerClientes();
+					},
+					error: (e) => {
+						console.error(e);
+					}
+				});
+			}
+		});
+	}
 }
