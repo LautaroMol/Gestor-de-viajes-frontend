@@ -116,15 +116,27 @@ export class NuevoViajeFormComponent implements OnInit {
                 cp: this.formViaje.value.cp,
                 facturado: this.formViaje.value.facturado,
                 cuitUsuario: this.formViaje.value.cuitUsuario,
-				totalFacturado: 0,
+                totalFacturado: 0,
                 borrado: this.formViaje.value.borrado
             };
-            this.unidad.kmAceite += viaje.distancia; 
-            this.unidad.estadoRueda.forEach(rueda => {
-                rueda += viaje.distancia;
-            });
-
+    
+            // Sumar la distancia a kmAceite
+            if (this.unidad && this.unidad.kmAceite != null) {
+                this.unidad.kmAceite += viaje.distancia;
+            } else {
+                console.error('kmAceite no está inicializado o no es válido');
+            }
+    
+            // Actualizar el estado de las ruedas usando map en lugar de forEach
+            if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
+                this.unidad.estadoRueda = this.unidad.estadoRueda.map(rueda => rueda + viaje.distancia);
+            } else {
+                console.error('estadoRueda no es un array o no está inicializado');
+            }
+    
+            // Lógica para guardar o actualizar el viaje
             if (this.dataViaje == null) {
+                // Nuevo viaje
                 this.unidadService.update(this.unidad);
                 console.log(this.unidad);
                 this.viajeServicio.add(viaje).subscribe({
@@ -137,6 +149,7 @@ export class NuevoViajeFormComponent implements OnInit {
                     }
                 });
             } else {
+                // Actualización de viaje existente
                 this.unidadService.update(this.unidad);
                 console.log(this.unidad);
                 this.viajeServicio.update(viaje, viaje.idViaje).subscribe({
@@ -151,6 +164,7 @@ export class NuevoViajeFormComponent implements OnInit {
             }
         }
     }
+    
 
 
     onLocationSelected(coords: [number, number]) {
