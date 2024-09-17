@@ -100,7 +100,8 @@ export class NuevoViajeFormComponent implements OnInit {
             this.unidad.estadoRueda.forEach(rueda => {
                 if (this.dataViaje)
                 rueda -= this.dataViaje.distancia;
-            }); 
+            });
+            console.log("kms listos para editar ", this.unidad);
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
         }
