@@ -86,7 +86,15 @@ export class NuevoViajeFormComponent implements OnInit {
 							this.centrarMapa(startCoords, endCoords);
                             this.mapComponent.addStartMarker(startCoords);
                             this.mapComponent.addEndMarker(endCoords);
-						} else {
+						}
+                        if(this.unidad && this.dataViaje){
+                            this.unidad.kmAceite -= this.dataViaje.distancia;
+                        this.unidad.estadoRueda.forEach(rueda => {
+                            if (this.dataViaje)
+                            rueda -= this.dataViaje.distancia;
+                        });
+                        console.log("camion listo para editar ", this.unidad);
+                        } else {
 							console.error('No results for end location');
 						}
 					});
@@ -95,13 +103,7 @@ export class NuevoViajeFormComponent implements OnInit {
 				}              
 			});
             }, 1500);
-            this.getCamion(1);
-            this.unidad.kmAceite -= this.dataViaje.distancia;
-            this.unidad.estadoRueda.forEach(rueda => {
-                if (this.dataViaje)
-                rueda -= this.dataViaje.distancia;
-            });
-            console.log("kms listos para editar ", this.unidad);
+            
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
         }
