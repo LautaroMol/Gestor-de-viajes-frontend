@@ -138,7 +138,6 @@ export class NuevoViajeFormComponent implements OnInit {
                 }
             });
     
-            // Lógica para guardar o actualizar el viaje
             if (this.dataViaje == null) {
                 // Nuevo viaje
                 this.unidadService.update(this.unidad).subscribe({
@@ -149,7 +148,6 @@ export class NuevoViajeFormComponent implements OnInit {
                     this.mostrarAlerta("No se ha podido actualizar el camión"); 
                 }
                 });
-                console.log(this.unidad);
                 this.viajeServicio.add(viaje).subscribe({
                     next: (data) => {
                         this.mostrarAlerta("Viaje cargado al sistema exitosamente");
@@ -160,7 +158,7 @@ export class NuevoViajeFormComponent implements OnInit {
                     }
                 });
             } else {
-                // Actualización de viaje existente
+                // editar viaje existente
                 this.unidadService.update(this.unidad).subscribe({
                     next: (data) => {
                     this.mostrarAlerta("camion actualizado");
@@ -250,7 +248,6 @@ export class NuevoViajeFormComponent implements OnInit {
     getCamion(id: number): void {
         this.unidadService.get(id).subscribe(data => {
           this.unidad = data;
-          console.log("camion: ", this.unidad);
         });
       }
 	
