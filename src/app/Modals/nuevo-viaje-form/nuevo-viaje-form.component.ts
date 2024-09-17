@@ -124,15 +124,13 @@ export class NuevoViajeFormComponent implements OnInit {
             };
             if (this.unidad && this.unidad.kmAceite != null) {
                 this.unidad.kmAceite += viaje.distancia;
-                this.unidad.kmAceite.toFixed(2);
             } else {
                 console.error('kmAceite no está inicializado o no es válido');
             }
 
             this.unidad.estadoRueda.forEach(rueda => {
                 if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
-                    rueda += viaje.distancia;
-                    rueda.toFixed(2);                    
+                    rueda += viaje.distancia;                
                 } else {
                     console.error('estadoRueda no es un array o no está inicializado');
                 }
@@ -193,6 +191,7 @@ export class NuevoViajeFormComponent implements OnInit {
             });
         });
     }
+
     
     onDestinationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
@@ -207,7 +206,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
     onDistanceCalculated(distance: number) {
         this.formViaje.patchValue({
-            distancia: `${distance.toFixed(2)}`
+            distancia: parseFloat(distance.toFixed(2))
         });
     }
 
