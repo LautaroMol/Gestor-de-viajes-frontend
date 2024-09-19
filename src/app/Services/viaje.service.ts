@@ -32,4 +32,15 @@ export class ViajeService {
 	update(modelo: Viaje, idViaje: number): Observable<Viaje> {
 		return this.http.put<Viaje>(`${this.apiUrl}update/${idViaje}`, modelo);
 	}
+
+	addViaje(viaje: Viaje): Observable<any> {
+		return this.http.post<any>(`${this.endpoint}api/Viajes/add`, viaje);
+	  }
+	  addArchivo(viajeId: number, formData: FormData): Observable<any> {
+		return this.http.post<any>(`${this.endpoint}api/Viajes/addArchivo/${viajeId}`, formData);
+	}
+	getCartaPorte(cp: string): Observable<Blob> {
+		const url = `${this.endpoint}api/Viajes/get/${cp}`;
+		return this.http.get(url, { responseType: 'blob' });
+	  }
 }

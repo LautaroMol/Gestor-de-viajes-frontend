@@ -50,8 +50,6 @@ export class ViajesComponent implements OnInit {
                  .reduce((total, gasto) => total + gasto, 0);
   }
   
-  
-
   BorrarViajes(viaje: Viaje): void {
     this.viajeService.delete(viaje.idViaje).subscribe({
       next: () => {
@@ -66,15 +64,28 @@ export class ViajesComponent implements OnInit {
 
   editarViaje(viaje: Viaje) {
     const dialogRef = this.dialog.open(NuevoViajeFormComponent, {
-			data: viaje
-		});
-
-		dialogRef.afterClosed().subscribe(result => {
-			if (result) {
-        console.log(result);
-				this.obtenerViajes();
-			}
-		});
-  }
+      data: viaje
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (!result.cp && viaje.cp) {
+          result.cp = viaje.cp;
+        }
+        this.obtenerViajes();
+      }
+    });
+  }  
+  verCartaPorte(cp: string): void {
+    this.viajeService.getCartaPorte(cp).subscribe({
+      next: (data: Blob) => {
+        const fileURL = URL.createObjectURL(data);
+        window.open(fileURL);
+      },
+      error: (err) => {
+        console.error('Error al obtener la Carta de Porte', err);
+      }
+    });
+  }  
 
 }
