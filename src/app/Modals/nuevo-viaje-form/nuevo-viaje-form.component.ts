@@ -42,7 +42,7 @@ export class NuevoViajeFormComponent implements OnInit {
             distancia: ['', Validators.required],
             gastos: this.fb.array([]),
             fecha: ['', Validators.required],
-            cp: [0,Validators.required],
+            cp: ['',Validators.required],
             facturado: [false],
             cuitUsuario: [''],
 			totalFacturado: 0,
