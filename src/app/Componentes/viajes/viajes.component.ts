@@ -87,6 +87,7 @@ export class ViajesComponent implements OnInit {
         }
     });
   }
+  
   downloadPdf(fileName: string) {
     this.viajeService.getCartaPorte(fileName).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
