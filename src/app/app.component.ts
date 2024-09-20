@@ -32,7 +32,6 @@ export class AppComponent {
 			globalThis.window =
 			  ({
 				addEventListener: () => {},
-				// add more methods as you wish
 			  } as never);
 		  }
 	}

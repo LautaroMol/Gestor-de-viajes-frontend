@@ -61,13 +61,13 @@
 					>
 				</div>
 				<div class="p-3">
-					<label for="cp" class="block text-indigo-600 font-bold">Numero Carta de porte</label>
+					<label for="cp" class="block text-indigo-600 font-bold">Subir Carta de Porte</label>
 					<input 
 						id="cp" 
 						name="cp" 
-						type="number"
+						type="file"
 						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
-						formControlName="cp" 
+						(change)="getFile($event)"
 						required
 					>
 				</div>
@@ -84,7 +84,6 @@
 							(click)="onCancel()"	
 						>Cancelar
 						</button>
-
 				</div>
 		</form>
 		<app-map
