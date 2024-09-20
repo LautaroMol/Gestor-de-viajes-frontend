@@ -62,31 +62,14 @@ export class ViajesComponent implements OnInit {
     const dialogRef = this.dialog.open(NuevoViajeFormComponent, {
       data: viaje
     });
-  
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        if (!result.cp && viaje.cp) {
-          result.cp = viaje.cp;
-        }
-        this.obtenerViajes();
-      }
+        this.obtenerViajes()
     });
   }
 
   verCartaPorte(cp: string): void {
-    this.viajeService.getCartaPorte(cp).subscribe({
-        next: (data: Blob) => {
-            if (data) {
-                const fileURL = URL.createObjectURL(data);
-                window.open(fileURL);
-            } else {
-                console.error('No se recibió ningún archivo');
-            }
-        },
-        error: (err) => {
-            console.error('Error al obtener la Carta de Porte', err);
-        }
-    });
+    this.viajeService.getCartaPorte(cp);
+    console.log(this.viajeService.getCartaPorte(cp));
 }
 
   downloadPdf(fileName: string) {
