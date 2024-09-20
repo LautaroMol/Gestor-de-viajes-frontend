@@ -40,7 +40,8 @@ export class ViajeService {
 		return this.http.post<any>(`${this.endpoint}api/Viajes/addArchivo/${viajeId}`, formData);
 	}
 	getCartaPorte(cp: string): Observable<Blob> {
-		const url = `${this.endpoint}api/Viajes/get/${cp}`;
+		const url = `${this.endpoint}api/Viajes/get/${cp}`; 
 		return this.http.get(url, { responseType: 'blob' });
-	  }
+	}	
+	  
 }
