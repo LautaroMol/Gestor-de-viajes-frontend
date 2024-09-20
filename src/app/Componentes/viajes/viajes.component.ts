@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { TotalsCardsComponent } from '../totals-cards/totals-cards.component';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
@@ -13,21 +13,19 @@ import { MatDialog } from '@angular/material/dialog';
   standalone: true,
   imports: [MatCardModule, TotalsCardsComponent, CommonModule, MapComponent],
   templateUrl: './viajes.component.html',
-  styleUrl: './viajes.component.css'
+  styleUrls: ['./viajes.component.css'] 
 })
 export class ViajesComponent implements OnInit {
 
   viajes: Viaje[] = [];
   
+  constructor(private viajeService: ViajeService, private dialog: MatDialog) { }
 
-  constructor(private viajeService: ViajeService,
-    private dialog: MatDialog
-  ) { }
   ngOnInit(): void {
     this.obtenerViajes();
   }
 
-  obtenerViajes(){
+  obtenerViajes() {
     this.viajeService.getList().subscribe({
       next: (data) => {
         this.viajes = data.filter(viaje => !viaje.borrado);
@@ -41,11 +39,9 @@ export class ViajesComponent implements OnInit {
   }
   
   calcularSubtotal(gastos: (number | null)[] | null): number {
-    // Si el arreglo de gastos es null osea esta recien creado se devuelve 0
     if (!gastos || gastos.every(g => g === null)) {
       return 0;
     }
-    // Filtrar valores nulos y sumar solo los valores numéricos
     return gastos.filter((g): g is number => g !== null)
                  .reduce((total, gasto) => total + gasto, 0);
   }
@@ -53,7 +49,7 @@ export class ViajesComponent implements OnInit {
   BorrarViajes(viaje: Viaje): void {
     this.viajeService.delete(viaje.idViaje).subscribe({
       next: () => {
-        this.viajes = this.viajes.filter(v => v.idViaje!== viaje.idViaje);
+        this.viajes = this.viajes.filter(v => v.idViaje !== viaje.idViaje);
       },
       error: (e) => {
         console.error(e);
@@ -75,19 +71,19 @@ export class ViajesComponent implements OnInit {
         this.obtenerViajes();
       }
     });
-  }  
+  }
+
   verCartaPorte(cp: string): void {
     this.viajeService.getCartaPorte(cp).subscribe({
         next: (data: Blob) => {
             const fileURL = URL.createObjectURL(data);
-            window.open(fileURL); 
+            window.open(fileURL, '_blank'); // Abre en una nueva pestaña
         },
         error: (err) => {
             console.error('Error al obtener la Carta de Porte', err);
         }
     });
 }
-
 
   downloadPdf(fileName: string) {
     this.viajeService.getCartaPorte(fileName).subscribe(blob => {
@@ -100,5 +96,4 @@ export class ViajesComponent implements OnInit {
       window.URL.revokeObjectURL(url);
     });
   }
-
 }

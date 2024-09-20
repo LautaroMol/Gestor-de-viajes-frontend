@@ -43,5 +43,5 @@ export class ViajeService {
 		return this.http.get(`${this.endpoint}api/Viajes/get/${fileName}`, {
 		  responseType: 'blob'
 		});
-	  }
+	}
 }
