@@ -73,8 +73,8 @@ export class ViajesComponent implements OnInit {
     });
   }
 
-  verCartaPorte(ruta: string): void {
-    this.viajeService.getCartaPorte(ruta).subscribe({
+  verCartaPorte(cp: string): void {
+    this.viajeService.getCartaPorte(cp).subscribe({
         next: (data: Blob) => {
             if (data) {
                 const fileURL = URL.createObjectURL(data);
@@ -88,6 +88,7 @@ export class ViajesComponent implements OnInit {
         }
     });
 }
+
   downloadPdf(fileName: string) {
     this.viajeService.getCartaPorte(fileName).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);

@@ -101,14 +101,14 @@ export class NuevoViajeFormComponent implements OnInit {
                 distancia: this.formViaje.value.distancia,
                 gastos: this.formViaje.value.gastos,
                 fecha: this.formViaje.value.fecha,
-                cp: '', // Este campo se actualizará después con la ruta del archivo
+                cp: '', 
                 facturado: this.formViaje.value.facturado,
                 cuitUsuario: this.formViaje.value.cuitUsuario,
                 totalFacturado: 0,
                 borrado: this.formViaje.value.borrado
             };
     
-            // Actualizar el estado de la unidad con los km del viaje
+
             if (this.unidad && this.unidad.kmAceite != null) {
                 this.unidad.kmAceite += viajeData.distancia;
             } else {
@@ -162,7 +162,7 @@ export class NuevoViajeFormComponent implements OnInit {
                     }
                 });
     
-            } else { // Si estamos editando un viaje existente
+            } else { 
                 // Actualizar la unidad con los nuevos valores
                 this.unidadService.update(this.unidad).subscribe({
                     next: (data) => {
@@ -274,10 +274,4 @@ export class NuevoViajeFormComponent implements OnInit {
         }
     }
     
-      // Función que abre el PDF en una nueva pestaña
-      viewCartaPorte(): void {
-        if (this.cpUrl) {
-          window.open(this.cpUrl, '_blank'); // Abre el archivo en una nueva pestaña
-        }
-      }
 }
