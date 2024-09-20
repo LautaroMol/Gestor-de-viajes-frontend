@@ -69,12 +69,10 @@ export class ViajesComponent implements OnInit {
 
   verCartaPorte(cp: string): void {
     this.viajeService.getCartaPorte(cp).subscribe({
-        next: (url: string) => {
-
-            const newTab = window.open();
-            if (newTab) {
-                newTab.location.href = url; // Cambiar a la URL del PDF
-            } else {
+        next: (blob: Blob) => {
+            const url = window.URL.createObjectURL(blob); // Crear una URL para el blob
+            const newTab = window.open(url); // Abrir la URL en una nueva pestaña
+            if (!newTab) {
                 console.error('No se pudo abrir la nueva pestaña. Verifique que no esté bloqueada.');
             }
         },
@@ -82,7 +80,5 @@ export class ViajesComponent implements OnInit {
             console.error('Error al obtener la Carta de Porte', err);
         }
     });
-}
-
-
+  }
 }
