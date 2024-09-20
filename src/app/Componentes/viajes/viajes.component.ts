@@ -80,14 +80,15 @@ export class ViajesComponent implements OnInit {
     this.viajeService.getCartaPorte(cp).subscribe({
         next: (data: Blob) => {
             const fileURL = URL.createObjectURL(data);
-            window.open(fileURL);  // Esto abrirá el PDF en una nueva pestaña
+            window.open(fileURL); 
         },
         error: (err) => {
             console.error('Error al obtener la Carta de Porte', err);
         }
     });
-  }
-  
+}
+
+
   downloadPdf(fileName: string) {
     this.viajeService.getCartaPorte(fileName).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
