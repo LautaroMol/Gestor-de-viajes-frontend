@@ -73,11 +73,11 @@ export class ViajesComponent implements OnInit {
     });
   }
 
-  verCartaPorte(cp: string): void {
-    this.viajeService.getCartaPorte(cp).subscribe({
+  verCartaPorte(ruta: string): void {
+    this.viajeService.getCartaPorte(ruta).subscribe({
         next: (data: Blob) => {
             const fileURL = URL.createObjectURL(data);
-            window.open(fileURL, '_blank'); // Abre en una nueva pestaña
+            window.open(fileURL); 
         },
         error: (err) => {
             console.error('Error al obtener la Carta de Porte', err);
