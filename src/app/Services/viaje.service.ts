@@ -40,6 +40,6 @@ export class ViajeService {
 		return this.http.post<any>(`${this.endpoint}api/Viajes/addArchivo/${viajeId}`, formData);
 	}
 	getCartaPorte(ruta: string): Observable<string> {
-		return this.http.get<string>(`${this.endpoint}api/Viajes/getCartaPorte?ruta=${encodeURIComponent(ruta)}`);
+		return this.http.get<string>(`${this.endpoint}api/Viajes/PDFs/${ruta}`);
 	}	
 }
