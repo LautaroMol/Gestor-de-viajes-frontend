@@ -36,10 +36,10 @@ export class ViajeService {
 	addViaje(viaje: Viaje): Observable<any> {
 		return this.http.post<any>(`${this.endpoint}api/Viajes/add`, viaje);
 	  }
-	  addArchivo(viajeId: number, formData: FormData): Observable<any> {
+	addArchivo(viajeId: number, formData: FormData): Observable<any> {
 		return this.http.post<any>(`${this.endpoint}api/Viajes/addArchivo/${viajeId}`, formData);
 	}
-	getCartaPorte(ruta: string): Observable<any> {
-		return this.http.get<string>(`${this.endpoint}api/Viajes/getCartaPorte?ruta=${ruta}`);
+	getCartaPorte(ruta: string): Observable<string> {
+		return this.http.get<string>(`${this.endpoint}api/Viajes/getCartaPorte?ruta=${encodeURIComponent(ruta)}`);
 	}	
 }
