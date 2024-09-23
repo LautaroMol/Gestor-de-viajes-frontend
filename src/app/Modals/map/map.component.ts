@@ -4,7 +4,6 @@ import "leaflet-routing-machine";
 import { PlacesService } from '../../Services/place.service';
 import Geocoder from 'leaflet-control-geocoder';
 
-
 @Component({
 	selector: 'app-map',
 	standalone: true,
@@ -12,6 +11,7 @@ import Geocoder from 'leaflet-control-geocoder';
 	templateUrl: './map.component.html',
 	styleUrls: ['./map.component.css']
 })
+
 export class MapComponent implements OnInit, AfterViewInit {
 	geo: any;
 	map: any;
@@ -25,7 +25,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 	@Output() destinationSelect = new EventEmitter<[number, number]>();
 	@Output() distanceCalculated = new EventEmitter<number>();
 
-	constructor(private placeSvc: PlacesService,
+	constructor (
+		private placeSvc: PlacesService
 	) {}
 
 	Reload() {
@@ -55,6 +56,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 			this.map.flyTo(this.geo, 13);
 		}
 	}
+	
 	CalculateRoute() {
 		if (this.map && this.currentLocationMarker && this.chosenLocationMarker) {
 			const start = this.currentLocationMarker.getLatLng();
@@ -180,6 +182,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 			});
 		}
 	}
+
 	setMapView(coords: [number, number]) {
 		if (this.map) {
 			if (!isNaN(coords[0]) && !isNaN(coords[1])) {
@@ -207,7 +210,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 		}
 	}
 	
-
 	addStartMarker(coords: [number, number]) {
 		if (this.map) {
 			L.marker(coords).addTo(this.map).bindPopup('<b>Inicio del viaje</b>').openPopup();
@@ -219,5 +221,4 @@ export class MapComponent implements OnInit, AfterViewInit {
 			L.marker(coords).addTo(this.map).bindPopup('<b>Fin del viaje</b>').openPopup();
 		}
 	}
-	
 }

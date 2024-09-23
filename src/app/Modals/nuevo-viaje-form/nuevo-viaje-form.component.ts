@@ -7,10 +7,8 @@ import { ViajeService } from '../../Services/viaje.service';
 import { MapComponent } from '../map/map.component';
 import { PlacesService } from '../../Services/place.service';
 import { GeocodingService } from '../../Services/geocoding.service';
-import { ViajesComponent } from '../../Componentes/viajes/viajes.component';
 import { UnidadService } from '../../Services/unidad.service';
 import { Unidad } from '../../Interfaces/unidad';
-import { error } from 'console';
 
 @Component({
     selector: 'app-nuevo-viaje-form',
@@ -26,6 +24,7 @@ export class NuevoViajeFormComponent implements OnInit {
     botonAccion: string = "Guardar";
     dataViaje: Viaje | null = null;
     unidad!: Unidad;
+    montoSugerido: number = 0;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Viaje | null,
@@ -179,8 +178,6 @@ export class NuevoViajeFormComponent implements OnInit {
             }
         }
     }
-    
-
 
     onLocationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
@@ -191,7 +188,6 @@ export class NuevoViajeFormComponent implements OnInit {
             });
         });
     }
-
     
     onDestinationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
@@ -203,11 +199,12 @@ export class NuevoViajeFormComponent implements OnInit {
         });
     }
     
-
     onDistanceCalculated(distance: number) {
         this.formViaje.patchValue({
             distancia: parseFloat(distance.toFixed(2))
         });
+        
+        this.calcularPrecioSugerido(distance);
     }
 
     onCancel() {
@@ -220,10 +217,7 @@ export class NuevoViajeFormComponent implements OnInit {
     }
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
-
         this.mapComponent.clearMap();
-		console.log('Start Coords:', startCoords);
-		console.log('End Coords:', endCoords);
 		
 		if (this.mapComponent) {
 
@@ -247,8 +241,12 @@ export class NuevoViajeFormComponent implements OnInit {
 
     getCamion(id: number): void {
         this.unidadService.get(id).subscribe(data => {
-          this.unidad = data;
+            this.unidad = data;
         });
-      }
-	
+    }
+
+    calcularPrecioSugerido(distancia : number ) {
+        const monto = localStorage.getItem("precioKilometro")
+		this.montoSugerido = Number(distancia * Number(monto));
+	}
 }

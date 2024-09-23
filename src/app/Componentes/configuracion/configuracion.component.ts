@@ -6,6 +6,7 @@ import { CategoriaFormComponent } from '../../Modals/categoria-form/categoria-fo
 import { CategoriaDeleteComponent } from '../../Modals/categoria-delete/categoria-delete.component';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { SugerenciaFormComponent } from '../../Modals/sugerencia-form/sugerencia-form.component';
 
 @Component({
 	selector: 'app-configuracion',
@@ -21,6 +22,7 @@ export class ConfiguracionComponent {
 	categorias: Categoria[] = [];
 	mostrarFormulario: boolean = false;
 	modoEdicion: boolean = false;
+	precioKilometro: number | null = 0;
 
 	constructor(private dialog: MatDialog,
 		private categoriaService: CategoriaService,
@@ -28,6 +30,7 @@ export class ConfiguracionComponent {
 
 	ngOnInit(): void {
 		this.obtenerCategorias();
+		this.obtenerMonto();
 	}
 
  	obtenerCategorias() {
@@ -90,6 +93,24 @@ export class ConfiguracionComponent {
 					}
 				});
 			}
+		});
+	}
+
+	obtenerMonto() {
+		const monto = localStorage.getItem('precioKilometro');
+		this.precioKilometro = monto ? Number(monto) : 0;
+	}
+
+	nuevoMonto() {
+		const monto = localStorage.getItem('precioKilometro');
+		const precioKilometro = monto ? Number(monto) : 0;
+	
+		this.dialog.open(SugerenciaFormComponent, {
+			disableClose: false,
+			width: '300px',
+			data: { precioKilometro }
+		}).afterClosed().subscribe(result => {
+			this.obtenerMonto(); 
 		});
 	}
 }
