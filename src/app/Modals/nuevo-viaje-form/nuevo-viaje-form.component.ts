@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, viewChild, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Viaje } from '../../Interfaces/viaje';
@@ -7,10 +7,8 @@ import { ViajeService } from '../../Services/viaje.service';
 import { MapComponent } from '../map/map.component';
 import { PlacesService } from '../../Services/place.service';
 import { GeocodingService } from '../../Services/geocoding.service';
-import { ViajesComponent } from '../../Componentes/viajes/viajes.component';
 import { UnidadService } from '../../Services/unidad.service';
 import { Unidad } from '../../Interfaces/unidad';
-import { error } from 'console';
 
 @Component({
     selector: 'app-nuevo-viaje-form',
@@ -20,7 +18,9 @@ import { error } from 'console';
     styleUrls: ['./nuevo-viaje-form.component.css']
 })
 export class NuevoViajeFormComponent implements OnInit {
-	@ViewChild(MapComponent) mapComponent!: MapComponent;
+    @ViewChild(MapComponent) mapComponent!: MapComponent;
+    cpUrl: string | null = null;
+    selectedFile: File | null = null;
     formViaje: FormGroup;
     tituloAccion: string = "Nuevo";
     botonAccion: string = "Guardar";
@@ -42,10 +42,10 @@ export class NuevoViajeFormComponent implements OnInit {
             distancia: ['', Validators.required],
             gastos: this.fb.array([]),
             fecha: ['', Validators.required],
-            cp: ['',Validators.required],
+            cp: [''],
             facturado: [false],
             cuitUsuario: [''],
-			totalFacturado: 0,
+            totalFacturado: 0,
             borrado: [false]
         });
 
@@ -74,36 +74,19 @@ export class NuevoViajeFormComponent implements OnInit {
             setTimeout(() => {
                 this.mapComponent.clearMap();
                 this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
-				console.log('Result for start location:', result);
-				if (result && result.length > 0) {
-					const startCoords: [number, number] = [result[0].lat, result[0].lon];
-					console.log('Start Coordinates:', startCoords);
-					this.geocodingService.forwardGeocode(this.dataViaje?.final ?? '').subscribe((result) => {
-						console.log('Result for end location:', result);
-						if (result && result.length > 0) {
-							const endCoords: [number, number] = [result[0].lat, result[0].lon];
-							console.log('End Coordinates:', endCoords);
-							this.centrarMapa(startCoords, endCoords);
-                            this.mapComponent.addStartMarker(startCoords);
-                            this.mapComponent.addEndMarker(endCoords);
-						}
-                        if(this.unidad && this.dataViaje){
-                            this.unidad.kmAceite -= this.dataViaje.distancia;
-                        this.unidad.estadoRueda.forEach(rueda => {
-                            if (this.dataViaje)
-                            rueda -= this.dataViaje.distancia;
+                    if (result && result.length > 0) {
+                        const startCoords: [number, number] = [result[0].lat, result[0].lon];
+                        this.geocodingService.forwardGeocode(this.dataViaje?.final ?? '').subscribe((result) => {
+                            if (result && result.length > 0) {
+                                const endCoords: [number, number] = [result[0].lat, result[0].lon];
+                                this.centrarMapa(startCoords, endCoords);
+                                this.mapComponent.addStartMarker(startCoords);
+                                this.mapComponent.addEndMarker(endCoords);
+                            }
                         });
-                        console.log("camion listo para editar ", this.unidad);
-                        } else {
-							console.error('No results for end location');
-						}
-					});
-				} else {
-					console.error('No results for start location');
-				}              
-			});
+                    }
+                });
             }, 1500);
-            
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
         }
@@ -111,103 +94,137 @@ export class NuevoViajeFormComponent implements OnInit {
 
     onSubmit() {
         if (this.formViaje.valid) {
-            const viaje: Viaje = {
+            const viajeData = {
                 idViaje: this.dataViaje ? this.dataViaje.idViaje : 0,
                 inicio: this.formViaje.value.inicio,
                 final: this.formViaje.value.final,
                 distancia: this.formViaje.value.distancia,
                 gastos: this.formViaje.value.gastos,
                 fecha: this.formViaje.value.fecha,
-                cp: this.formViaje.value.cp,
+                cp: '', 
                 facturado: this.formViaje.value.facturado,
                 cuitUsuario: this.formViaje.value.cuitUsuario,
                 totalFacturado: 0,
                 borrado: this.formViaje.value.borrado
             };
+    
+
             if (this.unidad && this.unidad.kmAceite != null) {
-                this.unidad.kmAceite += viaje.distancia;
+                this.unidad.kmAceite += viajeData.distancia;
             } else {
                 console.error('kmAceite no está inicializado o no es válido');
             }
-
-            this.unidad.estadoRueda.forEach(rueda => {
-                if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
-                    rueda += viaje.distancia;                
-                } else {
-                    console.error('estadoRueda no es un array o no está inicializado');
-                }
-            });
     
+            if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
+                this.unidad.estadoRueda = this.unidad.estadoRueda.map(rueda => rueda + viajeData.distancia);
+            } else {
+                console.error('estadoRueda no es un array o no está inicializado');
+            }
+    
+            // Si es un nuevo viaje
             if (this.dataViaje == null) {
-                // Nuevo viaje
+                // Actualizar la unidad con los nuevos valores
                 this.unidadService.update(this.unidad).subscribe({
                     next: (data) => {
-                    this.mostrarAlerta("camion actualizado");
-                },
-                error: (e) => {
-                    this.mostrarAlerta("No se ha podido actualizar el camión"); 
-                }
-                });
-                this.viajeServicio.add(viaje).subscribe({
-                    next: (data) => {
-                        this.mostrarAlerta("Viaje cargado al sistema exitosamente");
-                        this.dialog.close("Creado");
+                        console.log("Camión actualizado correctamente:", data);
                     },
                     error: (e) => {
-                        this.mostrarAlerta("No se ha podido crear el Viaje");
+                        console.error("No se ha podido actualizar el camión", e);
                     }
                 });
-            } else {
-                // editar viaje existente
+    
+                // Guardar el nuevo viaje
+                this.viajeServicio.addViaje(viajeData).subscribe({
+                    next: (data) => {
+                        console.log("Viaje guardado correctamente:", data);
+                        const viajeId = data.viajeId;
+    
+                        // Si hay un archivo seleccionado, lo subimos
+                        if (this.selectedFile) {
+                            const formData = new FormData();
+                            formData.append('archivo', this.selectedFile, this.selectedFile.name);
+    
+                            this.viajeServicio.addArchivo(viajeId, formData).subscribe({
+                                next: (archivoData) => {
+                                    console.log("Archivo guardado correctamente:", archivoData);
+                                    this.dialog.close(true);
+                                },
+                                error: (err) => {
+                                    console.error("Error al guardar el archivo:", err);
+                                }
+                            });
+                        } else {
+                            this.dialog.close(true);
+                        }
+                    },
+                    error: (err) => {
+                        console.error("Error al guardar los datos del viaje:", err);
+                    }
+                });
+    
+            } else { 
+                // Actualizar la unidad con los nuevos valores
                 this.unidadService.update(this.unidad).subscribe({
                     next: (data) => {
-                    this.mostrarAlerta("camion actualizado");
-                },
-                error: (e) => {
-                    this.mostrarAlerta("No se ha podido actualizar el camión"); 
-                }
-            });
-                this.viajeServicio.update(viaje, viaje.idViaje).subscribe({
-                    next: (data) => {
-                        this.mostrarAlerta("Viaje editado correctamente");
-                        this.dialog.close("Editado");
+                        console.log("Camión actualizado correctamente:", data);
                     },
                     error: (e) => {
-                        this.mostrarAlerta("No se ha podido editar el Viaje");
+                        console.error("No se ha podido actualizar el camión", e);
+                    }
+                });
+    
+                // Actualizar el viaje existente
+                this.viajeServicio.update(viajeData, viajeData.idViaje).subscribe({
+                    next: (data) => {
+                        console.log("Viaje actualizado correctamente:", data);
+    
+                        // Si hay un archivo seleccionado, lo subimos
+                        if (this.selectedFile) {
+                            const formData = new FormData();
+                            formData.append('archivo', this.selectedFile, this.selectedFile.name);
+    
+                            this.viajeServicio.addArchivo(viajeData.idViaje, formData).subscribe({
+                                next: (archivoData) => {
+                                    console.log("Archivo guardado correctamente:", archivoData);
+                                    this.dialog.close(true);
+                                },
+                                error: (err) => {
+                                    console.error("Error al guardar el archivo:", err);
+                                }
+                            });
+                        } else {
+                            this.dialog.close(true);
+                        }
+                    },
+                    error: (err) => {
+                        console.error("Error al actualizar el viaje:", err);
                     }
                 });
             }
+        } else {
+            console.error('Formulario inválido:', this.formViaje.errors);
         }
     }
     
-
 
     onLocationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
             const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
-            this.formViaje.patchValue({
-                inicio: direccionSimplificada, //simplificado de direccion
-            });
+            this.formViaje.patchValue({ inicio: direccionSimplificada });
         });
     }
 
-    
     onDestinationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
             const direccionSimplificada = this.simplificarDireccion(direccionCompleta);
-            this.formViaje.patchValue({
-                final: direccionSimplificada, //simplificado de direccion
-            });
+            this.formViaje.patchValue({ final: direccionSimplificada });
         });
     }
-    
 
     onDistanceCalculated(distance: number) {
-        this.formViaje.patchValue({
-            distancia: parseFloat(distance.toFixed(2))
-        });
+        this.formViaje.patchValue({ distancia: parseFloat(distance.toFixed(2)) });
     }
 
     onCancel() {
@@ -220,35 +237,41 @@ export class NuevoViajeFormComponent implements OnInit {
     }
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
-
         this.mapComponent.clearMap();
-		console.log('Start Coords:', startCoords);
-		console.log('End Coords:', endCoords);
-		
-		if (this.mapComponent) {
-
-			if (!isNaN(startCoords[0]) && !isNaN(startCoords[1]) &&
-				!isNaN(endCoords[0]) && !isNaN(endCoords[1])) {
-				this.mapComponent.setMapView(startCoords);
-				this.mapComponent.setMapView(endCoords);
-				this.mapComponent.addMarker(startCoords, 'Inicio del viaje');
-				this.mapComponent.addMarker(endCoords, 'Fin del viaje');
-				this.mapComponent.calculaRuta(startCoords, endCoords);
-			} else {
-				console.error('Invalid coordinates for setMapView:', startCoords, endCoords);
-			}
-		}
-	}
+        if (this.mapComponent) {
+            if (!isNaN(startCoords[0]) && !isNaN(startCoords[1]) &&
+                !isNaN(endCoords[0]) && !isNaN(endCoords[1])) {
+                this.mapComponent.setMapView(startCoords);
+                this.mapComponent.setMapView(endCoords);
+                this.mapComponent.addMarker(startCoords, 'Inicio del viaje');
+                this.mapComponent.addMarker(endCoords, 'Fin del viaje');
+                this.mapComponent.calculaRuta(startCoords, endCoords);
+            } else {
+                console.error('Invalid coordinates for setMapView:', startCoords, endCoords);
+            }
+        }
+    }
 
     simplificarDireccion(direccion: string): string {
         const partes = direccion.split(',');
-        return partes.slice(0, 4).join(','); // aqui podemos poner hasta que coma tomara los textos
+        return partes.slice(0, 4).join(',');
     }
 
     getCamion(id: number): void {
         this.unidadService.get(id).subscribe(data => {
-          this.unidad = data;
+            this.unidad = data;
         });
-      }
-	
+    }
+
+    getFile(event: Event) {
+        const target = event.target as HTMLInputElement;
+        const files: FileList | null = target.files;
+
+        if (files && files.length > 0) {
+            this.selectedFile = files[0];
+        } else {
+            this.selectedFile = null;
+        }
+    }
+    
 }
