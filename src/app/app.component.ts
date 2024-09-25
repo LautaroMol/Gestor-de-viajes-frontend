@@ -35,9 +35,7 @@ export class AppComponent {
 			  } as never);
 		  }
 	}
-
-	
-	nuevoViaje() {
+nuevoViaje() {
 		this.dialog.open(NuevoViajeFormComponent, {
 			disableClose: true,
 			width: '900px',
