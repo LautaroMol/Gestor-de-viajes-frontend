@@ -88,7 +88,7 @@
     </div>
 
     <div *ngIf="amortizacion">
-        <h3>Objetivo Anual: {{ amortizacion.objetivoAnual | currency }}</h3>
+        <h3>Objetivo Total: {{ amortizacion.objetivo | currency }}</h3>
         <h4>Recaudado: {{ amortizacion.recaudado | currency }}</h4>
       
         <mat-progress-bar 
