@@ -1,0 +1,76 @@
+<form [formGroup]="formUnidadAmortizacion" (ngSubmit)="onSubmit()">
+    <h2>{{tituloAccion}}</h2>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Marca</mat-label>
+      <input matInput formControlName="marca" placeholder="Marca de la unidad">
+      <mat-error *ngIf="formUnidadAmortizacion.get('marca')?.hasError('required')">
+        La marca es requerida
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Modelo</mat-label>
+      <input matInput formControlName="modelo" placeholder="Modelo de la unidad">
+      <mat-error *ngIf="formUnidadAmortizacion.get('modelo')?.hasError('required')">
+        El modelo es requerido
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Amortización</mat-label>
+      <input matInput formControlName="amortizacion" type="number" placeholder="Monto de la amortización">
+      <mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('required')">
+        El monto de la amortización es requerido
+      </mat-error>
+      <mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('min')">
+        El monto debe ser mayor a 0
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Ruedas</mat-label>
+      <mat-select formControlName="ruedas">
+        <mat-option [value]="4">4 ruedas</mat-option>
+        <mat-option [value]="6">6 ruedas</mat-option>
+      </mat-select>
+      <mat-error *ngIf="formUnidadAmortizacion.get('ruedas')?.hasError('required')">
+        Seleccione el número de ruedas
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Valoración</mat-label>
+      <input matInput formControlName="valoracion" type="number" placeholder="Valoración de la unidad">
+      <mat-error *ngIf="formUnidadAmortizacion.get('valoracion')?.hasError('required')">
+        La valoración es requerida
+      </mat-error>
+      <mat-error *ngIf="formUnidadAmortizacion.get('valoracion')?.hasError('min')">
+        La valoración debe ser mayor a 0
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Plazo</mat-label>
+      <mat-select formControlName="plazo">
+        <mat-option *ngFor="let year of [1,2,3,4,5,6,7,8,9,10]" [value]="year">{{year}} años</mat-option>
+      </mat-select>
+      <mat-error *ngIf="formUnidadAmortizacion.get('plazo')?.hasError('required')">
+        Seleccione el plazo de amortización
+      </mat-error>
+    </mat-form-field>
+  
+    <div>
+      <label>Monto anual:</label>
+      <input [value]="montoAnual || ''" readonly>
+      <button type="button" mat-raised-button color="primary" (click)="calcularMontoAnual()">
+        Calcular Monto Anual
+      </button>
+    </div>
+  
+    <div>
+      <button type="submit" mat-raised-button color="primary">Guardar</button>
+      <button type="button" mat-raised-button (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+  

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Unidad } from '../../Interfaces/unidad';
 import { UnidadService } from '../../Services/unidad.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UnidadFormComponent } from '../../Modals/unidad-form/unidad-form.component';
 
 @Component({
   selector: 'app-camion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,MatDialogModule],
   templateUrl: './camion.component.html',
   styleUrls: ['./camion.component.css']
 })
@@ -15,7 +17,7 @@ export class CamionComponent implements OnInit {
   selectedWheel: number | null = null;
   showWarning: boolean = false;
 
-  constructor(private unidadService: UnidadService) {}
+  constructor(private unidadService: UnidadService,private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getCamion(1); // Obtener la unidad por id
@@ -64,5 +66,19 @@ export class CamionComponent implements OnInit {
     } else {
       this.showWarning = false;
     }
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(UnidadFormComponent, {
+      width: '400px',
+      data: {} 
+      
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.getCamion(1); // O cualquier lógica que necesites después de cerrar el diálogo
+      }
+    });
   }
 }

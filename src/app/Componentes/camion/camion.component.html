@@ -1,13 +1,11 @@
 <div class="container" *ngIf="unidad">
   <div class="layout">
-    <!-- Columna izquierda: Aceite -->
     <div class="oil-column">
       <div class="oil-barrel-container">
         <svg class="oil-barrel" viewBox="0 0 100 150">
           <rect class="barrel-border" x="10" y="20" width="80" height="110" fill="none" stroke="black" stroke-width="5"/>
           <rect class="barrel-fill" x="10" [attr.y]="130 - getOilLevel()" width="80" [attr.height]="getOilLevel()" fill="black"/>
         </svg>
-        
       </div>
 
       <div class="oil-details">
@@ -19,10 +17,9 @@
 
       <div class="flex flex-col space-y-5 font-bold text-center text-white text-xl">
         <button class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all" (click)="refilOil()">
-          Informar cambio de aceite del camion
+          Informar cambio de aceite del camión
         </button>
       </div>
-      
     </div>
 
     <!-- Columna derecha: Camión -->
@@ -60,3 +57,14 @@
     </div>
   </div>
 </div>
+
+
+<div class="container" *ngIf="!unidad">
+  <div class="text-center">
+    <button class="shadow-md bg-indigo-600 p-3 rounded-md hover:bg-indigo-700 transition-all text-white text-xl font-bold"
+            (click)="openDialog()">
+      Cargar camión y amortización
+    </button>
+  </div>
+</div>
+
