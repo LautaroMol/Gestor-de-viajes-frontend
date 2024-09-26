@@ -6,6 +6,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Unidad } from '../../Interfaces/unidad';
+import { UnidadService } from '../../Services/unidad.service';
+import { AmortizacionService } from '../../Services/amortizacion.service';
+import { Amortizacion } from '../../Interfaces/amortizacion';
 
 @Component({
   selector: 'app-unidad-form',
@@ -16,14 +19,18 @@ import { Unidad } from '../../Interfaces/unidad';
 })
 export class UnidadFormComponent implements OnInit {
   formUnidadAmortizacion: FormGroup;
-  montoAnual: number | null = null;
+  montoAnual: number = 0;
   tituloAccion: string = "Nueva Unidad y Amortización";
   botonAccion: string = "Guardar";
   fechaInicio = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+  dataUnidad: Unidad |  undefined;
 
   constructor(
     private dialogoReferencia: MatDialogRef<UnidadFormComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private unidadService: UnidadService,
+    private amortizacionService: AmortizacionService,
+    
   ) {
     this.formUnidadAmortizacion = this.fb.group({
       marca: ['', Validators.required],
@@ -45,7 +52,7 @@ export class UnidadFormComponent implements OnInit {
       if (amortizacion && plazo) {
         this.montoAnual = amortizacion / plazo;
       } else {
-        this.montoAnual = null;
+        this.montoAnual = 0;
       }
     }
   }
@@ -53,17 +60,44 @@ export class UnidadFormComponent implements OnInit {
   onSubmit() {
     if (this.formUnidadAmortizacion.valid) {
       const nuevaUnidad: Unidad = {
-        idUnidad: 0,
+        idUnidad: this.dataUnidad ? this.dataUnidad.idUnidad : 0,
         ...this.formUnidadAmortizacion.value,
         estadoRueda: [],
         kmAceite: 0,
         aceite: new Date(),
-        idUsuario: 1, // Por defecto o cambiar según lógica de la app
+        idUsuario: 1,
         recaudado: 0,
       };
+      const nuevaAmortizacion: Amortizacion={
+        idAmortizacion: 0,
+        plazo: this.formUnidadAmortizacion.get('plazo')?.value,
+        periodo: 1,
+        objetivo: this.formUnidadAmortizacion.get('amortizacion')?.value,
+        objetivoAnual: this.montoAnual,
+        porcentaje: 0,
+        recaudado: 0,
+        fechaInicio: new Date(),
+      }
 
-      // Aquí podrías hacer la lógica para guardar la unidad
-      console.log('Unidad creada', nuevaUnidad);
+      if(this.dataUnidad == null){
+        this.unidadService.add(nuevaUnidad).subscribe({
+          next: (data)=>{
+            const nuevaUnidadId = data.idUnidad; //id de la unidad
+            console.log("unidad cargda con id: ", data.idUnidad)
+          },error: (e) => {
+						this.mostrarAlerta("No se ha podido crear la unidad");
+					}
+        })
+        this.amortizacionService.add(nuevaAmortizacion).subscribe({
+          next: (data)=>{
+            console.log("Amortización cargada con id: ", data.idAmortizacion)
+          },error: (e) => {
+            this.mostrarAlerta("No se ha podido crear la amortización");
+          }
+        });
+      }
+
+
 
       this.dialogoReferencia.close(nuevaUnidad);
     } else {
@@ -74,4 +108,8 @@ export class UnidadFormComponent implements OnInit {
   onCancel() {
     this.dialogoReferencia.close();
   }
+
+  mostrarAlerta(mensaje: string) {
+		console.log(mensaje);
+	}
 }

@@ -26,7 +26,7 @@ export class CamionComponent implements OnInit {
   getCamion(id: number): void {
     this.unidadService.get(id).subscribe(data => {
       this.unidad = data;
-      this.checkOilWarning(); // Verificar si es necesario el cambio de aceite
+      this.checkOilWarning();
     });
   }
 
@@ -67,7 +67,7 @@ export class CamionComponent implements OnInit {
       this.showWarning = false;
     }
   }
-  openDialog(): void {
+  openDialog() {
     const dialogRef = this.dialog.open(UnidadFormComponent, {
       width: '400px',
       data: {} 
@@ -77,7 +77,7 @@ export class CamionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
-        this.getCamion(1); // O cualquier lógica que necesites después de cerrar el diálogo
+        this.getCamion(1);
       }
     });
   }
