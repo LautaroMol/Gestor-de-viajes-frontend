@@ -1,4 +1,4 @@
 export const environment = {
-    endpoint:"https://186.182.86.136:2030/",
+    endpoint:"https://localhost:7236/",
     "secure" : "false"
 };

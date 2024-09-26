@@ -26,6 +26,7 @@ export class NuevoViajeFormComponent implements OnInit {
     botonAccion: string = "Guardar";
     dataViaje: Viaje | null = null;
     unidad!: Unidad;
+    montoSugerido: number = 0;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Viaje | null,
@@ -205,7 +206,6 @@ export class NuevoViajeFormComponent implements OnInit {
             console.error('Formulario inválido:', this.formViaje.errors);
         }
     }
-    
 
     onLocationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
@@ -214,7 +214,7 @@ export class NuevoViajeFormComponent implements OnInit {
             this.formViaje.patchValue({ inicio: direccionSimplificada });
         });
     }
-
+    
     onDestinationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
@@ -222,9 +222,13 @@ export class NuevoViajeFormComponent implements OnInit {
             this.formViaje.patchValue({ final: direccionSimplificada });
         });
     }
-
+    
     onDistanceCalculated(distance: number) {
-        this.formViaje.patchValue({ distancia: parseFloat(distance.toFixed(2)) });
+        this.formViaje.patchValue({
+            distancia: parseFloat(distance.toFixed(2))
+        });
+        
+        this.calcularPrecioSugerido(distance);
     }
 
     onCancel() {
@@ -238,19 +242,21 @@ export class NuevoViajeFormComponent implements OnInit {
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
         this.mapComponent.clearMap();
-        if (this.mapComponent) {
-            if (!isNaN(startCoords[0]) && !isNaN(startCoords[1]) &&
-                !isNaN(endCoords[0]) && !isNaN(endCoords[1])) {
-                this.mapComponent.setMapView(startCoords);
-                this.mapComponent.setMapView(endCoords);
-                this.mapComponent.addMarker(startCoords, 'Inicio del viaje');
-                this.mapComponent.addMarker(endCoords, 'Fin del viaje');
-                this.mapComponent.calculaRuta(startCoords, endCoords);
-            } else {
-                console.error('Invalid coordinates for setMapView:', startCoords, endCoords);
-            }
-        }
-    }
+		
+		if (this.mapComponent) {
+
+			if (!isNaN(startCoords[0]) && !isNaN(startCoords[1]) &&
+				!isNaN(endCoords[0]) && !isNaN(endCoords[1])) {
+				this.mapComponent.setMapView(startCoords);
+				this.mapComponent.setMapView(endCoords);
+				this.mapComponent.addMarker(startCoords, 'Inicio del viaje');
+				this.mapComponent.addMarker(endCoords, 'Fin del viaje');
+				this.mapComponent.calculaRuta(startCoords, endCoords);
+			} else {
+				console.error('Invalid coordinates for setMapView:', startCoords, endCoords);
+			}
+		}
+	}
 
     simplificarDireccion(direccion: string): string {
         const partes = direccion.split(',');
@@ -274,4 +280,8 @@ export class NuevoViajeFormComponent implements OnInit {
         }
     }
     
+    calcularPrecioSugerido(distancia : number ) {
+        const monto = localStorage.getItem("precioKilometro")
+		this.montoSugerido = Number(distancia * Number(monto));
+	}
 }
