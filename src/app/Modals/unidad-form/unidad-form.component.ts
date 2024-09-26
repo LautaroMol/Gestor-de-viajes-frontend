@@ -80,7 +80,7 @@ export class UnidadFormComponent implements OnInit {
         plazo: this.formUnidadAmortizacion.get('plazo')?.value,
         periodo: 1,
         objetivo: this.formUnidadAmortizacion.get('amortizacion')?.value,
-        objetivoAnual: this.montoAnual,
+        objetivoAnual: Number.parseFloat(this.montoAnual.toFixed(2)),
         porcentaje: 0,
         recaudado: 0,
         fechaInicio: new Date(),
