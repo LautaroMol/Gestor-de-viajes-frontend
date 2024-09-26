@@ -7,22 +7,30 @@ import { CommonModule } from '@angular/common';
 import { MapComponent } from "../../Modals/map/map.component";
 import { NuevoViajeFormComponent } from '../../Modals/nuevo-viaje-form/nuevo-viaje-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { AmortizacionService } from '../../Services/amortizacion.service';
+import { Amortizacion } from '../../Interfaces/amortizacion';
 
 @Component({
   selector: 'app-viajes',
   standalone: true,
-  imports: [MatCardModule, TotalsCardsComponent, CommonModule, MapComponent],
+  imports: [MatCardModule, TotalsCardsComponent, CommonModule, MapComponent,MatProgressBarModule],
   templateUrl: './viajes.component.html',
   styleUrls: ['./viajes.component.css'] 
 })
 export class ViajesComponent implements OnInit {
 
   viajes: Viaje[] = [];
+  amortizacion?: Amortizacion;
+  progreso: number = 0; 
   
-  constructor(private viajeService: ViajeService, private dialog: MatDialog) { }
+  constructor(private viajeService: ViajeService, private dialog: MatDialog,
+    private amortizacionService: AmortizacionService
+  ) { }
 
   ngOnInit(): void {
     this.obtenerViajes();
+    this.obtenerAmortizacion();
   }
 
   obtenerViajes() {
@@ -81,4 +89,22 @@ export class ViajesComponent implements OnInit {
         }
     });
   }
+
+  obtenerAmortizacion(){
+    this.amortizacionService.get(1).subscribe(data => {
+      this.amortizacion = data;
+    })
+  }
+
+  calcularPorcentajeAmortizacion(): number {
+    if (this.amortizacion) {
+      const restanteAnual = this.amortizacion.objetivo - this.amortizacion.recaudado;
+      if (restanteAnual <= 0) {
+        return 100;
+      }
+      return (this.amortizacion.recaudado / this.amortizacion.objetivo) * 100;
+    }
+    return 0;
+  }
+
 }

@@ -87,7 +87,23 @@
         </table>
     </div>
 
+    <div *ngIf="amortizacion">
+        <h3>Objetivo Anual: {{ amortizacion.objetivoAnual | currency }}</h3>
+        <h4>Recaudado: {{ amortizacion.recaudado | currency }}</h4>
+      
+        <mat-progress-bar 
+          mode="determinate" 
+          [value]="calcularPorcentajeAmortizacion()">
+        </mat-progress-bar>
+      
+        <p>Progreso: {{ calcularPorcentajeAmortizacion() | number: '1.0-2' }}%</p>
+    </div>
+      
+      
+
     <div class="flex flex-col justify-end">
         <app-totals-cards></app-totals-cards>
     </div>
+
+
 </div>

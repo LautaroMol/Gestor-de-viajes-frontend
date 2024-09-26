@@ -71,7 +71,6 @@ export class CamionComponent implements OnInit {
     const dialogRef = this.dialog.open(UnidadFormComponent, {
       width: '400px',
       data: {} 
-      
     });
   
     dialogRef.afterClosed().subscribe(result => {
