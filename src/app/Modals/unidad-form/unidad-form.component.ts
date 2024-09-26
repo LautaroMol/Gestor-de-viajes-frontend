@@ -46,6 +46,7 @@ export class UnidadFormComponent implements OnInit {
 
   calcularMontoAnual() {
     if (this.formUnidadAmortizacion.valid) {
+      
       const amortizacion = this.formUnidadAmortizacion.get('amortizacion')?.value;
       const plazo = this.formUnidadAmortizacion.get('plazo')?.value;
 
@@ -59,10 +60,16 @@ export class UnidadFormComponent implements OnInit {
 
   onSubmit() {
     if (this.formUnidadAmortizacion.valid) {
+      const numeroRuedas = this.formUnidadAmortizacion.get('ruedas')?.value;
+    
+      const ruedasArray = Array.from({ length: numeroRuedas }, (_, index) => index + 1);
+    
+      const estadoRuedaArray = Array(numeroRuedas).fill(0);
       const nuevaUnidad: Unidad = {
         idUnidad: this.dataUnidad ? this.dataUnidad.idUnidad : 0,
         ...this.formUnidadAmortizacion.value,
-        estadoRueda: [],
+        ruedas: ruedasArray,  // Asignar el array de ruedas
+        estadoRueda: estadoRuedaArray, 
         kmAceite: 0,
         aceite: new Date(),
         idUsuario: 1,
