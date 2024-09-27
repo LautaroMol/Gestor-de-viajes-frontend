@@ -104,6 +104,7 @@ export class CamionComponent implements OnInit {
       if (result) {
         console.log(result);
         this.getCamion(1);
+        this.getAmort(1);
       }
     });
   }

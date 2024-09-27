@@ -50,7 +50,7 @@ export class UnidadFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.dataUnidad && this.dataAmort) {
-      this.difAmort = this.dataAmort.objetivoAnual
+      this.difAmort = this.dataAmort.objetivo / this.dataAmort.plazo;
       this.patchFormValues(this.dataUnidad, this.dataAmort);
       this.bloquearCampos(); 
     }
@@ -117,7 +117,7 @@ export class UnidadFormComponent implements OnInit {
   
       } else {
         if (this.dataAmort) {
-          const diferencia = Number.parseFloat((this.montoAnual).toFixed(2)) - this.dataAmort.objetivoAnual;
+          const diferencia = Number.parseFloat((this.montoAnual).toFixed(2)) - this.difAmort;
           
           nuevaAmortizacion.objetivoAnual = this.dataAmort.objetivoAnual + diferencia;
   
