@@ -23,8 +23,8 @@ export class UnidadFormComponent implements OnInit {
   tituloAccion: string = "Nueva Unidad y Amortización";
   botonAccion: string = "Guardar";
   fechaInicio = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-  dataUnidad: Unidad | undefined;
-  dataAmort: Amortizacion | undefined;
+  dataUnidad?: Unidad;
+  dataAmort?: Amortizacion;
   difAmort: number = 0; // Esta variable almacena la diferencia de amortización que se sumará
 
   constructor(
@@ -49,12 +49,14 @@ export class UnidadFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data && this.data.unidad && this.data.amort) {
-      this.patchFormValues(this.data.unidad, this.data.amort);
-      this.bloquearCampos();
-      this.difAmort = this.data.amort.objetivoAnual - this.data.amort.recaudado; // Diferencia inicial entre lo pagado y la amortización original
+    if (this.data) {
+      this.dataUnidad = this.data.unidad;
+      this.dataAmort = this.data.amort;
+      this.patchFormValues(this.dataUnidad, this.dataAmort);
+      this.bloquearCampos(); 
+      this.difAmort = this.data.amort.objetivoAnual - this.data.amort.recaudado; // Calcula la diferencia de amortización
     }
-  }
+  }  
 
   calcularMontoAnual() {
     if (this.formUnidadAmortizacion.valid) {
@@ -141,19 +143,16 @@ export class UnidadFormComponent implements OnInit {
   }
 
   patchFormValues(unidad: Unidad, amort: Amortizacion) {
-    this.formUnidadAmortizacion.patchValue({
-      marca: unidad.marca,
-      modelo: unidad.modelo,
-      amortizacion: amort.objetivo,
-      ruedas: unidad.ruedas.length,
-      valoracion: unidad.valoracion,
-      plazo: amort.plazo,
-    });
+  this.formUnidadAmortizacion.patchValue({
+    marca: unidad.marca,
+    modelo: unidad.modelo,
+    amortizacion: amort.objetivoAnual, // Asigna el valor de amortización
+    ruedas: unidad.ruedas.length, // Asigna el número de ruedas
+    valoracion: unidad.valoracion,
+    plazo: amort.plazo
+  });
+}
 
-    if (amort.objetivo && amort.plazo) {
-      this.montoAnual = amort.objetivo / amort.plazo;
-    }
-  }
 
   bloquearCampos() {
     this.formUnidadAmortizacion.get('marca')?.disable();
