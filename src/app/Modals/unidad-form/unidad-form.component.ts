@@ -23,8 +23,8 @@ export class UnidadFormComponent implements OnInit {
   tituloAccion: string = "Nueva Unidad y Amortización";
   botonAccion: string = "Guardar";
   fechaInicio = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-  dataUnidad?: Unidad;
-  dataAmort?: Amortizacion;
+  dataUnidad: Unidad | null = null;
+  dataAmort: Amortizacion | null = null;
   difAmort: number = 0; // Esta variable almacena la diferencia de amortización que se sumará
 
   constructor(
@@ -49,9 +49,7 @@ export class UnidadFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data) {
-      this.dataUnidad = this.data.unidad;
-      this.dataAmort = this.data.amort;
+    if (this.dataUnidad && this.dataAmort) {
       this.patchFormValues(this.dataUnidad, this.dataAmort);
       this.bloquearCampos(); 
       this.difAmort = this.data.amort.objetivoAnual - this.data.amort.recaudado; // Calcula la diferencia de amortización

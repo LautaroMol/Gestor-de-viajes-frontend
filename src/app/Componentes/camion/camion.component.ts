@@ -89,7 +89,6 @@ export class CamionComponent implements OnInit {
         amort: amort
       }
     });
-  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
