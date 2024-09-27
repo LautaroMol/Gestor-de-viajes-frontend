@@ -4,6 +4,7 @@ import { Unidad } from '../../Interfaces/unidad';
 import { UnidadService } from '../../Services/unidad.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UnidadFormComponent } from '../../Modals/unidad-form/unidad-form.component';
+import { Amortizacion } from '../../Interfaces/amortizacion';
 
 @Component({
   selector: 'app-camion',
@@ -80,4 +81,21 @@ export class CamionComponent implements OnInit {
       }
     });
   }
+
+  ActualizarAmort(unidad: Unidad, amort: Amortizacion){
+    const dialogRef = this.dialog.open(UnidadFormComponent, {
+      data: {
+        unidad: unidad,
+        amort: amort
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.getCamion(1);
+      }
+    });
+  }
+  
 }
