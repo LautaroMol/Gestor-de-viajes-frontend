@@ -1,4 +1,4 @@
-<div class="container" *ngIf="unidad">
+<div class="container" *ngIf="unidad && amortizacion">
   <div class="layout">
     <div class="oil-column">
       <div class="oil-barrel-container">
@@ -58,7 +58,7 @@
     <div>
       <button
         class="shadow-md bg-indigo-600 p-3 rounded-md hover:bg-indigo-700 transition-all text-white text-xl font-bold"
-        (click)="openDialog()"
+        (click)="ActualizarAmort(unidad,amortizacion)"
       >
         Actualizar amortizacion
       </button>

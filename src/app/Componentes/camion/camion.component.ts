@@ -5,6 +5,7 @@ import { UnidadService } from '../../Services/unidad.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UnidadFormComponent } from '../../Modals/unidad-form/unidad-form.component';
 import { Amortizacion } from '../../Interfaces/amortizacion';
+import { AmortizacionService } from '../../Services/amortizacion.service';
 
 @Component({
   selector: 'app-camion',
@@ -14,14 +15,18 @@ import { Amortizacion } from '../../Interfaces/amortizacion';
   styleUrls: ['./camion.component.css']
 })
 export class CamionComponent implements OnInit {
+  amortizacion: Amortizacion | null = null;
   unidad: Unidad | null = null;
   selectedWheel: number | null = null;
   showWarning: boolean = false;
 
-  constructor(private unidadService: UnidadService,private dialog: MatDialog) {}
+  constructor(private unidadService: UnidadService,private dialog: MatDialog,
+    private amortService: AmortizacionService,
+  ) {}
 
   ngOnInit(): void {
     this.getCamion(1); // Obtener la unidad por id
+    this.getAmort(1); 
   }
 
   getCamion(id: number): void {
@@ -29,6 +34,12 @@ export class CamionComponent implements OnInit {
       this.unidad = data;
       this.checkOilWarning();
     });
+  }
+
+  getAmort(id:number) {
+    this.amortService.get(id).subscribe(data =>{
+      this.amortizacion = data;
+    })
   }
 
   selectWheel(wheelIndex: number): void {
