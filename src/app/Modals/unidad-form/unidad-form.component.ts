@@ -146,7 +146,7 @@ export class UnidadFormComponent implements OnInit {
   this.formUnidadAmortizacion.patchValue({
     marca: unidad.marca,
     modelo: unidad.modelo,
-    amortizacion: amort.objetivoAnual, // Asigna el valor de amortización
+    amortizacion: amort.objetivo, // Asigna el valor de amortización
     ruedas: unidad.ruedas.length, // Asigna el número de ruedas
     valoracion: unidad.valoracion,
     plazo: amort.plazo
