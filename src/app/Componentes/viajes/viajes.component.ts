@@ -120,10 +120,10 @@ export class ViajesComponent implements OnInit {
 
     confetti({
         particleCount: 500,
-        spread: 160,
+        spread: 130,
         origin: { y: 0.6 },
         colors: ['#FF0000', '#FFFFFF'],
-        gravity: -0.6,
+        gravity: 0.6,
     });
 
     setTimeout(() => {
