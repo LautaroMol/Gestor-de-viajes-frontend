@@ -67,6 +67,10 @@
         Calcular Monto Anual
       </button>
     </div>
+
+    <div *ngIf="dataAmort">
+      <label>Amortizacion anual actual: {{dataAmort.objetivoAnual}}</label>
+    </div>
   
     <div>
       <button type="submit" mat-raised-button color="primary">Guardar</button>
