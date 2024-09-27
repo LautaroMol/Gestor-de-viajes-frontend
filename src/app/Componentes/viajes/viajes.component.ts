@@ -114,7 +114,7 @@ export class ViajesComponent implements OnInit {
   celebrate() {
     if (this.celebrated) return; 
 
-    const duration = 3000;
+    const duration =5000;
     this.audioCelebration.currentTime = 0;
     this.audioCelebration.play();
 
