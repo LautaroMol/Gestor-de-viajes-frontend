@@ -107,16 +107,24 @@ export class ViajesComponent implements OnInit {
     }
     return 0;
   }
-
+  celebrated: boolean = false;
   celebrate() {
-    const duration = 3000; // in milliseconds
-  
+    if (this.celebrated) return; 
+
+    const duration = 3000;
+
     confetti({
-      particleCount: 1000,
-      spread: 160,
-      origin: { y: 0.6 },
+        particleCount: 100,
+        spread: 160,
+        origin: { y: 0.6 },
+        colors: ['#FF0000', '#FFFFFF'],
+        gravity: -0.3,
     });
-    setTimeout(() => confetti.reset(), duration);
-  }
+
+    setTimeout(() => {
+        this.celebrated = true;
+        confetti.reset();
+    }, duration);
+}
 
 }
