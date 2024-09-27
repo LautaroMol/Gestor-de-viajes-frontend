@@ -114,9 +114,8 @@ export class UnidadFormComponent implements OnInit {
           }
         });
       } else {
-        if (this.dataAmort) {const dif = this.dataAmort.objetivoAnual - Number.parseFloat((this.montoAnual).toFixed(2));
+        if (this.dataAmort) {const dif = Number.parseFloat((this.montoAnual).toFixed(2)) - this.dataAmort.objetivoAnual;
           nuevaAmortizacion.objetivoAnual = dif
-        
         this.amortizacionService.update(nuevaAmortizacion, nuevaAmortizacion.idAmortizacion)
           .subscribe({
             next: (data) => {
