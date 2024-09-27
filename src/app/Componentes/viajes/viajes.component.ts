@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { Amortizacion } from '../../Interfaces/amortizacion';
-import * as confetti from 'canvas-confetti';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-viajes',
@@ -112,7 +112,7 @@ export class ViajesComponent implements OnInit {
     const duration = 3000; // in milliseconds
   
     confetti({
-      particleCount: 100,
+      particleCount: 1000,
       spread: 160,
       origin: { y: 0.6 },
     });
