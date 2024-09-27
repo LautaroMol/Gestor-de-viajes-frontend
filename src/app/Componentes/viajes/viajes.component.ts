@@ -24,10 +24,13 @@ export class ViajesComponent implements OnInit {
   viajes: Viaje[] = [];
   amortizacion?: Amortizacion;
   progreso: number = 0; 
-  
+  audioCelebration: HTMLAudioElement;
+
   constructor(private viajeService: ViajeService, private dialog: MatDialog,
-    private amortizacionService: AmortizacionService
-  ) { }
+    private amortizacionService: AmortizacionService,
+  ) {
+    this.audioCelebration = new Audio('assets/audio/yippie.mp3');
+   }
 
   ngOnInit(): void {
     this.obtenerViajes();
@@ -112,6 +115,8 @@ export class ViajesComponent implements OnInit {
     if (this.celebrated) return; 
 
     const duration = 3000;
+    this.audioCelebration.currentTime = 0;
+    this.audioCelebration.play();
 
     confetti({
         particleCount: 100,

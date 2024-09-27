@@ -92,7 +92,7 @@
         <h4>Recaudado: {{ amortizacion.recaudado | currency }}</h4>
         <div *ngIf="amortizacion && amortizacion.objetivo === amortizacion.recaudado">
             <div class="relative">
-                <div id="confetti-container"></div> 
+                <div id="confetti-container">{{celebrate()}}</div> 
                 <h2 class="text-green-600 text-center font-bold mt-4">Se pagó completamente la amortización</h2>
             </div>
         </div>        
