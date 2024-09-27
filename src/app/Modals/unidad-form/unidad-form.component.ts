@@ -54,7 +54,6 @@ export class UnidadFormComponent implements OnInit {
       console.log(this.dataAmort)
       this.patchFormValues(this.dataUnidad, this.dataAmort);
       this.bloquearCampos(); 
-      this.difAmort = this.data.amort.objetivoAnual - this.data.amort.recaudado; // Calcula la diferencia de amortización
     }
   }  
 
@@ -93,9 +92,9 @@ export class UnidadFormComponent implements OnInit {
         plazo: this.formUnidadAmortizacion.get('plazo')?.value,
         periodo: 1,
         objetivo: this.formUnidadAmortizacion.get('amortizacion')?.value,
-        objetivoAnual: Number.parseFloat((this.difAmort + this.montoAnual).toFixed(2)), // Sumamos la diferencia a la nueva amortización
+        objetivoAnual: this.dataAmort? this.dataAmort.objetivoAnual : Number.parseFloat((this.montoAnual).toFixed(2)),
         porcentaje: 0,
-        recaudado: this.dataAmort?.recaudado ?? 0, // Mantener el monto recaudado
+        recaudado: this.dataAmort? this.dataAmort.recaudado : 0, 
         fechaInicio: new Date(),
       };
 
@@ -107,7 +106,6 @@ export class UnidadFormComponent implements OnInit {
             this.mostrarAlerta("No se ha podido crear la unidad");
           }
         });
-
         this.amortizacionService.add(nuevaAmortizacion).subscribe({
           next: (data) => {
             console.log("Amortización cargada con id: ", data.idAmortizacion);
@@ -116,15 +114,19 @@ export class UnidadFormComponent implements OnInit {
           }
         });
       } else {
+        if (this.dataAmort) {const dif = this.dataAmort.objetivoAnual - Number.parseFloat((this.montoAnual).toFixed(2));
+          nuevaAmortizacion.objetivoAnual = dif
+        
         this.amortizacionService.update(nuevaAmortizacion, nuevaAmortizacion.idAmortizacion)
           .subscribe({
             next: (data) => {
-              const diferencia = nuevaAmortizacion.objetivoAnual - this.difAmort;
-              this.mostrarAlerta(`La amortización se actualizó. Se añadió un valor de: ${diferencia}`);
+              this.mostrarAlerta(`La amortización se actualizó. Se añadió un valor de: ${dif}`);
+              console.log(data);
             }, error: (e) => {
               this.mostrarAlerta("No se ha podido modificar la amortización");
             }
           });
+        }
       }
       
       this.dialogoReferencia.close(nuevaUnidad);
