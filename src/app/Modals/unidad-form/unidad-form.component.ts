@@ -50,6 +50,8 @@ export class UnidadFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.dataUnidad && this.dataAmort) {
+      console.log(this.dataUnidad)
+      console.log(this.dataAmort)
       this.patchFormValues(this.dataUnidad, this.dataAmort);
       this.bloquearCampos(); 
       this.difAmort = this.data.amort.objetivoAnual - this.data.amort.recaudado; // Calcula la diferencia de amortización
