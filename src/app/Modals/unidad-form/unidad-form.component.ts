@@ -25,7 +25,7 @@ export class UnidadFormComponent implements OnInit {
   fechaInicio = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   dataUnidad: Unidad | null = null;
   dataAmort: Amortizacion | null = null;
-  difAmort: number = 0; // Esta variable almacena la diferencia de amortización que se sumará
+  difAmort: number = 0; 
 
   constructor(
     private dialogoReferencia: MatDialogRef<UnidadFormComponent>,
@@ -50,8 +50,7 @@ export class UnidadFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.dataUnidad && this.dataAmort) {
-      console.log(this.dataUnidad)
-      console.log(this.dataAmort)
+      this.difAmort = this.dataAmort.objetivoAnual
       this.patchFormValues(this.dataUnidad, this.dataAmort);
       this.bloquearCampos(); 
     }
@@ -75,7 +74,7 @@ export class UnidadFormComponent implements OnInit {
       const numeroRuedas = this.formUnidadAmortizacion.get('ruedas')?.value;
       const ruedasArray = Array.from({ length: numeroRuedas }, (_, index) => index + 1);
       const estadoRuedaArray = Array(numeroRuedas).fill(0);
-      
+  
       const nuevaUnidad: Unidad = {
         idUnidad: this.dataUnidad ? this.dataUnidad.idUnidad : 0,
         ...this.formUnidadAmortizacion.value,
@@ -86,18 +85,19 @@ export class UnidadFormComponent implements OnInit {
         idUsuario: 1,
         recaudado: 0,
       };
-
+  
       const nuevaAmortizacion: Amortizacion = {
         idAmortizacion: this.dataAmort ? this.dataAmort.idAmortizacion : 0,
         plazo: this.formUnidadAmortizacion.get('plazo')?.value,
         periodo: 1,
         objetivo: this.formUnidadAmortizacion.get('amortizacion')?.value,
-        objetivoAnual: this.dataAmort? this.dataAmort.objetivoAnual : Number.parseFloat((this.montoAnual).toFixed(2)),
+        objetivoAnual: this.dataAmort ? this.dataAmort.objetivoAnual : Number.parseFloat((this.montoAnual).toFixed(2)),
         porcentaje: 0,
-        recaudado: this.dataAmort? this.dataAmort.recaudado : 0, 
+        recaudado: this.dataAmort ? this.dataAmort.recaudado : 0, 
         fechaInicio: new Date(),
       };
-
+  
+      // Si la unidad es nueva
       if (this.dataUnidad == null) {
         this.unidadService.add(nuevaUnidad).subscribe({
           next: (data) => {
@@ -106,6 +106,7 @@ export class UnidadFormComponent implements OnInit {
             this.mostrarAlerta("No se ha podido crear la unidad");
           }
         });
+  
         this.amortizacionService.add(nuevaAmortizacion).subscribe({
           next: (data) => {
             console.log("Amortización cargada con id: ", data.idAmortizacion);
@@ -113,26 +114,32 @@ export class UnidadFormComponent implements OnInit {
             this.mostrarAlerta("No se ha podido crear la amortización");
           }
         });
+  
       } else {
-        if (this.dataAmort) {const dif = Number.parseFloat((this.montoAnual).toFixed(2)) - this.dataAmort.objetivoAnual;
-          nuevaAmortizacion.objetivoAnual = dif
-        this.amortizacionService.update(nuevaAmortizacion, nuevaAmortizacion.idAmortizacion)
-          .subscribe({
-            next: (data) => {
-              this.mostrarAlerta(`La amortización se actualizó. Se añadió un valor de: ${dif}`);
-              console.log(data);
-            }, error: (e) => {
-              this.mostrarAlerta("No se ha podido modificar la amortización");
-            }
-          });
+        if (this.dataAmort) {
+          const diferencia = Number.parseFloat((this.montoAnual).toFixed(2)) - this.dataAmort.objetivoAnual;
+          
+          nuevaAmortizacion.objetivoAnual = this.dataAmort.objetivoAnual + diferencia;
+  
+          this.amortizacionService.update(nuevaAmortizacion, nuevaAmortizacion.idAmortizacion)
+            .subscribe({
+              next: (data) => {
+                // Mostrar la alerta con la diferencia sumada
+                this.mostrarAlertaWindow(`La amortización se actualizó. Se añadió un valor de: ${diferencia.toFixed(2)} ARS`);
+                console.log(data);
+              }, error: (e) => {
+                this.mostrarAlerta("No se ha podido modificar la amortización");
+              }
+            });
         }
       }
-      
+  
       this.dialogoReferencia.close(nuevaUnidad);
     } else {
       console.error('Formulario no válido');
     }
   }
+  
 
   onCancel() {
     this.dialogoReferencia.close();
@@ -160,5 +167,9 @@ export class UnidadFormComponent implements OnInit {
     this.formUnidadAmortizacion.get('modelo')?.disable();
     this.formUnidadAmortizacion.get('ruedas')?.disable();
     this.formUnidadAmortizacion.get('valoracion')?.disable();
+  }
+
+  mostrarAlertaWindow(mensaje: string) {
+    window.alert(mensaje); 
   }
 }

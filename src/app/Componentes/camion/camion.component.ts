@@ -84,11 +84,11 @@ export class CamionComponent implements OnInit {
       width: '400px',
       data: {} 
     });
-  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
         this.getCamion(1);
+        this.getAmort(1);
       }
     });
   }
