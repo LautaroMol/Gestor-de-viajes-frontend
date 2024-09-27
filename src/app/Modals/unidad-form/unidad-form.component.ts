@@ -48,7 +48,7 @@ export class UnidadFormComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.dataUnidad && this.dataAmort) {
       console.log(this.dataUnidad)
       console.log(this.dataAmort)
