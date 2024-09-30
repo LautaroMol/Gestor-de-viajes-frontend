@@ -77,8 +77,21 @@
                                         <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">Ver Carta Porte</div>
                                         <div class="clip-bottom h-2 w-4 bg-yellow-500"></div>
                                     </div>
-                                </div>
-                            </div>                                                        
+                                </div>                                
+                            </div>     
+                            <div class="group relative flex flex-col items-center justify-center">
+                                <button class="bg-yellow-400 p-2 rounded-md text-white hover:bg-yellow-500 transition-all" (click)="GeneratePDF()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                    </svg>
+                                </button>
+                                <div class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom rounded text-white opacity-0 transition-all duration-200 group-hover:opacity-100">
+                                    <div class="flex max-w-xs flex-col items-center">
+                                        <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">Ver Carta Porte</div>
+                                        <div class="clip-bottom h-2 w-4 bg-yellow-500"></div>
+                                    </div>
+                                </div>                                
+                            </div>                                                     
                         </div>
                     </td>
                 </tr>
@@ -112,4 +125,5 @@
     </div>
 
 
+    
 </div>
