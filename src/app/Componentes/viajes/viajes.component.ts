@@ -11,10 +11,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { Amortizacion } from '../../Interfaces/amortizacion';
 import confetti from 'canvas-confetti';
-import pdfMake from 'pdfmake/build/pdfMake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 
 @Component({
   selector: 'app-viajes',
