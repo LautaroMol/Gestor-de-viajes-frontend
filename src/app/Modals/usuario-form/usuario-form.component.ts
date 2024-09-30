@@ -64,7 +64,7 @@ export class UsuarioFormComponent implements OnInit {
                 this._usuarioServicio.add(usuario).subscribe({
                     next: () => {
                         console.log("Usuario agregado exitosamente");
-                        this.dialogoReferencia.close({ action: "Creado", data: usuario });
+                        this.dialogoReferencia.close({ result: "Creado", data: usuario });
                     },
                     error: (err) => {
                         console.error("Error al agregar usuario:", err);
