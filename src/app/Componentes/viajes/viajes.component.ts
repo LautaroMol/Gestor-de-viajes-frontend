@@ -156,7 +156,7 @@ export class ViajesComponent implements OnInit {
       ]
     }
   
-  const pdf = pdfMake.createPDF(pdfDefinition);
+  const pdf = pdfMake.createPdf(pdfDefinition);
   pdf.open();
   }
 
