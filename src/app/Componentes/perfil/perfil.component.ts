@@ -122,6 +122,10 @@ export class PerfilComponent implements OnInit {
 				this.obtenerClientes();
 			}
 		});
+
+		setTimeout(() => {
+			this.obtenerUser();
+		}, 1500);
 	}
 
 //   obtenerCargas() {

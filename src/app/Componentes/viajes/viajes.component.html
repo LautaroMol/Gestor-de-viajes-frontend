@@ -10,8 +10,8 @@
             <thead class="bg-indigo-600 text-center">
                 <tr>
                     <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Cliente</th>
-                    <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Servicio</th>
-                    <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Cantidad</th>
+                    <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Inicio - Destino</th>
+                    <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Distancia</th>
                     <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Subtotal</th>
                     <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Fecha</th>
                     <th scope="col" class="px-6 py-2 font-bold text-white text-xl">Acciones</th>
@@ -25,8 +25,8 @@
                     <td class="px-6 py-4 text-center">{{ viaje.distancia }} km</td>
                     <td class="px-6 py-4 text-center">{{ calcularSubtotal(viaje.gastos) | currency }}</td>
                     <td class="px-6 py-4 text-center">{{ viaje.fecha | date:'dd/MM/yyyy' }}</td>
-                    <td class="px-6 py-4 flex justify-center items-center ">
-                        <div class="flex gap-2">
+                    <td class="px-6 py-4 flex justify-center items-center">
+                        <div class="flex items-center gap-2">
                             <div class="group relative flex flex-col items-center justify-center">
                                 <button class="bg-green-600 p-2 rounded-md text-white  hover:bg-green-700 transition-all" (click)="editarViaje(viaje)">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -41,18 +41,19 @@
                                 </div>
                             </div>
                             <div class="group relative flex flex-col items-center justify-center">
-                                <button class="bg-yellow-400 p-2 rounded-md text-white hover:bg-yellow-500 transition-all " >
+                                <button class="bg-blue-400 p-2 rounded-md text-white hover:bg-blue-500 transition-all" (click)="verCartaPorte(viaje.cp)">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                    </svg>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                      </svg>
                                 </button>
                                 <div class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom rounded text-white opacity-0 transition-all duration-200 group-hover:opacity-100">
                                     <div class="flex max-w-xs flex-col items-center">
-                                        <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">Descargar</div>
-                                        <div class="clip-bottom h-2 w-4 bg-yellow-500"></div>
+                                        <div class="rounded bg-blue-400 p-2 text-xs text-center shadow-lg">Ver Carta Porte</div>
+                                        <div class="clip-bottom h-2 w-4 bg-blue-500"></div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>                                
+                            </div>   
                             <div class="group relative flex flex-col items-center justify-center">
                                 <button class="bg-red-600 p-2 rounded-md text-white  hover:bg-red-700 transition-all" (click)="BorrarViajes(viaje)">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -67,19 +68,6 @@
                                 </div>
                             </div>
                             <div class="group relative flex flex-col items-center justify-center">
-                                <button class="bg-yellow-400 p-2 rounded-md text-white hover:bg-yellow-500 transition-all" (click)="verCartaPorte(viaje.cp)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                    </svg>
-                                </button>
-                                <div class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom rounded text-white opacity-0 transition-all duration-200 group-hover:opacity-100">
-                                    <div class="flex max-w-xs flex-col items-center">
-                                        <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">Ver Carta Porte</div>
-                                        <div class="clip-bottom h-2 w-4 bg-yellow-500"></div>
-                                    </div>
-                                </div>                                
-                            </div>     
-                            <div class="group relative flex flex-col items-center justify-center">
                                 <button class="bg-yellow-400 p-2 rounded-md text-white hover:bg-yellow-500 transition-all" (click)="GeneratePDF(viaje)">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -87,7 +75,7 @@
                                 </button>
                                 <div class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom rounded text-white opacity-0 transition-all duration-200 group-hover:opacity-100">
                                     <div class="flex max-w-xs flex-col items-center">
-                                        <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">generar pdf</div>
+                                        <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">Generar pdf</div>
                                         <div class="clip-bottom h-2 w-4 bg-yellow-500"></div>
                                     </div>
                                 </div>                                
