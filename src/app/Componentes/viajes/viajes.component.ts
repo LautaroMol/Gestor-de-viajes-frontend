@@ -511,11 +511,11 @@ export class ViajesComponent implements OnInit {
                   [
                     {
                       text: 'Total despues de gastos ',
-                      alignment: 'right',
+                      alignment: 'left',
                       margin: [0, 5, 0, 5],
                     },
                     {
-                      text: `${sumaGastos}`, // Suma de gastos
+                      text: `${viaje.totalFacturado - sumaGastos}`, // Suma de gastos
                       alignment: 'right',
                       fillColor: '#f5f5f5',
                       margin: [0, 5, 0, 5],

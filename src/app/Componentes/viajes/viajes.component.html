@@ -23,7 +23,7 @@
                     <td class="px-6 py-4 text-center">{{ viaje.cuitUsuario }}</td>
                     <td class="px-6 py-4 text-center">{{ viaje.inicio }} - {{ viaje.final }}</td>
                     <td class="px-6 py-4 text-center">{{ viaje.distancia }} km</td>
-                    <td class="px-6 py-4 text-center">{{ calcularSubtotal(viaje.gastos) | currency }}</td>
+                    <td class="px-6 py-4 text-center">{{ viaje.totalFacturado | currency }}</td>
                     <td class="px-6 py-4 text-center">{{ viaje.fecha | date:'dd/MM/yyyy' }}</td>
                     <td class="px-6 py-4 flex justify-center items-center">
                         <div class="flex items-center gap-2">
