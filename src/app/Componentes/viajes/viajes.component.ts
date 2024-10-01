@@ -233,7 +233,7 @@ export class ViajesComponent implements OnInit {
         const userCompany = this.user ? this.user.domicilio : 'Compañía del Cliente';
         const userCuit = this.user ? this.user.cuit : 'CUIT del Cliente';
         const userCondition = this.user ? this.user.condicion : 'Condición del Cliente';
-        this.gastos.includes(viaje.gastos);
+
         //encontrar al cliente
         const cliente = this.clientes.find(cliente => cliente.cuitCliente == viaje.cuitUsuario);
         const clienteNombre = cliente ? cliente.razonSoc : "No se encontró el cliente ni su CUIT en la base de datos, por favor cárguelo y verifique que no se haya borrado.";
@@ -242,7 +242,7 @@ export class ViajesComponent implements OnInit {
         // Usar los datos del viaje seleccionado
         const viajeFecha = new Date(viaje.fecha).toLocaleDateString();
         const viajeNumeroRecibo = viaje.idViaje;
-        const sumaGastos = this.gastos.reduce((total, gasto) => total + gasto.cantidad,0);
+
 
         const dd = {
             content: [
