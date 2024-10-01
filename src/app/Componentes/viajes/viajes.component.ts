@@ -478,23 +478,12 @@ export class ViajesComponent implements OnInit {
                 body: [
                   [
                     {
-                      text: 'Subtotal del viaje',
-                      alignment: 'right',
-                      margin: [0, 5, 0, 5],
-                    },
-                    {
-                      text: `${viaje.totalFacturado}`, // Subtotal del viaje
-                      alignment: 'right',
-                      fillColor: '#f5f5f5',
-                      margin: [0, 5, 0, 5],
-                    },
-                    {
                       text: 'Total despues de gastos ',
                       alignment: 'right',
                       margin: [0, 5, 0, 5],
                     },
                     {
-                      text: `${sumaGastos}`, // Subtotal del viaje
+                      text: `${sumaGastos}`, // Suma de gastos
                       alignment: 'right',
                       fillColor: '#f5f5f5',
                       margin: [0, 5, 0, 5],
