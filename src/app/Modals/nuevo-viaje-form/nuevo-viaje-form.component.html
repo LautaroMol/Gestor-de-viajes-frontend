@@ -50,18 +50,17 @@
 					<label for="montoSugerido" class="block text-indigo-600	font-bold">Precio Sugerido</label>
 					<p class="w-full mt-2 py-1 px-3 bg-gray-200 cursor-not-allowed shadow-lg rounded-lg">{{montoSugerido | currency }}</p>
 				</div>
-
-				<div class="p-2">
-					<label for="monto" value="montoReal" class="block text-indigo-600 font-bold">Precio Real</label>
-					<input 
-						id="monto" 
-						name="monto" 
-						type="number"
-						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
-						required
-						(input)="calcularTotalFacturado()"
-					>
-				</div>
+			</div>
+			<div class="p-2">
+				<label for="monto" value="montoReal" class="block text-indigo-600 font-bold">Precio Real</label>
+				<input 
+					id="monto" 
+					name="monto" 
+					type="number"
+					class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+					required
+					(input)="calcularTotalFacturado()"
+				>
 			</div>
 			<div class="p-2">
 				<label for="fecha" class="block text-indigo-600	font-bold">Fecha</label>
@@ -75,7 +74,7 @@
 				>
 			</div>
 			<div class="p-2">
-				<label for="cuitUsuario" class="block text-indigo-600 font-bold">Cuit Usuario</label>
+				<label for="cuitUsuario" class="block text-indigo-600 font-bold">Cuit Cliente</label>
 				<input 
 					id="cuitUsuario" 
 					name="cuitUsuario" 
@@ -87,7 +86,7 @@
 			</div>
 			
 			<div class="p-2">
-				<label for="totalFacturado" class="block text-indigo-600 font-bold">Total Facturado</label>
+				<label for="totalFacturado" class="block text-indigo-600 font-bold">Total</label>
 				<input 
 					id="totalFacturado" 
 					name="totalFacturado" 

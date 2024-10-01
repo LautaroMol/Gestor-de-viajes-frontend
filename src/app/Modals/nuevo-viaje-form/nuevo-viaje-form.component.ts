@@ -115,7 +115,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 cp: '', 
                 facturado: this.formViaje.value.facturado,
                 cuitUsuario: this.formViaje.value.cuitUsuario,
-                totalFacturado: 0,
+                totalFacturado: this.totalFacturado,
                 borrado: this.formViaje.value.borrado
             };
     
