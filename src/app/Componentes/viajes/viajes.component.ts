@@ -17,6 +17,8 @@ import { UserService } from '../../Services/user.service';
 import { Usuario } from '../../Interfaces/usuario';
 import { Gasto } from '../../Interfaces/gasto';
 import { GastoService } from '../../Services/gasto.service';
+import { Cliente } from '../../Interfaces/cliente';
+import { ClienteService } from '../../Services/cliente.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -40,12 +42,14 @@ export class ViajesComponent implements OnInit {
   pdfjsLib: any;
   user!: Usuario;
   gastos: Gasto[] = [];
+  clientes: Cliente[] = [];
 
   constructor(
     private viajeService: ViajeService,
     private dialog: MatDialog,
     private amortizacionService: AmortizacionService,
-    private userService: UserService, private gastoService: GastoService
+    private userService: UserService, private gastoService: GastoService,
+    private clienteService: ClienteService
   ) {
     this.audioCelebration = new Audio('assets/audio/yippie.mp3');
   }
@@ -55,6 +59,7 @@ export class ViajesComponent implements OnInit {
     this.obtenerAmortizacion();
     this.obtenerUser();
     this.obtenerGastos();
+    this.obtenerClientes();
     this.pdfjsLib = this.pdfjsLib
   }
 
@@ -65,7 +70,6 @@ export class ViajesComponent implements OnInit {
         console.log(this.viajes);
       },
       error: (e) => {
-        console.error(e);
         console.log(e.message);
       },
     });
@@ -201,6 +205,18 @@ export class ViajesComponent implements OnInit {
     });
   }
 
+  
+	obtenerClientes() {
+		this.clienteService.getList().subscribe({
+			next: (data) => {
+				this.clientes = data;
+			},
+			error: (e) => {
+				console.error(e);
+			},
+		});
+	}
+
   GeneratePDF(viaje) {
     const logoPath = 'assets/img/camion.png'; // Ruta de la imagen
 
@@ -214,6 +230,7 @@ export class ViajesComponent implements OnInit {
         const userCuit = this.user ? this.user.cuit : 'CUIT del Cliente';
         const userCondition = this.user ? this.user.condicion : 'Condición del Cliente';
         this.gastos.includes(viaje.gastos);
+        const cliente = this.clientes.find(cliente => cliente.cuitCliente == viaje.cuitUsuario);
 
         // Usar los datos del viaje seleccionado
         const viajeFecha = new Date(viaje.fecha).toLocaleDateString();
@@ -334,7 +351,7 @@ export class ViajesComponent implements OnInit {
                             alignment: 'left',
                         },
                         {
-                            text: `nombre del cliente reemplazar`,
+                            text: `${cliente?.razonSoc} \n de Cuit ${cliente?.cuitCliente}`,
                             bold: true,
                             color: '#333333',
                             alignment: 'left',
