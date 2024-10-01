@@ -27,6 +27,7 @@ export class NuevoViajeFormComponent implements OnInit {
     dataViaje: Viaje | null = null;
     unidad!: Unidad;
     montoSugerido: number = 0;
+    totalFacturado: number = 0;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Viaje | null,
@@ -90,6 +91,15 @@ export class NuevoViajeFormComponent implements OnInit {
             }, 1500);
             this.tituloAccion = "Editado";
             this.botonAccion = "Actualizar";
+        }
+    }
+    calcularTotalFacturado() {
+        const distancia = this.formViaje.value.distancia || 0;
+        const precioReal = parseFloat((document.getElementById('monto') as HTMLInputElement).value) || 0;
+
+        if (distancia && precioReal) {
+            this.totalFacturado = distancia * precioReal;
+            this.formViaje.patchValue({ totalFacturado: this.totalFacturado });
         }
     }
 
