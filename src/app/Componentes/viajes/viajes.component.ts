@@ -220,6 +220,10 @@ export class ViajesComponent implements OnInit {
   GeneratePDF(viaje) {
     const logoPath = 'assets/img/camion.png'; // Ruta de la imagen
 
+    const gastosFiltrados = this.gastos.filter(gasto => viaje.gastos.includes(gasto.idGasto));
+
+    // Calcular la suma de los gastos filtrados
+    const sumaGastos = gastosFiltrados.reduce((total, gasto) => total + gasto.cantidad, 0);
     // Cargar la imagen como base64
     this.loadImageAsBase64(logoPath).then((base64Image) => {
         console.log('Imagen cargada correctamente:', base64Image); // Verifica que la imagen esté en base64
@@ -428,7 +432,7 @@ export class ViajesComponent implements OnInit {
                               },
                           ],
 
-                          ...this.gastos.map(gasto => [
+                          ...gastosFiltrados.map(gasto => [
                               {
                                   text: gasto.nombre, 
                                   margin: [0, 5, 0, 5], 
