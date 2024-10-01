@@ -236,13 +236,10 @@ export class ViajesComponent implements OnInit {
 
         // Define los datos del usuario si NO existen placeholder
         const userName = this.user ? this.user.razon : 'Nombre del Cliente';
-        const userCompany = this.user
-          ? this.user.domicilio
-          : 'Compañía del Cliente';
+        const userCompany = this.user? this.user.domicilio : 'Compañía del Cliente';
         const userCuit = this.user ? this.user.cuit : 'CUIT del Cliente';
-        const userCondition = this.user
-          ? this.user.condicion
-          : 'Condición del Cliente';
+        const userCondition = this.user ? this.user.condicion : 'Condición del Cliente';
+        const estado = viaje.facturado ? "Viaje ya facturado" : 'Pendiente a informar su facturacion';
 
         //encontrar al cliente
         const cliente = this.clientes.find(
@@ -330,7 +327,7 @@ export class ViajesComponent implements OnInit {
                             width: '*',
                           },
                           {
-                            text: 'PAID', // Estado del pago
+                            text: `${estado}`,
                             bold: true,
                             fontSize: 14,
                             alignment: 'right',
@@ -479,7 +476,7 @@ export class ViajesComponent implements OnInit {
                   [
                     {                    
                       text: 'Subtotal del viaje',
-                      alignment: 'right',
+                      alignment: 'left',
                       margin: [0, 5, 0, 5],
                     },
                     {
