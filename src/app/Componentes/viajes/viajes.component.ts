@@ -218,34 +218,25 @@ export class ViajesComponent implements OnInit {
 	}
 
   GeneratePDF(viaje) {
-    const logoPath = 'assets/img/camion.png'; // Ruta de la imagen
+    const logoPath = 'assets/img/camion.png';
 
-    
-    // Cargar la imagen como base64
     this.loadImageAsBase64(logoPath).then((base64Image) => {
-        console.log('Imagen cargada correctamente:', base64Image); // Verifica que la imagen esté en base64
+        console.log('Imagen cargada correctamente:', base64Image);
 
+        // Filtrar los gastos que correspondan a las IDs en viaje.gastos
         const gastosFiltrados = this.gastos.filter(gasto => viaje.gastos.includes(gasto.idGasto));
         console.log('Gastos Filtrados:', gastosFiltrados);
 
         // Calcular la suma de los gastos filtrados
         const sumaGastos = gastosFiltrados.reduce((total, gasto) => total + Number(gasto.cantidad), 0);
+        console.log('Subtotal Gastos:', sumaGastos);
 
-        // Define los datos del usuario si NO existen placeholder
-        const userName = this.user ? this.user.razon : 'Nombre del Cliente';
-        const userCompany = this.user ? this.user.domicilio : 'Compañía del Cliente';
-        const userCuit = this.user ? this.user.cuit : 'CUIT del Cliente';
-        const userCondition = this.user ? this.user.condicion : 'Condición del Cliente';
-
-        //encontrar al cliente
         const cliente = this.clientes.find(cliente => cliente.cuitCliente == viaje.cuitUsuario);
         const clienteNombre = cliente ? cliente.razonSoc : "No se encontró el cliente ni su CUIT en la base de datos, por favor cárguelo y verifique que no se haya borrado.";
         const clienteCuit = cliente ? cliente.cuitCliente : "No se encontró el cliente ni su CUIT.";
 
-        // Usar los datos del viaje seleccionado
         const viajeFecha = new Date(viaje.fecha).toLocaleDateString();
         const viajeNumeroRecibo = viaje.idViaje;
-
 
         const dd = {
             content: [
@@ -258,8 +249,6 @@ export class ViajesComponent implements OnInit {
                         [
                             {
                                 text: 'Recibo de viaje',
-                                color: '#333333',
-                                width: '*',
                                 fontSize: 28,
                                 bold: true,
                                 alignment: 'right',
@@ -269,62 +258,14 @@ export class ViajesComponent implements OnInit {
                                 stack: [
                                     {
                                         columns: [
-                                            {
-                                                text: `Numero de recibo:  `,
-                                                color: '#aaaaab',
-                                                bold: true,
-                                                width: '*',
-                                                fontSize: 12,
-                                                alignment: 'right',
-                                            },
-                                            {
-                                                text: viajeNumeroRecibo, // Número de recibo
-                                                bold: true,
-                                                color: '#333333',
-                                                fontSize: 12,
-                                                alignment: 'right',
-                                                width: 100,
-                                            },
+                                            { text: 'Numero de recibo: ', alignment: 'right' },
+                                            { text: viajeNumeroRecibo, alignment: 'right' },
                                         ],
                                     },
                                     {
                                         columns: [
-                                            {
-                                                text: 'Fecha del viaje: ',
-                                                color: '#aaaaab',
-                                                bold: true,
-                                                width: '*',
-                                                fontSize: 12,
-                                                alignment: 'right',
-                                            },
-                                            {
-                                                text: viajeFecha, 
-                                                bold: true,
-                                                color: '#333333',
-                                                fontSize: 12,
-                                                alignment: 'right',
-                                                width: 100,
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        columns: [
-                                            {
-                                                text: 'Estado',
-                                                color: '#aaaaab',
-                                                bold: true,
-                                                fontSize: 12,
-                                                alignment: 'right',
-                                                width: '*',
-                                            },
-                                            {
-                                                text: 'PAID', // Estado del pago
-                                                bold: true,
-                                                fontSize: 14,
-                                                alignment: 'right',
-                                                color: 'green',
-                                                width: 100,
-                                            },
+                                            { text: 'Fecha del viaje: ', alignment: 'right' },
+                                            { text: viajeFecha, alignment: 'right' },
                                         ],
                                     },
                                 ],
@@ -334,184 +275,53 @@ export class ViajesComponent implements OnInit {
                 },
                 {
                     columns: [
-                        {
-                            text: 'Del usuario',
-                            color: '#aaaaab',
-                            bold: true,
-                            fontSize: 14,
-                            alignment: 'left',
-                            margin: [0, 20, 0, 5],
-                        },
-                        {
-                            text: 'Para el cliente',
-                            color: '#aaaaab',
-                            bold: true,
-                            fontSize: 14,
-                            alignment: 'left',
-                            margin: [0, 20, 0, 5],
-                        },
+                        { text: 'Del usuario', bold: true, fontSize: 14, alignment: 'left', margin: [0, 20, 0, 5] },
+                        { text: 'Para el cliente', bold: true, fontSize: 14, alignment: 'left', margin: [0, 20, 0, 5] },
                     ],
                 },
                 {
                     columns: [
-                        {
-                            text: `Nombre: ${userName} \n Cuit ${userCuit}`,
-                            bold: true,
-                            color: '#333333',
-                            alignment: 'left',
-                        },
-                        {
-                            text: `${clienteNombre} \n CUIT: ${clienteCuit}`,
-                            bold: true,
-                            color: '#333333',
-                            alignment: 'left',
-                        },
+                        { text: `Nombre: ${this.user ? this.user.razon : 'Nombre del Cliente'} \n CUIT: ${this.user ? this.user.cuit : 'CUIT del Cliente'}` },
+                        { text: `${clienteNombre} \n CUIT: ${clienteCuit}` },
                     ],
                 },
                 {
-                    columns: [
-                        {
-                            text: 'Desde',
-                            color: '#aaaaab',
-                            bold: true,
-                            margin: [0, 7, 0, 3],
-                        },
-                        {
-                            text: 'Hasta',
-                            color: '#aaaaab',
-                            bold: true,
-                            margin: [0, 7, 0, 3],
-                        },
-                    ],
+                    layout: { defaultBorder: false },
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 80],
+                        body: [
+                            [{ text: 'DESCRIPCIÓN DEL ÍTEM', fillColor: '#eaf2f5' }, { text: 'TOTAL DEL ÍTEM', alignment: 'right', fillColor: '#eaf2f5' }],
+                            ...gastosFiltrados.map(gasto => [
+                                { text: gasto.nombre, margin: [0, 5, 0, 5] },
+                                { text: `${gasto.cantidad}`, alignment: 'right', margin: [0, 5, 0, 5] },
+                            ]),
+                        ],
+                    },
                 },
                 {
-                    columns: [
-                        {
-                            text: `${viaje.inicio}`,
-                            style: 'invoiceBillingAddress',
-                        },
-                        {
-                            text: `${viaje.final}`,
-                            style: 'invoiceBillingAddress',
-                        },
-                    ],
-                },
-                {
-                    text: `Número de viaje: ${viaje.idViaje}`,
-                    bold: true,
-                    margin: [0, 10, 0, 10],
-                    fontSize: 15,
-                    alignment: 'center',
-                },
-                {
-                  layout: {
-                      defaultBorder: false,
-                      hLineWidth: () => 1,
-                      vLineWidth: () => 1,
-                      hLineColor: () => '#eaeaea',
-                      vLineColor: () => '#eaeaea',
-                      paddingLeft: () => 10,
-                      paddingRight: () => 10,
-                      paddingTop: () => 2,
-                      paddingBottom: () => 2,
-                  },
-                  table: {
-                      headerRows: 1,
-                      widths: ['*', 80], // Primer columna flexible, segunda columna fija en 80px
-                      body: [
-                          [
-                              {
-                                  text: 'DESCRIPCIÓN DEL ÍTEM',
-                                  fillColor: '#eaf2f5',
-                                  margin: [0, 5, 0, 5],
-                                  textTransform: 'uppercase',
-                              },
-                              {
-                                  text: 'TOTAL DEL ÍTEM',
-                                  alignment: 'right',
-                                  fillColor: '#eaf2f5',
-                                  margin: [0, 5, 0, 5],
-                                  textTransform: 'uppercase',
-                              },
-                          ],
-                          ...gastosFiltrados.map(gasto => [
-                            {
-                                text: gasto.nombre, 
-                                margin: [0, 5, 0, 5],
-                            },
-                            {
-                                text: `${gasto.cantidad}`,
-                                alignment: 'right',
-                                margin: [0, 5, 0, 5],
-                            },
-                        ]),
-                      ],
-                  },
-              },
-              {
-                  layout: {
-                      defaultBorder: false,
-                      hLineWidth: () => 1,
-                      vLineWidth: () => 1,
-                      hLineColor: () => '#eaeaea',
-                      vLineColor: () => '#eaeaea',
-                      paddingLeft: () => 10,
-                      paddingRight: () => 10,
-                      paddingTop: () => 3,
-                      paddingBottom: () => 3,
-                  },
-                  table: {
-                      headerRows: 1,
-                      widths: ['*', 'auto'],
-                      body: [
-                          [
-                              {
-                                  text: 'Subtotal del Pago',
-                                  alignment: 'right',
-                                  margin: [0, 5, 0, 5],
-                              },
-                              {
-                                  text: `${sumaGastos}`, // Subtotal del viaje
-                                  alignment: 'right',
-                                  fillColor: '#f5f5f5',
-                                  margin: [0, 5, 0, 5],
-                              },
-                          ],
-                      ],
-                  },
-                },
-                {
-                    text: 'NOTAS',
-                    style: 'notesTitle',
-                },
-                {
-                    text: 'Algunas notas aquí \n Segunda línea de notas', // Notas (por completar)
-                    style: 'notesText',
+                    layout: { defaultBorder: false },
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 'auto'],
+                        body: [
+                            [{ text: 'Subtotal del Pago', alignment: 'right' }, { text: `${sumaGastos}`, alignment: 'right', fillColor: '#f5f5f5' }],
+                        ],
+                    },
                 },
             ],
-            styles: {
-                notesTitle: {
-                    fontSize: 10,
-                    bold: true,
-                    margin: [0, 50, 0, 3],
-                },
-                notesText: {
-                    fontSize: 10,
-                },
-            },
-            defaultStyle: {
-                columnGap: 20,
-            },
         };
 
-        // Crear y abrir el PDF
         const pdf = pdfMake.createPdf(dd);
         pdf.open();
+
         this.obtenerGastos();
     }).catch(err => {
         console.error('Error al cargar la imagen:', err);
     });
-  }
+}
+
+
 
 
 }
