@@ -220,13 +220,16 @@ export class ViajesComponent implements OnInit {
   GeneratePDF(viaje) {
     const logoPath = 'assets/img/camion.png'; // Ruta de la imagen
 
-    const gastosFiltrados = this.gastos.filter(gasto => viaje.gastos.includes(gasto.idGasto));
-
-    // Calcular la suma de los gastos filtrados
-    const sumaGastos = gastosFiltrados.reduce((total, gasto) => total + gasto.cantidad, 0);
+    
     // Cargar la imagen como base64
     this.loadImageAsBase64(logoPath).then((base64Image) => {
         console.log('Imagen cargada correctamente:', base64Image); // Verifica que la imagen esté en base64
+
+        const gastosFiltrados = this.gastos.filter(gasto => viaje.gastos.includes(gasto.idGasto));
+        console.log('Gastos Filtrados:', gastosFiltrados);
+
+        // Calcular la suma de los gastos filtrados
+        const sumaGastos = gastosFiltrados.reduce((total, gasto) => total + Number(gasto.cantidad), 0);
 
         // Define los datos del usuario si NO existen placeholder
         const userName = this.user ? this.user.razon : 'Nombre del Cliente';
@@ -431,18 +434,17 @@ export class ViajesComponent implements OnInit {
                                   textTransform: 'uppercase',
                               },
                           ],
-
                           ...gastosFiltrados.map(gasto => [
-                              {
-                                  text: gasto.nombre, 
-                                  margin: [0, 5, 0, 5], 
-                              },
-                              {
-                                  text: `${gasto.cantidad}`,
-                                  alignment: 'right',
-                                  margin: [0, 5, 0, 5],
-                              },
-                          ]),
+                            {
+                                text: gasto.nombre, 
+                                margin: [0, 5, 0, 5],
+                            },
+                            {
+                                text: `${gasto.cantidad}`,
+                                alignment: 'right',
+                                margin: [0, 5, 0, 5],
+                            },
+                        ]),
                       ],
                   },
               },
