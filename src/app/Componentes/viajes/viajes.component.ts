@@ -473,6 +473,38 @@ export class ViajesComponent implements OnInit {
                 paddingBottom: () => 3,
               },
               table: {
+                headerRow: 1,
+                widths: ['*','auto'],
+                body: [
+                  [
+                    {                    
+                      text: 'Subtotal del viaje',
+                      alignment: 'right',
+                      margin: [0, 5, 0, 5],
+                    },
+                    {
+                      text: `${viaje.totalFacturado}`, // Subtotal del viaje
+                      alignment: 'right',
+                      fillColor: '#f5f5f5',
+                      margin: [0, 5, 0, 5],
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              layout: {
+                defaultBorder: false,
+                hLineWidth: () => 1,
+                vLineWidth: () => 1,
+                hLineColor: () => '#eaeaea',
+                vLineColor: () => '#eaeaea',
+                paddingLeft: () => 10,
+                paddingRight: () => 10,
+                paddingTop: () => 3,
+                paddingBottom: () => 3,
+              },
+              table: {
                 headerRows: 1,
                 widths: ['*', 'auto'],
                 body: [
