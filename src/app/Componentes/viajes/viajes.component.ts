@@ -141,6 +141,18 @@ export class ViajesComponent implements OnInit {
     }
     return 0;
   }
+
+  calcularPorcentajeAmortizacionAnual():number{
+    if (this.amortizacion) {
+      this.ObjetivoAnualAmort = this.amortizacion.objetivo / this.amortizacion.plazo;
+      if (this.amortizacion.objetivoAnual <= 0) {
+        return 100;
+      }
+      return (this.amortizacion.objetivoAnual / this.ObjetivoAnualAmort) * 100;
+    }
+    return 0;
+  }
+
   celebrated: boolean = false;
   celebrate() {
     if (this.celebrated) return;
@@ -215,16 +227,6 @@ export class ViajesComponent implements OnInit {
         console.error(e);
       },
     });
-  }
-  calcularPorcentajeAmortizacionAnual():number{
-    if (this.amortizacion) {
-      this.ObjetivoAnualAmort = this.amortizacion.objetivo / this.amortizacion.plazo;
-      if (this.amortizacion.recaudado <= 0) {
-        return 100;
-      }
-      return (this.amortizacion.objetivo / this.ObjetivoAnualAmort) * 100;
-    }
-    return 0;
   }
 
   GeneratePDF(viaje) {
