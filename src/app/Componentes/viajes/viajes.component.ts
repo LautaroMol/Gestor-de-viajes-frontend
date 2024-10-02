@@ -43,6 +43,7 @@ export class ViajesComponent implements OnInit {
   user!: Usuario;
   gastos: Gasto[] = [];
   clientes: Cliente[] = [];
+  ObjetivoAnualAmort: number = 0;
 
   constructor(
     private viajeService: ViajeService,
@@ -214,6 +215,16 @@ export class ViajesComponent implements OnInit {
         console.error(e);
       },
     });
+  }
+  calcularPorcentajeAmortizacionAnual():number{
+    if (this.amortizacion) {
+      this.ObjetivoAnualAmort = this.amortizacion.objetivo / this.amortizacion.plazo;
+      if (this.amortizacion.recaudado <= 0) {
+        return 100;
+      }
+      return (this.amortizacion.objetivo / this.ObjetivoAnualAmort) * 100;
+    }
+    return 0;
   }
 
   GeneratePDF(viaje) {

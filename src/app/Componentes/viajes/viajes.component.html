@@ -102,8 +102,21 @@
           mode="determinate" 
           [value]="calcularPorcentajeAmortizacion()">
         </mat-progress-bar>
-      
         <p>Progreso: {{ calcularPorcentajeAmortizacion() | number: '1.0-2' }}%</p>
+
+        <h3>Objetivo Anual: {{ this.ObjetivoAnualAmort | currency }}</h3>
+        <h4>Recaudado: {{ amortizacion.objetivoAnual | currency }}</h4>
+        <div *ngIf="amortizacion && amortizacion.objetivo === amortizacion.recaudado">
+            <div class="relative">
+                <h2 class="text-green-600 text-center font-bold mt-4">Se pagó completamente la amortización anual</h2>
+            </div>
+        </div>      
+      
+        <mat-progress-bar 
+          mode="determinate" 
+          [value]="calcularPorcentajeAmortizacionAnual()">
+        </mat-progress-bar>
+        <p>Progreso: {{ calcularPorcentajeAmortizacionAnual() | number: '1.0-2' }}%</p>
     </div>
     <div *ngIf="!amortizacion">
         <h2>No se configuro aun la amortizacino, cargue los datos para tener aqui un seguimiento</h2>
