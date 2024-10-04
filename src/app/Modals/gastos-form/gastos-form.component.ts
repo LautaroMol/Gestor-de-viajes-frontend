@@ -79,10 +79,10 @@ export class GastosFormComponent implements OnInit {
 			};
 	
 			// camino por nuevo gasto
-			if (this.dataGasto == null) {
+			if (this.dataGasto == null || this.dataGasto.nombre =="Amortizacion") {
 				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
-						const nuevoGastoId = data.idGasto; // El ID del gasto recién creado
+						const nuevoGastoId = data.idGasto; 
 						this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje);
 					},
 					error: (e) => {
