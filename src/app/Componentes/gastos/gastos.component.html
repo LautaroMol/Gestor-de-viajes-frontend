@@ -45,9 +45,33 @@
                     <p class="text-xs">{{ gasto.fecha | date:'dd/MM/yyyy' }}</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="material-icons cursor-pointer mx-2 text-gray-400 hover:text-gray-500" (click)="editarGasto(gasto)">edit</span>
-                    <span class="material-icons cursor-pointer mx-2 text-gray-400 hover:text-gray-500" (click)="borrarGasto(gasto)">delete</span>
+                    <!-- Icono de editar -->
+                    <span 
+                        class="material-icons mx-2" 
+                        [ngClass]="{
+                          'text-gray-400 hover:text-gray-500 cursor-pointer': gasto.nombre !== 'Amortizacion',
+                          'text-red-300 cursor-not-allowed': gasto.nombre === 'Amortizacion'
+                        }"
+                        (click)="gasto.nombre !== 'Amortizacion' ? editarGasto(gasto) : null"
+                        [title]="gasto.nombre === 'Amortizacion' ? 'No se puede editar este gasto' : ''"
+                    >
+                        {{ gasto.nombre === 'Amortizacion' ? 'block' : 'edit' }}
+                    </span>
+                
+                    <!-- Icono de borrar -->
+                    <span 
+                        class="material-icons mx-2" 
+                        [ngClass]="{
+                          'text-gray-400 hover:text-gray-500 cursor-pointer': gasto.nombre !== 'Amortizacion',
+                          'text-red-300 cursor-not-allowed': gasto.nombre === 'Amortizacion'
+                        }"
+                        (click)="gasto.nombre !== 'Amortizacion' ? borrarGasto(gasto) : null"
+                        [title]="gasto.nombre === 'Amortizacion' ? 'No se puede borrar este gasto' : ''"
+                    >
+                        {{ gasto.nombre === 'Amortizacion' ? 'block' : 'delete' }}
+                    </span>
                 </div>
+                
             </div>
         </div>
     </div>
