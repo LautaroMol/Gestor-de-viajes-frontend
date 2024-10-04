@@ -89,6 +89,11 @@ export class GastosFormComponent implements OnInit {
 				});
 			} else {
 				// camino por editar
+				this.viajeService.get(gasto.viaje).subscribe({
+					next: (data) => {
+						this.viajeElej = data;
+					}
+				});
 				if (gasto.cantidad> this.viajeElej.totalFacturado){
 					alert("La cnatidad a amortizar es mayor a la facturada con el viaje");
 					return;
