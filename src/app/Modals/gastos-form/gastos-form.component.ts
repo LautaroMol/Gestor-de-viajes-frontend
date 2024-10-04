@@ -83,10 +83,7 @@ export class GastosFormComponent implements OnInit {
 				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
 						const nuevoGastoId = data.idGasto; 
-						this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje);
-						if (gasto.nombre== "Amortizacion"){
-							this.dialogoReferencia.close(gasto.cantidad);
-						}
+						this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje,gasto);
 					},
 					error: (e) => {
 						this.mostrarAlerta("No se ha podido crear el gasto");
@@ -151,7 +148,7 @@ export class GastosFormComponent implements OnInit {
 	mostrarAlerta(mensaje: string) {
 		console.log(mensaje);
 	}
-	asignarGastoAlViaje(gastoId: number, viajeId: number) {
+	asignarGastoAlViaje(gastoId: number, viajeId: number,gasto: Gasto) {
 		// Obtén el viaje y actualiza el array de gastos
 		this.viajeService.get(viajeId).subscribe({
 			next: (viaje) => {
@@ -162,7 +159,9 @@ export class GastosFormComponent implements OnInit {
 				this.viajeService.update(viaje, viajeId).subscribe({
 					next: () => {
 						this.mostrarAlerta("Gasto asignado correctamente al viaje");
-						this.dialogoReferencia.close("Creado");
+						if (gasto.nombre == "Amortizacion"){
+							this.dialogoReferencia.close(gasto.cantidad);
+						}else this.dialogoReferencia.close("Creado");
 					},
 					error: (e) => {
 						this.mostrarAlerta("Error al asignar el gasto al viaje");
