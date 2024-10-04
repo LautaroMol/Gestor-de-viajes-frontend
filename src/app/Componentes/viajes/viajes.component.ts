@@ -148,7 +148,7 @@ export class ViajesComponent implements OnInit {
       if (this.amortizacion.objetivoAnual <= 0) {
         return 100;
       }
-      return (this.amortizacion.objetivoAnual / this.ObjetivoAnualAmort) * 100;
+      return ((this.ObjetivoAnualAmort - this.amortizacion.objetivoAnual) / this.ObjetivoAnualAmort) * 100;
     }
     return 0;
   }
