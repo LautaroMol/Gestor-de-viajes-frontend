@@ -82,8 +82,20 @@ export class GastosFormComponent implements OnInit {
 			if (this.dataGasto == null || this.dataGasto.nombre =="Amortizacion") {
 				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
-						const nuevoGastoId = data.idGasto; 
-						this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje,gasto);
+						const nuevoGastoId = data.idGasto;
+						this.viajeService.get(gasto.viaje).subscribe({
+							next: (data) => {
+                                this.viajeElej = data;
+                                if (gasto.cantidad>this.viajeElej.totalFacturado){
+                                    alert("La cantidad a amortizar es mayor a la facturada con el viaje");
+                                    return;
+                                }
+                                this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje,gasto);
+                            },
+                            error: (e) => {
+                                this.mostrarAlerta("No se ha podido crear el gasto");
+                            }
+                        }); 
 					},
 					error: (e) => {
 						this.mostrarAlerta("No se ha podido crear el gasto");
@@ -94,21 +106,21 @@ export class GastosFormComponent implements OnInit {
 				this.viajeService.get(gasto.viaje).subscribe({
 					next: (data) => {
 						this.viajeElej = data;
-						if (gasto.cantidad> this.viajeElej.totalFacturado){
-							alert("La cantidad a amortizar es mayor a la facturada con el viaje");
-							return;
-						}else{
-							this.gastoService.update(gasto).subscribe({
-								next: (data) => {
-									this.mostrarAlerta("Gasto editado correctamente");
-									this.dialogoReferencia.close("Editado");
-								},
-								error: (e) => {
-									this.mostrarAlerta("No se ha podido editar el gasto");
-								}
-							});
-						}
-					}, error: (e) => {this.mostrarAlerta("Error al obtener el viaje");}
+						if (gasto.cantidad>this.viajeElej.totalFacturado){
+                            alert("La cantidad a amortizar es mayor a la facturada con el viaje");
+                            return;
+                        }
+						this.gastoService.update(gasto).subscribe({
+							next: (data) => {
+								this.mostrarAlerta("Gasto editado correctamente");
+								this.dialogoReferencia.close("Editado");
+							},
+							error: (e) => {
+								this.mostrarAlerta("No se ha podido editar el gasto");
+							}
+						});
+					}, error: (e) => {this.mostrarAlerta("Error al obtener el viaje");
+					}
 				});
 			}	
 		}
