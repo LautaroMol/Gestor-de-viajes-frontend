@@ -50,7 +50,7 @@ export class GastosFormComponent implements OnInit {
 	ngOnInit() {
 		this.obtenerCategorias();
 		this.obtenerViajes();
-		if (this.dataGasto && this.dataGasto.nombre != "Amortizacion") {
+		if (this.dataGasto) {
 			this.formGasto.patchValue({
 				nombre: this.dataGasto.nombre,
 				cantidad: this.dataGasto.cantidad,
@@ -59,8 +59,10 @@ export class GastosFormComponent implements OnInit {
 				fecha: this.dataGasto.fecha,
 				borrado: false
 			});
-			this.tituloAccion = "Editar";
-			this.botonAccion = "Actualizar";
+			if (this.dataGasto.nombre != "Amortizacion"){
+				this.tituloAccion = "Editar";
+				this.botonAccion = "Actualizar";
+			}
 		}
 	}
 
