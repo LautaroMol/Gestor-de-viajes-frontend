@@ -320,8 +320,9 @@ export class PerfilComponent implements OnInit {
 		dialogRef.afterClosed().subscribe((cantidad:number) => {
 			if (cantidad) {
 				console.log('Cantidad recibida: ',cantidad);
-				
-				this.actualizarAmortizacion(this.amortizacion.cantidad);
+				this.actualizarAmortizacion(cantidad);
+				viaje.facturado = true;
+				this.actualizarViaje(viaje);
 			}
 		});
 	}
@@ -344,4 +345,14 @@ export class PerfilComponent implements OnInit {
 			}
 		});
 	}
+	actualizarViaje(viaje: Viaje) {
+		this.viajeService.update(viaje, viaje.idViaje).subscribe({
+		  next: () => {
+			console.log("Viaje facturado true");
+		  },
+		  error: (e) => {
+			console.error("Error al actualizar el viaje", e);
+		  }
+		});
+	  }
 }
