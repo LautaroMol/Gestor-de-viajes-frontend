@@ -89,16 +89,21 @@ export class GastosFormComponent implements OnInit {
 				});
 			} else {
 				// camino por editar
-				this.gastoService.update(gasto).subscribe({
-					next: (data) => {
-						this.mostrarAlerta("Gasto editado correctamente");
-						this.dialogoReferencia.close("Editado");
-					},
-					error: (e) => {
-						this.mostrarAlerta("No se ha podido editar el gasto");
-					}
-				});
-			}
+				if (gasto.cantidad> this.viajeElej.totalFacturado){
+					alert("La cnatidad a amortizar es mayor a la facturada con el viaje");
+					return;
+				}else{
+					this.gastoService.update(gasto).subscribe({
+						next: (data) => {
+							this.mostrarAlerta("Gasto editado correctamente");
+							this.dialogoReferencia.close("Editado");
+						},
+						error: (e) => {
+							this.mostrarAlerta("No se ha podido editar el gasto");
+							}
+					});
+				}
+			}	
 		}
 	}
 	
@@ -121,7 +126,6 @@ export class GastosFormComponent implements OnInit {
 				this.categorias = data.filter( categoria => 
 					categoria.borrado === false
 				);
-				console.log(this.categorias);
 			},
 			error: (e) => {
 				console.error(e);

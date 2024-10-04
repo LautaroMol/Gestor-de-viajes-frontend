@@ -187,9 +187,8 @@ export class GastosComponent implements OnInit {
 	
 	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
-		//console.log('Datos seleccionados en el gráfico:', data); // Verifica qué se está recibiendo
-	
-		const nombreCategoria = data.name; // Usar el nombre devuelto por el gráfico
+
+		const nombreCategoria = data.name; 
 		const categoria = this.categorias.find(c => c.nombre === nombreCategoria);
 	
 		if (!categoria) {

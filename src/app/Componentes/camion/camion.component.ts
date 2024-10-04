@@ -54,7 +54,6 @@ export class CamionComponent implements OnInit {
   getOilLevel(): number {
     const maxKm = 50000;
     if (this.unidad != null) {
-
       const oilLevelPercentage = Math.max(0, (maxKm - this.unidad.kmAceite) / maxKm);
       return oilLevelPercentage * 110; 
     }

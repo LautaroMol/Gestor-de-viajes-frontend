@@ -20,6 +20,11 @@ import { UsuarioFormComponent } from '../../Modals/usuario-form/usuario-form.com
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
 import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.component';
+import { Gasto } from '../../Interfaces/gasto';
+import { GastosFormComponent } from '../../Modals/gastos-form/gastos-form.component';
+import { data } from '@maptiler/sdk';
+import { AmortizacionService } from '../../Services/amortizacion.service';
+import { Amortizacion } from '../../Interfaces/amortizacion';
 
 @Component({
 	selector: 'app-perfil',
@@ -35,10 +40,16 @@ export class PerfilComponent implements OnInit {
 	clientes: Cliente[] = [];
 	user!: Usuario;
 	viajes: Viaje[] = [];
+	amortizacion: Gasto = {idGasto: 0, nombre: '', categoria: 0,cantidad: 0,viaje:0,borrado:false,fecha: new Date,};
+	amortizacionAnual!: Amortizacion;
 
   constructor(private cargaService: CargaService, private dialog: MatDialog,
               private categoriaService: CategoriaService, private clienteService: ClienteService,
-              private userService: UserService,private viajeService: ViajeService) {}
+              private userService: UserService,private viajeService: ViajeService,
+			  private amortService: AmortizacionService,
+			) {
+				this.amortizacion.nombre= "Amortizacion";
+			}
 
 	ngOnInit(): void {
 		this.obtenerUser();
@@ -46,6 +57,7 @@ export class PerfilComponent implements OnInit {
 		this.obtenerCategorias();
 		this.obtenerClientes();
 		this.obtenerViajes();
+		this.getAmort(1);
 	}
 
 	obtenerUser() {
@@ -294,6 +306,39 @@ export class PerfilComponent implements OnInit {
 						console.error(e);
 					}
 				});
+			}
+		});
+	}
+
+	Amortizar(viaje: Viaje){
+		this.amortizacion.viaje = viaje.idViaje;
+		this.amortizacion.fecha = new Date()
+		const dialogRef = this.dialog.open(GastosFormComponent, {
+			data: this.amortizacion
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			if (result === 'Editado') {
+				this.actualizarAmortizacion(this.amortizacion.cantidad);
+			}
+		});
+	}
+
+	getAmort(id:number) {
+		this.amortService.get(id).subscribe(data =>{
+		  this.amortizacionAnual = data;
+		})
+	}
+	actualizarAmortizacion(cantidad: number) {
+		this.amortizacionAnual.recaudado += cantidad;
+		this.amortizacionAnual.objetivoAnual -= cantidad;
+
+		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
+			next: (data) => {
+				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
+			},
+			error: (e) => {
+				console.error('Error al actualizar la amortización', e);
 			}
 		});
 	}
