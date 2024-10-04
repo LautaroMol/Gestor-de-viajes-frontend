@@ -50,7 +50,7 @@ export class GastosFormComponent implements OnInit {
 	ngOnInit() {
 		this.obtenerCategorias();
 		this.obtenerViajes();
-		if (this.dataGasto) {
+		if (this.dataGasto && this.dataGasto.nombre != "Amortizacion") {
 			this.formGasto.patchValue({
 				nombre: this.dataGasto.nombre,
 				cantidad: this.dataGasto.cantidad,
@@ -92,22 +92,22 @@ export class GastosFormComponent implements OnInit {
 				this.viajeService.get(gasto.viaje).subscribe({
 					next: (data) => {
 						this.viajeElej = data;
-					}
+						if (gasto.cantidad> this.viajeElej.totalFacturado){
+							alert("La cantidad a amortizar es mayor a la facturada con el viaje");
+							return;
+						}else{
+							this.gastoService.update(gasto).subscribe({
+								next: (data) => {
+									this.mostrarAlerta("Gasto editado correctamente");
+									this.dialogoReferencia.close("Editado");
+								},
+								error: (e) => {
+									this.mostrarAlerta("No se ha podido editar el gasto");
+								}
+							});
+						}
+					}, error: (e) => {this.mostrarAlerta("Error al obtener el viaje");}
 				});
-				if (gasto.cantidad> this.viajeElej.totalFacturado){
-					alert("La cnatidad a amortizar es mayor a la facturada con el viaje");
-					return;
-				}else{
-					this.gastoService.update(gasto).subscribe({
-						next: (data) => {
-							this.mostrarAlerta("Gasto editado correctamente");
-							this.dialogoReferencia.close("Editado");
-						},
-						error: (e) => {
-							this.mostrarAlerta("No se ha podido editar el gasto");
-							}
-					});
-				}
 			}	
 		}
 	}
