@@ -84,6 +84,9 @@ export class GastosFormComponent implements OnInit {
 					next: (data) => {
 						const nuevoGastoId = data.idGasto; 
 						this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje);
+						if (gasto.nombre== "Amortizacion"){
+							this.dialogoReferencia.close(gasto.cantidad);
+						}
 					},
 					error: (e) => {
 						this.mostrarAlerta("No se ha podido crear el gasto");

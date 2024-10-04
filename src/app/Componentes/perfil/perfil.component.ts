@@ -317,8 +317,10 @@ export class PerfilComponent implements OnInit {
 			data: this.amortizacion
 		});
 
-		dialogRef.afterClosed().subscribe(result => {
-			if (result === 'Editado') {
+		dialogRef.afterClosed().subscribe((cantidad:number) => {
+			if (cantidad) {
+				console.log('Cantidad recibida: ',cantidad);
+				
 				this.actualizarAmortizacion(this.amortizacion.cantidad);
 			}
 		});
