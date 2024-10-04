@@ -105,7 +105,7 @@
         <p>Progreso: {{ calcularPorcentajeAmortizacion() | number: '1.0-2' }}%</p>
 
         <h3>Objetivo Anual: {{ this.ObjetivoAnualAmort | currency }}</h3>
-        <h4>Recaudado: {{ amortizacion.objetivoAnual | currency }}</h4>
+        <h4>Recaudado: {{ (this.ObjetivoAnualAmort - amortizacion.objetivoAnual) | currency }}</h4>
         <div *ngIf="amortizacion && amortizacion.objetivo === amortizacion.recaudado">
             <div class="relative">
                 <h2 class="text-green-600 text-center font-bold mt-4">Se pagó completamente la amortización anual</h2>
