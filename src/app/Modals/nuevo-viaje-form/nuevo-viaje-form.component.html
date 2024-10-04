@@ -5,29 +5,32 @@
 	
 	<div class="grid grid-cols-2 p-2 rounded-lg bg-white gap-5 overflow-hidden transform transition-all ">
 		<form class="" [formGroup]="formViaje" (ngSubmit)="onSubmit()">
-			<div class="p-2">
-				<label for="inicio" class="block text-indigo-600 font-bold">Inicio</label>
-				<input 
-					id="inicio" 
-					name="inicio" 
-					type="text"
-					class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
-					formControlName="inicio" 
-					required
-				>
+			<div class="p-1 flex justify-between gap-2">
+				<div class="p-1">
+					<label for="inicio" class="block text-indigo-600 font-bold">Inicio</label>
+					<input 
+						id="inicio" 
+						name="inicio" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="inicio" 
+						required
+					>
+				</div>
+				<div class="p-1">
+					<label for="final" class="block text-indigo-600	font-bold">Final</label>
+					<input 
+						id="final" 
+						name="final" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="final" 
+						required
+					>
+				</div>
 			</div>
-			<div class="p-2">
-				<label for="final" class="block text-indigo-600	font-bold">Final</label>
-				<input 
-					id="final" 
-					name="final" 
-					type="text"
-					class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
-					formControlName="final" 
-					required
-				>
-			</div>
-			<div class="p-2 flex justify-between items-center gap-2">
+
+			<div class="p-1 flex justify-between items-center gap-2">
 				<div class="w-1/2">
 					<label for="distancia" class="block text-indigo-600 font-bold">Distancia</label>
 					<div class="flex items-center">
@@ -45,12 +48,12 @@
 				</div>
 			</div>
 			
-			<div class="p-2 flex justify-between gap-2">
+			<div class="p-1 flex justify-between items-center gap-2">
 				<div class="w-1/2">
 					<label for="montoSugerido" class="block text-indigo-600	font-bold">Precio Sugerido</label>
 					<p class="w-full mt-2 py-1 px-3 bg-gray-200 cursor-not-allowed shadow-lg rounded-lg">{{montoSugerido | currency }}</p>
 				</div>
-				<div class="p-2">
+				<div class="p-1">
 					<label for="monto" value="montoReal" class="block text-indigo-600 font-bold">Precio Real</label>
 					<input 
 						id="monto" 
@@ -63,7 +66,7 @@
 				</div>
 			</div>
 
-			<div class="p-2">
+			<div class="p-1">
 				<label for="fecha" class="block text-indigo-600	font-bold">Fecha</label>
 				<input 
 					id="fecha" 
@@ -74,7 +77,7 @@
 					required
 				>
 			</div>
-			<div class="p-2">
+			<div class="p-1">
 				<label for="cuitUsuario" class="block text-indigo-600 font-bold">Cuit Cliente</label>
 				<input 
 					id="cuitUsuario" 
@@ -86,7 +89,7 @@
 				>
 			</div>
 			
-			<div class="p-2">
+			<div class="p-1">
 				<label for="totalFacturado" class="block text-indigo-600 font-bold">Total</label>
 				<input 
 					id="totalFacturado" 
@@ -98,7 +101,7 @@
 				>
 			</div>
 
-			<div class="p-2">
+			<div class="p-1">
 				<label for="file" class="block text-indigo-600 font-bold">Archivo PDF (Carta de Porte)</label>
 				<input 
 					id="file" 
@@ -108,7 +111,7 @@
 					#fileInput
 				>
 			</div>				
-			<div class="flex justify-between gap-2 p-2">
+			<div class="flex justify-between gap-2 p-1">
 				<button 
 					class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
 					type="submit">

@@ -67,12 +67,12 @@
 </div>
 
 
-<div class="container" *ngIf="!unidad">
-  <div class="text-center">
-    <button class="shadow-md bg-indigo-600 p-3 rounded-md hover:bg-indigo-700 transition-all text-white text-xl font-bold"
-            (click)="openDialog()">
-      Cargar camión y amortización
-    </button>
-  </div>
+<div class="mt-40 flex items-center justify-center" *ngIf="!unidad">
+  <button
+      class="text-white font-bold bg-indigo-600 p-3 rounded-md
+      hover:bg-indigo-700 transition-all shadow-lg"
+      (click)="openDialog()"
+    >Cargar camión y amortización
+  </button>
 </div>
 
