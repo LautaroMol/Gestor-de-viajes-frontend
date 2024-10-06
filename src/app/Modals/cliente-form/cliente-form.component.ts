@@ -3,14 +3,16 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-cliente-form',
 	standalone: true,
 	templateUrl: './cliente-form.component.html',
 	styleUrls: ['./cliente-form.component.css'],
-	imports: [ReactiveFormsModule]
+	imports: [ReactiveFormsModule, MatSnackBarModule]
 })
+
 export class ClienteFormComponent implements OnInit {
 	formCliente: FormGroup;
 	botonAccion: string = "Guardar";
@@ -19,6 +21,7 @@ export class ClienteFormComponent implements OnInit {
 	constructor(
 		private dialogoReferencia: MatDialogRef<ClienteFormComponent>,
 		private fb: FormBuilder,
+		private snackBar: MatSnackBar,
 		private _clienteServicio: ClienteService,
 		@Inject(MAT_DIALOG_DATA) public data: Cliente | null
 	) {
@@ -54,11 +57,11 @@ export class ClienteFormComponent implements OnInit {
 			if (this.dataCliente == null) {
 				this._clienteServicio.add(cliente).subscribe({
 					next: () => {
-						console.log("Cliente agregado exitosamente");
+						this.mostrarAlerta("Cliente agregado exitosamente", "X");
 						this.dialogoReferencia.close({ action: "Creado", data: cliente });
 					},
 					error: () => {
-						console.error("No se pudo crear el cliente");
+						this.mostrarAlerta("No se pudo crear el cliente", "X");
 						console.log(cliente);
 					}
 				});
@@ -66,11 +69,13 @@ export class ClienteFormComponent implements OnInit {
 				console.log(cliente.idCliente);
 				this._clienteServicio.update(cliente, cliente.idCliente).subscribe({
 					next: () => {
-						console.log("Cliente actualizado correctamente");
+						this.mostrarAlerta("Cliente actualizado correctamente", "X");
+						// console.log("Cliente actualizado correctamente");
 						this.dialogoReferencia.close({ action: "Editado", data: cliente });
 					},
 					error: () => {
-						console.error("No se pudo actualizar el cliente");
+						this.mostrarAlerta("No se pudo actualizar el cliente", "X");
+						// console.error("No se pudo actualizar el cliente");
 					}
 				});
 			}
@@ -79,5 +84,13 @@ export class ClienteFormComponent implements OnInit {
 
 	onCancel() {
 		this.dialogoReferencia.close();
+	}
+
+	mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
 	}
 }

@@ -5,15 +5,15 @@ import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
 import { ViajeService } from '../../Services/viaje.service';
 import { MapComponent } from '../map/map.component';
-import { PlacesService } from '../../Services/place.service';
 import { GeocodingService } from '../../Services/geocoding.service';
 import { UnidadService } from '../../Services/unidad.service';
 import { Unidad } from '../../Interfaces/unidad';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-nuevo-viaje-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MapComponent, MatDialogModule],
+    imports: [CommonModule, ReactiveFormsModule, MapComponent, MatDialogModule,MatSnackBarModule],
     templateUrl: './nuevo-viaje-form.component.html',
     styleUrls: ['./nuevo-viaje-form.component.css']
 })
@@ -33,8 +33,8 @@ export class NuevoViajeFormComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: Viaje | null,
         private dialog: MatDialogRef<NuevoViajeFormComponent>,
         private fb: FormBuilder,
+		private snackBar: MatSnackBar,
         private viajeServicio: ViajeService,
-        private placeSvc: PlacesService,
         private geocodingService: GeocodingService,
         private unidadService: UnidadService
     ) {
@@ -119,7 +119,6 @@ export class NuevoViajeFormComponent implements OnInit {
                 borrado: this.formViaje.value.borrado
             };
     
-
             if (this.unidad && this.unidad.kmAceite != null) {
                 this.unidad.kmAceite += viajeData.distancia;
             } else {
@@ -147,7 +146,8 @@ export class NuevoViajeFormComponent implements OnInit {
                 // Guardar el nuevo viaje
                 this.viajeServicio.addViaje(viajeData).subscribe({
                     next: (data) => {
-                        console.log("Viaje guardado correctamente:", data);
+                		this.mostrarAlerta("Viaje Creado Correctamente", "X")
+                        // console.log("Viaje guardado correctamente:", data);
                         const viajeId = data.viajeId;
     
                         // Si hay un archivo seleccionado, lo subimos
@@ -169,7 +169,8 @@ export class NuevoViajeFormComponent implements OnInit {
                         }
                     },
                     error: (err) => {
-                        console.error("Error al guardar los datos del viaje:", err);
+                		this.mostrarAlerta("Error al crear el viaje", "X")
+                        // console.error("Error al guardar los datos del viaje:", err);
                     }
                 });
     
@@ -187,7 +188,8 @@ export class NuevoViajeFormComponent implements OnInit {
                 // Actualizar el viaje existente
                 this.viajeServicio.update(viajeData, viajeData.idViaje).subscribe({
                     next: (data) => {
-                        console.log("Viaje actualizado correctamente:", data);
+                        // console.log("Viaje actualizado correctamente:", data);
+	                	this.mostrarAlerta("Viaje Actualizado correctamente", "X")
     
                         // Si hay un archivo seleccionado, lo subimos
                         if (this.selectedFile) {
@@ -208,12 +210,14 @@ export class NuevoViajeFormComponent implements OnInit {
                         }
                     },
                     error: (err) => {
-                        console.error("Error al actualizar el viaje:", err);
+                		this.mostrarAlerta("Error al actualizar el viaje", "X")
+                        // console.error("Error al actualizar el viaje:", err);
                     }
                 });
             }
         } else {
-            console.error('Formulario inválido:', this.formViaje.errors);
+    		this.mostrarAlerta("Formulario Invalido", "X")
+            // console.error('Formulario inválido:', this.formViaje.errors);
         }
     }
 
@@ -244,10 +248,6 @@ export class NuevoViajeFormComponent implements OnInit {
     onCancel() {
         this.formViaje.reset();
         this.dialog.close();
-    }
-
-    mostrarAlerta(mensaje: string) {
-        console.log(mensaje);
     }
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
@@ -293,5 +293,13 @@ export class NuevoViajeFormComponent implements OnInit {
     calcularPrecioSugerido(distancia : number ) {
         const monto = localStorage.getItem("precioKilometro")
 		this.montoSugerido = Number(distancia * Number(monto));
+	}
+
+	mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
 	}
 }

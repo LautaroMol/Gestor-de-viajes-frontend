@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Carga } from '../../Interfaces/carga';
-import { CargaService } from '../../Services/carga.service';
-import { CargaFormComponent } from '../../Modals/carga-form/carga-form.component';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DeleteCargaComponent } from '../../Modals/carga-delete/carga-delete.component';
 import { CategoriaService } from '../../Services/categoria.service';
 import { Categoria } from '../../Interfaces/categoria';
 import { CategoriaDeleteComponent } from '../../Modals/categoria-delete/categoria-delete.component';
@@ -22,14 +19,14 @@ import { ViajeService } from '../../Services/viaje.service';
 import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.component';
 import { Gasto } from '../../Interfaces/gasto';
 import { GastosFormComponent } from '../../Modals/gastos-form/gastos-form.component';
-import { data } from '@maptiler/sdk';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { Amortizacion } from '../../Interfaces/amortizacion';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-perfil',
 	standalone: true,
-	imports: [CommonModule, MatDialogModule],
+	imports: [CommonModule, MatDialogModule, MatSnackBarModule],
 	templateUrl: './perfil.component.html',
 	styleUrls: ['./perfil.component.css']
 })
@@ -40,21 +37,21 @@ export class PerfilComponent implements OnInit {
 	clientes: Cliente[] = [];
 	user!: Usuario;
 	viajes: Viaje[] = [];
-	amortizacion: Gasto = {idGasto: 0, nombre: '', categoria: 0,cantidad: 0,viaje:0,borrado:false,fecha: new Date,};
+	amortizacion: Gasto = {idGasto: 0, nombre: '', categoria: 0, cantidad: 0, viaje: 0, borrado: false, fecha: new Date,};
 	amortizacionAnual!: Amortizacion;
 
-  constructor(private cargaService: CargaService, private dialog: MatDialog,
-              private categoriaService: CategoriaService, private clienteService: ClienteService,
-              private userService: UserService,private viajeService: ViajeService,
-			  private amortService: AmortizacionService,
-			) {
-				this.amortizacion.nombre= "Amortizacion";
-			}
+  constructor(
+		private snackBar: MatSnackBar,
+		private dialog: MatDialog,
+        private clienteService: ClienteService,
+        private userService: UserService,private viajeService: ViajeService,
+		private amortService: AmortizacionService,
+	) {
+		this.amortizacion.nombre= "Amortizacion";
+	}
 
 	ngOnInit(): void {
 		this.obtenerUser();
-		//this.obtenerCargas();
-		this.obtenerCategorias();
 		this.obtenerClientes();
 		this.obtenerViajes();
 		this.getAmort(1);
@@ -130,7 +127,6 @@ export class PerfilComponent implements OnInit {
 		}).afterClosed().subscribe(result => {
 			if (result === "Creado") {
 				this.obtenerUser();
-				this.obtenerCategorias();
 				this.obtenerClientes();
 			}
 		});
@@ -140,115 +136,6 @@ export class PerfilComponent implements OnInit {
 		}, 1500);
 	}
 
-//   obtenerCargas() {
-//     this.cargaService.getList().subscribe({
-//       next: (data) => {
-//         this.cargas = data;
-//         console.log(this.cargas);
-//       },
-//       error: (e) => {
-//         console.error(e);
-//       },
-//     });
-//   }
-
-//   nuevaCarga() {
-//     this.dialog.open(CargaFormComponent, {
-//       disableClose: true,
-//       width: "400px"
-//     }).afterClosed().subscribe(result => {
-//       if (result === "Creada") {
-//         this.obtenerCargas();
-//       }
-//     });
-//   }
-
-//   editarCarga(carga: Carga) {
-//     this.dialog.open(CargaFormComponent, {
-//       disableClose: true,
-//       width: "400px",
-//       data: carga
-//     }).afterClosed().subscribe(result => {
-//       if (result === "Editad") {
-//         this.obtenerCargas();
-//       }
-//     });
-//   }
-
-//   borrarCarga(carga: Carga) {
-//     this.dialog.open(DeleteCargaComponent, {
-//       disableClose: true,
-//       width: "400px",
-//       data: carga
-//     }).afterClosed().subscribe(result => {
-//       if (result === "Eliminar") {
-//         this.cargaService.delete(carga.idCarga).subscribe({
-//           next: () => {
-//             console.log("Carga borrada");
-//             this.obtenerCargas();
-//           },
-//           error: (e) => {
-//             console.error(e);
-//           }
-//         });
-//       }
-//     });
-//   }
-
-	obtenerCategorias() {
-		this.categoriaService.getList().subscribe({
-			next: (data) => {
-				this.categorias = data;
-				console.log(this.categorias);
-			},
-			error: (e) => {
-				console.error(e);
-			},
-		});
-	}
-
-	nuevaCategoria() {
-		this.dialog.open(CategoriaFormComponent, {
-			disableClose: true,
-			width: "400px"
-		}).afterClosed().subscribe(result => {
-			if (result === "Creada") {
-				this.obtenerCategorias();
-			}
-		});
-	}
-
-	editarCategoria(categoria: Categoria) {
-		this.dialog.open(CategoriaFormComponent, {
-			disableClose: true,
-			width: "400px",
-			data: categoria
-		}).afterClosed().subscribe(result => {
-			if (result === "Editad") {
-				this.obtenerCategorias();
-			}
-		});
-	}
-
-	borrarCategoria(categoria: Categoria) {
-		this.dialog.open(CategoriaDeleteComponent, {
-			disableClose: true,
-			width: "400px",
-			data: categoria
-		}).afterClosed().subscribe(result => {
-		if (result === "Eliminar") {
-			this.categoriaService.delete(categoria.idCategoria).subscribe({
-				next: () => {
-					console.log("Categoría eliminada");
-					this.obtenerCategorias();
-				},
-				error: (e) => {
-					console.error(e);
-				}
-			});
-			}
-		});
-	}
 
 	obtenerClientes() {
 		this.clienteService.getList().subscribe({
@@ -280,13 +167,13 @@ export class PerfilComponent implements OnInit {
 			width: "300px",
 			data: cliente
 		}).afterClosed().subscribe(result => {
-		if (result && result.action === "Editado") {
-			const index = this.clientes.findIndex(c => c.idCliente === result.data.idCliente);
+			if (result && result.action === "Editado") {
+				const index = this.clientes.findIndex(c => c.idCliente === result.data.idCliente);
 
-			if (index !== -1) {
-			this.clientes[index] = result.data;
+				if (index !== -1) {
+					this.clientes[index] = result.data;
+				}
 			}
-		}
 		});
 	}
 
@@ -299,7 +186,6 @@ export class PerfilComponent implements OnInit {
 			if (result === "Eliminar") {
 				this.clienteService.delete(id).subscribe({
 				next: () => {
-						console.log("Cliente eliminado");
 						this.obtenerClientes();
 					},
 					error: (e) => {
@@ -313,6 +199,7 @@ export class PerfilComponent implements OnInit {
 	Amortizar(viaje: Viaje){
 		this.amortizacion.viaje = viaje.idViaje;
 		this.amortizacion.fecha = new Date()
+	
 		const dialogRef = this.dialog.open(GastosFormComponent, {
 			data: this.amortizacion
 		});
@@ -329,9 +216,10 @@ export class PerfilComponent implements OnInit {
 
 	getAmort(id:number) {
 		this.amortService.get(id).subscribe(data =>{
-		  this.amortizacionAnual = data;
+		  	this.amortizacionAnual = data;
 		})
 	}
+
 	actualizarAmortizacion(cantidad: number) {
 		this.amortizacionAnual.recaudado += cantidad;
 		this.amortizacionAnual.objetivoAnual -= cantidad;
@@ -341,18 +229,27 @@ export class PerfilComponent implements OnInit {
 				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
 			},
 			error: (e) => {
-				console.error('Error al actualizar la amortización', e);
+				this.mostrarAlerta('Error al actualizar la amortización', "X");
 			}
 		});
 	}
+	
 	actualizarViaje(viaje: Viaje) {
 		this.viajeService.update(viaje, viaje.idViaje).subscribe({
-		  next: () => {
-			console.log("Viaje facturado true");
-		  },
-		  error: (e) => {
-			console.error("Error al actualizar el viaje", e);
-		  }
+			next: () => {
+				this.mostrarAlerta("Viaje Facturado", "X");
+			},
+			error: (e) => {
+				this.mostrarAlerta("Error al actualizar el viaje", e);
+			}
 		});
-	  }
+	}
+
+	mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
+	}
 }

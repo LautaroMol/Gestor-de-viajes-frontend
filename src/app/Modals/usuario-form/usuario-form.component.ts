@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Usuario } from '../../Interfaces/usuario';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../Services/user.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-usuario-form',
     standalone: true,
-	imports: [CommonModule,ReactiveFormsModule],
+	imports: [CommonModule,ReactiveFormsModule, MatSnackBarModule],
     templateUrl: './usuario-form.component.html',
     styleUrls: ['./usuario-form.component.css']
 })
@@ -20,6 +21,7 @@ export class UsuarioFormComponent implements OnInit {
 
     constructor(
         private dialogoReferencia: MatDialogRef<UsuarioFormComponent>,
+		private snackBar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) public data: Usuario,
         private fb: FormBuilder,
         private _usuarioServicio: UserService,
@@ -63,7 +65,7 @@ export class UsuarioFormComponent implements OnInit {
                 // dar de alta
                 this._usuarioServicio.add(usuario).subscribe({
                     next: () => {
-                        console.log("Usuario agregado exitosamente");
+                        this.mostrarAlerta("Usuario Agregado Correctamente", "X");
                         this.dialogoReferencia.close({ result: "Creado", data: usuario });
                     },
                     error: (err) => {
@@ -74,10 +76,11 @@ export class UsuarioFormComponent implements OnInit {
                 // Actualizar usuario existente
                 this._usuarioServicio.update(usuario, usuario.idUsuario).subscribe({
                     next: () => {
-                        console.log("Usuario actualizado correctamente");
+                        this.mostrarAlerta("Usuario Actualizado Correctamente", "X");
                         this.dialogoReferencia.close({ action: "Editado", data: usuario });
                     },
                     error: (err) => {
+                        this.mostrarAlerta("Error al actualizar usuario", "X");
                         console.error("Error al actualizar usuario:", err);
                     }
                 });
@@ -86,8 +89,16 @@ export class UsuarioFormComponent implements OnInit {
             console.error("Formulario inválido. Revise los campos.");
         }
     }
-
+    
     onCancel() {
         this.dialogoReferencia.close();
     }
+    
+    mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
+	}
 }

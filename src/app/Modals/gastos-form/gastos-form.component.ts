@@ -8,11 +8,12 @@ import { CategoriaService } from '../../Services/categoria.service';
 import { Categoria } from '../../Interfaces/categoria';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-gastos-form',
 	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule],
+	imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
 	templateUrl: './gastos-form.component.html',
 	styleUrls: ['./gastos-form.component.css']
 })
@@ -29,6 +30,7 @@ export class GastosFormComponent implements OnInit {
 		private dialogoReferencia: MatDialogRef<GastosFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: Gasto,
 		private fb: FormBuilder,
+		private snackBar: MatSnackBar,
 		private gastoService: GastoService,
 		private viajeService: ViajeService,
 		private categoriaService: CategoriaService
@@ -87,18 +89,18 @@ export class GastosFormComponent implements OnInit {
 							next: (data) => {
                                 this.viajeElej = data;
                                 if (gasto.cantidad>this.viajeElej.totalFacturado){
-                                    alert("La cantidad a amortizar es mayor a la facturada con el viaje");
+                                    this.mostrarAlerta("La cantidad a amortizar es mayor a la facturada con el viaje", "X");
                                     return;
                                 }
                                 this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje,gasto);
                             },
                             error: (e) => {
-                                this.mostrarAlerta("No se ha podido crear el gasto");
+                                this.mostrarAlerta("No se ha podido agregar el gasto en el viaje", "X");
                             }
                         }); 
 					},
 					error: (e) => {
-						this.mostrarAlerta("No se ha podido crear el gasto");
+						this.mostrarAlerta("No se ha podido crear el gasto", "X");
 					}
 				});
 			} else {
@@ -107,19 +109,19 @@ export class GastosFormComponent implements OnInit {
 					next: (data) => {
 						this.viajeElej = data;
 						if (gasto.cantidad>this.viajeElej.totalFacturado){
-                            alert("La cantidad a amortizar es mayor a la facturada con el viaje");
+                            this.mostrarAlerta("La cantidad a amortizar es mayor a la facturada con el viaje", "X");
                             return;
                         }
 						this.gastoService.update(gasto).subscribe({
 							next: (data) => {
-								this.mostrarAlerta("Gasto editado correctamente");
-								this.dialogoReferencia.close("Editado");
+								this.mostrarAlerta("Gasto editado correctamente", "X");
+								// this.dialogoReferencia.close("Editado");
 							},
 							error: (e) => {
-								this.mostrarAlerta("No se ha podido editar el gasto");
+								this.mostrarAlerta("No se ha podido editar el gasto", "X");
 							}
 						});
-					}, error: (e) => {this.mostrarAlerta("Error al obtener el viaje");
+					}, error: (e) => {this.mostrarAlerta("Error al obtener el viaje", "X");
 					}
 				});
 			}	
@@ -131,7 +133,7 @@ export class GastosFormComponent implements OnInit {
 		this.viajeService.getList().subscribe({
 			next: (data) => {
 				this.viajes = data.filter(viaje => !viaje.borrado)
-				console.log(this.viajes);
+				// console.log(this.viajes);
 			},
 			error: (e) => {
 				console.log(e.message);
@@ -157,9 +159,6 @@ export class GastosFormComponent implements OnInit {
 		this.dialogoReferencia.close();
 	}
 
-	mostrarAlerta(mensaje: string) {
-		console.log(mensaje);
-	}
 	asignarGastoAlViaje(gastoId: number, viajeId: number,gasto: Gasto) {
 		// Obtén el viaje y actualiza el array de gastos
 		this.viajeService.get(viajeId).subscribe({
@@ -170,19 +169,27 @@ export class GastosFormComponent implements OnInit {
 				// Actualizar el viaje con el nuevo arreglo
 				this.viajeService.update(viaje, viajeId).subscribe({
 					next: () => {
-						this.mostrarAlerta("Gasto asignado correctamente al viaje");
+						this.mostrarAlerta("Gasto asignado correctamente al viaje", "X");
 						if (gasto.nombre == "Amortizacion"){
 							this.dialogoReferencia.close(gasto.cantidad);
 						}else this.dialogoReferencia.close("Creado");
 					},
 					error: (e) => {
-						this.mostrarAlerta("Error al asignar el gasto al viaje");
+						this.mostrarAlerta("Error al asignar el gasto al viaje", "X");
 					}
 				});
 			},
 			error: (e) => {
-				this.mostrarAlerta("Error al obtener el viaje");
+				this.mostrarAlerta("Error al obtener el viaje", "X");
 			}
+		});
+	}
+
+	mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
 		});
 	}
 }

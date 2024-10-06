@@ -9,11 +9,12 @@ import { Unidad } from '../../Interfaces/unidad';
 import { UnidadService } from '../../Services/unidad.service';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { Amortizacion } from '../../Interfaces/amortizacion';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-unidad-form',
 	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatSelectModule, MatInputModule],
+	imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatSelectModule, MatInputModule, MatSnackBarModule],
 	templateUrl: './unidad-form.component.html',
 	styleUrls: ['./unidad-form.component.css']
 })
@@ -29,6 +30,7 @@ export class UnidadFormComponent implements OnInit {
 
 	constructor(
 		private dialogoReferencia: MatDialogRef<UnidadFormComponent>,
+		private snackBar: MatSnackBar,
 		private fb: FormBuilder,
 		private unidadService: UnidadService,
 		private amortizacionService: AmortizacionService,
@@ -101,17 +103,19 @@ export class UnidadFormComponent implements OnInit {
 			if (this.dataUnidad == null) {
 				this.unidadService.add(nuevaUnidad).subscribe({
 					next: (data) => {
-						console.log("Unidad cargada con id: ", data.idUnidad);
+						this.mostrarAlerta("Unidad creada correctamente", "X");
+						// console.mostrarAl("Unidad cargada con id: ", data.idUnidad);
 					}, error: (e) => {
-						this.mostrarAlerta("No se ha podido crear la unidad");
+						this.mostrarAlerta("No se pudo crear la unidad", "X");
 					}
 				});
 		
 				this.amortizacionService.add(nuevaAmortizacion).subscribe({
 					next: (data) => {
-						console.log("Amortización cargada con id: ", data.idAmortizacion);
+						this.mostrarAlerta("Amortización creada correctamente" , "X");
+						// console.log("Amortización cargada con id: ", data.idAmortizacion);
 					}, error: (e) => {
-						this.mostrarAlerta("No se ha podido crear la amortización");
+						this.mostrarAlerta("No se pudo crear la amortización" , "X");
 					}
 				});
 		
@@ -128,7 +132,7 @@ export class UnidadFormComponent implements OnInit {
 							this.mostrarAlertaWindow(`La amortización se actualizó. Se añadió un valor de: ${diferencia.toFixed(2)} ARS`);
 							console.log(data);
 						}, error: (e) => {
-							this.mostrarAlerta("No se ha podido modificar la amortización");
+							this.mostrarAlerta("No se pudo modificar la amortización", "X");
 						}
 					});
 				}
@@ -136,18 +140,13 @@ export class UnidadFormComponent implements OnInit {
 		
 			this.dialogoReferencia.close(nuevaUnidad);
 		} else {
-			console.error('Formulario no válido');
+			this.mostrarAlerta("Formulario no válido", "X");
 		}
 	}
 	
 
 	onCancel() {
 		this.dialogoReferencia.close();
-	}
-
-	mostrarAlerta(mensaje: string) {
-		console.log(mensaje);
-		//implementar logica
 	}
 
 	patchFormValues(unidad: Unidad, amort: Amortizacion) {
@@ -161,7 +160,6 @@ export class UnidadFormComponent implements OnInit {
 		});
 	}
 
-
 	bloquearCampos() {
 		this.formUnidadAmortizacion.get('marca')?.disable();
 		this.formUnidadAmortizacion.get('modelo')?.disable();
@@ -171,5 +169,13 @@ export class UnidadFormComponent implements OnInit {
 
 	mostrarAlertaWindow(mensaje: string) {
 		window.alert(mensaje); 
+	}
+
+    mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
 	}
 }

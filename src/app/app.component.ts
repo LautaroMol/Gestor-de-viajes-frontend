@@ -9,6 +9,7 @@ import { NuevoViajeFormComponent } from './Modals/nuevo-viaje-form/nuevo-viaje-f
 import { MatDialog } from '@angular/material/dialog';
 import { Viaje } from './Interfaces/viaje';
 import { ViajeService } from './Services/viaje.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ import { ViajeService } from './Services/viaje.service';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, ViajesComponent,MatButtonModule, MatTooltipModule,
-     MatIconModule,RouterLink,RouterLinkActive, NuevoViajeFormComponent],
+     MatIconModule,RouterLink,RouterLinkActive, NuevoViajeFormComponent, MatSnackBarModule],
      providers: [HttpClient]
 })
 export class AppComponent {
@@ -34,7 +35,8 @@ export class AppComponent {
 			  } as never);
 		  }
 	}
-nuevoViaje() {
+	
+	nuevoViaje() {
 		this.dialog.open(NuevoViajeFormComponent, {
 			disableClose: true,
 			width: '900px',
@@ -45,14 +47,14 @@ nuevoViaje() {
 				console.log('Nuevo viaje creado o actualizado:', result);
 			}
 		});
-  }
-  obtenerViajes(){
-    this.viajeService.getList().subscribe({
-      next: (data) => {
-        this.viajes = data.filter(viaje => !viaje.borrado);
-      },
-      error: (e) => {
-      },
-    });
-  }
+	}
+
+	obtenerViajes(){
+		this.viajeService.getList().subscribe({
+			next: (data) => {
+				this.viajes = data.filter(viaje => !viaje.borrado);
+			},
+			error: (e) => {},
+		});
+	}
 }
