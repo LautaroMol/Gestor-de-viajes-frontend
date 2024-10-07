@@ -7,7 +7,7 @@
         <div class="bg-white px-4 py-2 ">
             <form class="bg-white shadow-md rounded-lg" [formGroup]="formGasto" (ngSubmit)="onSubmit()">
                 <div class="p-3">
-                    <label for="nombre" class="block text-indigo-600 font-bold">Nombre:</label>
+                    <label for="nombre" class="block text-indigo-600 font-bold">Nombre: <span class="text-red-600">*</span></label>
                     <input 
                         id="nombre" 
                         type="text"
@@ -18,7 +18,7 @@
                     >
                 </div>
                 <div class="p-3">
-                    <label for="cantidad" class="block text-indigo-600	font-bold">Cantidad:</label>
+                    <label for="cantidad" class="block text-indigo-600	font-bold">Cantidad: <span class="text-red-600">*</span></label>
                     <input 
                         id="cantidad" 
                         name="cantidad" 
@@ -29,7 +29,7 @@
                     >
                 </div>
                 <div class="p-3">
-                    <label for="categoria" class="block text-indigo-600	font-bold">Categoria:</label>
+                    <label for="categoria" class="block text-indigo-600	font-bold">Categoria: <span class="text-red-600">*</span></label>
                     <select 
                         name="categoria" 
                         id="categoria"
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="p-3">
-                    <label for="viaje" class="block text-indigo-600	font-bold">Viaje:</label>
+                    <label for="viaje" class="block text-indigo-600	font-bold">Viaje: <span class="text-red-600">*</span></label>
                     <select 
                         id="viaje" 
                         name="viaje" 
@@ -58,7 +58,7 @@
                     </select>
                 </div>
                 <div class="p-3">
-                    <label for="fecha" class="block text-indigo-600	font-bold">Fecha:</label>
+                    <label for="fecha" class="block text-indigo-600	font-bold">Fecha: <span class="text-red-600">*</span></label>
                     <input 
                         id="fecha" 
                         name="fecha" 

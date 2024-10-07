@@ -5,36 +5,43 @@
 <div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
     <form [formGroup]="formUsuario" (ngSubmit)="onSubmit()" class="bg-white w-1/3 shadow-md rounded-lg">
         <div class="p-3">
-            <label for="razon" class="block text-indigo-600 font-bold">Razon Social</label>
+            <label for="razon" class="block text-indigo-600 font-bold">Razon Social <span class="text-red-600">*</span></label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-200"
-                formControlName="razon" id="razon"
+                formControlName="razon"
+                id="razon"
+                required
             >
         </div>
         <div class="p-3">
-            <label for="cuit" class="block text-indigo-600 font-bold">CUIT</label>
+            <label for="cuit" class="block text-indigo-600 font-bold">CUIT <span class="text-red-600">*</span></label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-200"
-                formControlName="cuit" id="cuit"
+                formControlName="cuit"
+                id="cuit"
+                required
             >
         </div>
         <div class="p-3">
-            <label for="domicilio" class="block text-indigo-600 font-bold">Domicilio</label>
+            <label for="domicilio" class="block text-indigo-600 font-bold">Domicilio <span class="text-red-600">*</span></label>
             <input 
                 type="text"
                 class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg bg-gray-200"
-                formControlName="domicilio" id="domicilio"
+                formControlName="domicilio"
+                id="domicilio"
+                required
             >
         </div>
         <div class="p-3">
-            <label for="condicion" class="block text-indigo-600 font-bold">Condicion</label>
+            <label for="condicion" class="block text-indigo-600 font-bold">Condicion <span class="text-red-600">*</span></label>
             <select 
                 name="condicion" 
                 id="condicion"
                 class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
                 formControlName="condicion"
+                required
             >
                 <option disabled >-- Selecciones --</option>
                 <option >Responsable Inscripto</option>

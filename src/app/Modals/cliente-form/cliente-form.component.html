@@ -7,7 +7,7 @@
 		<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 			<form class="bg-white shadow-md rounded-lg" [formGroup]="formCliente" (ngSubmit)="onSubmit()">
 				<div class="p-3">
-					<label for="razonSoc" class="block text-indigo-600 font-bold">Razon Social</label>
+					<label for="razonSoc" class="block text-indigo-600 font-bold">Razon Social <span class="text-red-600">*</span></label>
 					<input 
 						id="razonSoc" 
 						name="razonSoc" 
@@ -18,7 +18,7 @@
 					>
 				</div>
 				<div class="p-3">
-					<label for="cuit" class="block text-indigo-600	font-bold">CUIT</label>
+					<label for="cuit" class="block text-indigo-600	font-bold">CUIT <span class="text-red-600">*</span></label>
 					<input 
 						id="cuit" 
 						name="cuit" 
@@ -29,7 +29,7 @@
 					>
 				</div>
 				<div class="p-3">
-					<label for="domicilio" class="block text-indigo-600	font-bold">Domicilio</label>
+					<label for="domicilio" class="block text-indigo-600	font-bold">Domicilio <span class="text-red-600">*</span></label>
 					<input 
 						id="domicilio" 
 						name="domicilio" 
@@ -40,7 +40,7 @@
 					>
 				</div>
 				<div class="p-3">
-					<label for="domicilio" class="block text-indigo-600	font-bold">Condicion</label>
+					<label for="domicilio" class="block text-indigo-600	font-bold">Condicion <span class="text-red-600">*</span></label>
 					<select 
 						name="condicion" 
 						id="condicion"
