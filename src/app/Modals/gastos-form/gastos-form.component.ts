@@ -133,7 +133,6 @@ export class GastosFormComponent implements OnInit {
 		this.viajeService.getList().subscribe({
 			next: (data) => {
 				this.viajes = data.filter(viaje => !viaje.borrado)
-				// console.log(this.viajes);
 			},
 			error: (e) => {
 				console.log(e.message);
