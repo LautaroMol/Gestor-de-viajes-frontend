@@ -121,6 +121,8 @@
     <div *ngIf="!amortizacion">
         <h2>No se configuro aun la amortizacino, cargue los datos para tener aqui un seguimiento</h2>
     </div>
+
+    <app-nuevo-viaje-form (viajeGuardado)="actualizarListaDeViajes()"></app-nuevo-viaje-form>
       
       
 

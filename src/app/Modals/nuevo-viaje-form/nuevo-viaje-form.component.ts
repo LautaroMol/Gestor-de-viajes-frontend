@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, output, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Viaje } from '../../Interfaces/viaje';
@@ -19,6 +19,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class NuevoViajeFormComponent implements OnInit {
     @ViewChild(MapComponent) mapComponent!: MapComponent;
+    @Output() viajeGuardado = new EventEmitter<void>();
     cpUrl: string | null = null;
     selectedFile: File | null = null;
     formViaje: FormGroup;
@@ -158,6 +159,7 @@ export class NuevoViajeFormComponent implements OnInit {
                             this.viajeServicio.addArchivo(viajeId, formData).subscribe({
                                 next: (archivoData) => {
                                     console.log("Archivo guardado correctamente:", archivoData);
+                                    this.viajeGuardado.emit();
                                     this.dialog.close(true);
                                 },
                                 error: (err) => {
