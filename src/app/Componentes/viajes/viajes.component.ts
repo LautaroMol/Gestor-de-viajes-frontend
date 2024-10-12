@@ -30,8 +30,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
     CommonModule,
     MapComponent,
     MatProgressBarModule,
-    NuevoViajeFormComponent
-],
+  ],
   templateUrl: './viajes.component.html',
   styleUrls: ['./viajes.component.css'],
 })
@@ -228,9 +227,6 @@ export class ViajesComponent implements OnInit {
         console.error(e);
       },
     });
-  }
-  actualizarListaDeViajes() {
-    this.obtenerViajes(); 
   }
 
   GeneratePDF(viaje) {
