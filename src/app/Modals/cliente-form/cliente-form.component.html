@@ -40,17 +40,19 @@
 					>
 				</div>
 				<div class="p-3">
-					<label for="domicilio" class="block text-indigo-600	font-bold">Condicion <span class="text-red-600">*</span></label>
+					<label for="domicilio" class="block text-indigo-600 font-bold">Condición <span class="text-red-600">*</span></label>
 					<select 
-						name="condicion" 
-						id="condicion"
-						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
-						formControlName="condicion"
+					  name="condicion" 
+					  id="condicion"
+					  class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+					  formControlName="condicion"
 					>
-						<option disabled >-- Selecciones --</option>
-						<option >Responsable Inscripto</option>
+					  <option disabled>-- Seleccione --</option>
+					  <option *ngFor="let condicion of condiciones" [value]="condicion">
+						{{ condicion }}
+					  </option>
 					</select>
-				</div>
+				  </div>
 	
 				<div class="flex justify-between gap-3 p-3">
 					<button 

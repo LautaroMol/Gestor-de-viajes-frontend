@@ -1,0 +1,35 @@
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+    <div class="bg-white px-4 pt-5">
+      <form 
+        [formGroup]="formCondicion" 
+        (ngSubmit)="onSubmit()"
+        class="bg-white rounded-lg"
+      >
+        <div>
+          <label for="condicion">Nueva Condición <span class="text-red-600">*</span></label>
+          <input 
+            id="condicion" 
+            formControlName="condicion" 
+            type="text"
+            class="w-full mt-2 py-1 px-3 focus:outline-indigo-200 shadow-lg rounded-lg"
+            required	
+          />
+        </div>
+  
+        <div class="p-3 flex justify-between gap-3">
+          <button 
+            type="submit"
+            class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+          >{{ botonAccion }}
+          </button>
+          <button 
+            type="button" 
+            class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+            (click)="onCancel()"
+          >Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

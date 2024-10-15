@@ -59,6 +59,26 @@
                 </div>
             </div>
         </div>
+        <div class="shadow-md rounded-lg">
+            <div class="flex justify-between items-center px-2 py-2 bg-indigo-600 rounded-t-lg text-center text-white border-b-2 font-semibold">
+              <p>Categorías de Condición del Cliente</p>
+              <button (click)="nuevaCondicion()" class="text-black">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.75v14.5m7.25-7.25H4.75" />
+                </svg>
+              </button>
+            </div>
+          
+            <div class="bg-white max-h-64 overflow-y-auto no-scrollbar">
+              <div class="text-gray-900 font-semibold px-6 py-4">
+                <ul>
+                  <li *ngFor="let condicion of condiciones" class="border border-gray-300 rounded-lg p-2 mb-2 shadow-sm">
+                    {{ condicion }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
     </div>
 </div> 
   

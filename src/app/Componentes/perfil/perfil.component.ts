@@ -61,7 +61,6 @@ export class PerfilComponent implements OnInit {
 		this.userService.get(1).subscribe({
 			next: (data) => {
 				this.user = data;
-				console.log(this.user);
 			},
 			error: (e) => {
 				console.error(e);
@@ -73,11 +72,9 @@ export class PerfilComponent implements OnInit {
 		this.viajeService.getList().subscribe({
 			next: (data) => {
 				this.viajes = data;
-				console.log(this.viajes);
 			},
 			error: (e) => {
 				console.error(e);
-				console.log(e.message);
 			},
 		});
 	}
@@ -91,7 +88,6 @@ export class PerfilComponent implements OnInit {
 			if (result === "Eliminar") {
 				this.viajeService.delete(viaje.idViaje).subscribe({
 					next: () => {
-						console.log("Viaje eliminado");
 						this.obtenerViajes();
 					},
 					error: (e) => {
@@ -141,7 +137,6 @@ export class PerfilComponent implements OnInit {
 		this.clienteService.getList().subscribe({
 			next: (data) => {
 				this.clientes = data;
-				console.log(this.clientes);
 			},
 			error: (e) => {
 				console.error(e);

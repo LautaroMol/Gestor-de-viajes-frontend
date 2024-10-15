@@ -7,6 +7,7 @@ import { CategoriaDeleteComponent } from '../../Modals/categoria-delete/categori
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SugerenciaFormComponent } from '../../Modals/sugerencia-form/sugerencia-form.component';
+import { CondicionesFormComponent } from '../../Modals/condiciones-form/condiciones-form.component';
 
 @Component({
 	selector: 'app-configuracion',
@@ -23,6 +24,7 @@ export class ConfiguracionComponent {
 	mostrarFormulario: boolean = false;
 	modoEdicion: boolean = false;
 	precioKilometro: number | null = 0;
+	condiciones!: string[];
 
 	constructor(private dialog: MatDialog,
 		private categoriaService: CategoriaService,
@@ -31,6 +33,7 @@ export class ConfiguracionComponent {
 	ngOnInit(): void {
 		this.obtenerCategorias();
 		this.obtenerMonto();
+		this.obtenerCondiciones();
 	}
 
  	obtenerCategorias() {
@@ -39,7 +42,6 @@ export class ConfiguracionComponent {
 				this.categorias = data.filter( categoria => 
 					categoria.borrado === false
 				);
-				console.log(this.categorias);
 			},
 			error: (e) => {
 				console.error(e);
@@ -96,6 +98,22 @@ export class ConfiguracionComponent {
 		});
 	}
 
+	obtenerCondiciones() {
+		const condicionesGuardadas = localStorage.getItem('condicionesCliente');
+		this.condiciones = condicionesGuardadas ? JSON.parse(condicionesGuardadas) : [];
+	}
+	nuevaCondicion() {
+		this.dialog.open(CondicionesFormComponent, {
+		  disableClose: false,
+		  width: '300px',
+		  data: { condiciones: this.condiciones }
+		}).afterClosed().subscribe(result => {
+		  if (result && result.action === 'Creado') {
+			this.condiciones.push(result.data);
+			localStorage.setItem('condicionesCliente', JSON.stringify(this.condiciones));
+		  }
+		});
+	  }
 	obtenerMonto() {
 		const monto = localStorage.getItem('precioKilometro');
 		this.precioKilometro = monto ? Number(monto) : 0;

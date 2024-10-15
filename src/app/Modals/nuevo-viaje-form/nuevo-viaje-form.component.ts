@@ -147,10 +147,8 @@ export class NuevoViajeFormComponent implements OnInit {
                 this.viajeServicio.addViaje(viajeData).subscribe({
                     next: (data) => {
                 		this.mostrarAlerta("Viaje Creado Correctamente", "X")
-                        // console.log("Viaje guardado correctamente:", data);
                         const viajeId = data.viajeId;
     
-                        // Si hay un archivo seleccionado, lo subimos
                         if (this.selectedFile) {
                             const formData = new FormData();
                             formData.append('archivo', this.selectedFile, this.selectedFile.name);
@@ -170,12 +168,10 @@ export class NuevoViajeFormComponent implements OnInit {
                     },
                     error: (err) => {
                 		this.mostrarAlerta("Error al crear el viaje", "X")
-                        // console.error("Error al guardar los datos del viaje:", err);
                     }
                 });
     
             } else { 
-                // Actualizar la unidad con los nuevos valores
                 this.unidadService.update(this.unidad).subscribe({
                     next: (data) => {
                         console.log("Camión actualizado correctamente:", data);
