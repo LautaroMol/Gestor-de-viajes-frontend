@@ -19,6 +19,7 @@ import { Gasto } from '../../Interfaces/gasto';
 import { GastoService } from '../../Services/gasto.service';
 import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
+import { ViajeEventService } from '../../Services/viaje-event.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -51,7 +52,7 @@ export class ViajesComponent implements OnInit {
     private amortizacionService: AmortizacionService,
     private userService: UserService,
     private gastoService: GastoService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService, private viajeEventService: ViajeEventService
   ) {
     this.audioCelebration = new Audio('assets/audio/yippie.mp3');
   }
@@ -63,6 +64,11 @@ export class ViajesComponent implements OnInit {
     this.obtenerGastos();
     this.obtenerClientes();
     this.pdfjsLib = this.pdfjsLib;
+    this.viajeEventService.viajeActualizado$.subscribe((actualizado) => {
+      if (actualizado) {
+        this.obtenerViajes(); 
+      }
+    });
   }
 
   obtenerViajes() {

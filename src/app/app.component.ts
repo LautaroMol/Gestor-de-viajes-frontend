@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Viaje } from './Interfaces/viaje';
 import { ViajeService } from './Services/viaje.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ViajeEventService } from './Services/viaje-event.service';
 
 @Component({
     selector: 'app-root',
@@ -26,7 +27,8 @@ export class AppComponent {
 	title = 'Camiones';
 
 	constructor(private dialog: MatDialog,
-		private viajeService: ViajeService
+		private viajeService: ViajeService,
+		private viajeEventService: ViajeEventService
 	) {
 		if (globalThis.window === undefined) {
 			globalThis.window =
@@ -38,16 +40,16 @@ export class AppComponent {
 	
 	nuevoViaje() {
 		this.dialog.open(NuevoViajeFormComponent, {
-			disableClose: true,
-			width: '900px',
-			data: null
+		  disableClose: true,
+		  width: '900px',
+		  data: null
 		}).afterClosed().subscribe(result => {
-			if (result) {
-				this.obtenerViajes();
-				console.log('Nuevo viaje creado o actualizado:', result);
-			}
+		  if (result) {
+			this.viajeEventService.emitirActualizacionViaje();
+			console.log('Nuevo viaje creado o actualizado:', result);
+		  }
 		});
-	}
+	  }
 
 	obtenerViajes(){
 		this.viajeService.getList().subscribe({
