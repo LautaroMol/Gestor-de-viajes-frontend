@@ -56,7 +56,8 @@ export class UnidadFormComponent implements OnInit {
 			this.patchFormValues(this.dataUnidad, this.dataAmort);
 			this.bloquearCampos(); 
 		}
-	}  
+	}
+	  
 
 	calcularMontoAnual() {
 		if (this.formUnidadAmortizacion.valid) {

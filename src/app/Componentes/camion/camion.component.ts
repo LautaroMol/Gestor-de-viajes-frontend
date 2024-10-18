@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Unidad } from '../../Interfaces/unidad';
 import { UnidadService } from '../../Services/unidad.service';
@@ -21,7 +21,7 @@ export class CamionComponent implements OnInit {
 	showWarning: boolean = false;
 
 	constructor(private unidadService: UnidadService,private dialog: MatDialog,
-		private amortService: AmortizacionService,
+		private amortService: AmortizacionService,private cdr: ChangeDetectorRef
 	) {}
 
 	ngOnInit(): void {
@@ -33,12 +33,14 @@ export class CamionComponent implements OnInit {
 		this.unidadService.get(id).subscribe(data => {
 			this.unidad = data;
 			this.checkOilWarning();
+			this.cdr.detectChanges();
 		});
 	}
 
 	getAmort(id:number) {
 		this.amortService.get(id).subscribe(data =>{
 			this.amortizacion = data;
+			this.cdr.detectChanges();
 		})
 	}
 
