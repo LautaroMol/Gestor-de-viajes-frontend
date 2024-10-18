@@ -1,80 +1,190 @@
-<form [formGroup]="formUnidadAmortizacion" (ngSubmit)="onSubmit()">
-    <h2>{{tituloAccion}}</h2>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Marca</mat-label>
-      <input matInput formControlName="marca" placeholder="Marca de la unidad">
-      <mat-error *ngIf="formUnidadAmortizacion.get('marca')?.hasError('required')">
-        La marca es requerida
-      </mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Modelo</mat-label>
-      <input matInput formControlName="modelo" placeholder="Modelo de la unidad">
-      <mat-error *ngIf="formUnidadAmortizacion.get('modelo')?.hasError('required')">
-        El modelo es requerido
-      </mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Amortización</mat-label>
-      <input matInput formControlName="amortizacion" type="number" placeholder="Monto de la amortización">
-      <mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('required')">
-        El monto de la amortización es requerido
-      </mat-error>
-      <mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('min')">
-        El monto debe ser mayor a 0
-      </mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Ruedas</mat-label>
-      <mat-select formControlName="ruedas">
-        <mat-option [value]="4">4 ruedas</mat-option>
-        <mat-option [value]="6">6 ruedas</mat-option>
-      </mat-select>
-      <mat-error *ngIf="formUnidadAmortizacion.get('ruedas')?.hasError('required')">
-        Seleccione el número de ruedas
-      </mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Valoración</mat-label>
-      <input matInput formControlName="valoracion" type="number" placeholder="Valoración de la unidad">
-      <mat-error *ngIf="formUnidadAmortizacion.get('valoracion')?.hasError('required')">
-        La valoración es requerida
-      </mat-error>
-      <mat-error *ngIf="formUnidadAmortizacion.get('valoracion')?.hasError('min')">
-        La valoración debe ser mayor a 0
-      </mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Plazo</mat-label>
-      <mat-select formControlName="plazo">
-        <mat-option *ngFor="let year of [1,2,3,4,5,6,7,8,9,10]" [value]="year">{{year}} años</mat-option>
-      </mat-select>
-      <mat-error *ngIf="formUnidadAmortizacion.get('plazo')?.hasError('required')">
-        Seleccione el plazo de amortización
-      </mat-error>
-    </mat-form-field>
-  
-    <div>
-      <label>Monto anual:</label>
-      <input [value]="montoAnual || ''" readonly>
-      <button type="button" mat-raised-button color="primary" (click)="calcularMontoAnual()">
-        Calcular Monto Anual
-      </button>
-    </div>
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+	<div class="fixed inset-0 transition-opacity">
+		<div class="absolute inset-0 bg-black opacity-50"></div>
+	</div>
 
-    <div *ngIf="dataAmort">
-      <label>Amortizacion anual actual: {{dataAmort.objetivoAnual}}</label>
-    </div>
-  
-    <div>
-      <button type="submit" mat-raised-button color="primary">Guardar</button>
-      <button type="button" mat-raised-button (click)="onCancel()">Cancelar</button>
-    </div>
-</form>
-  
+	<div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+		<div class="bg-white px-2 py-2  sm:p-6 sm:pb-4">
+			<form [formGroup]="formUnidadAmortizacion" (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded-lg">
+				<div class="p-2">
+					<label for="marca" class="block text-indigo-600 font-bold">Marca<span class="text-red-600">*</span></label>
+					<input 
+						id="marca" 
+						name="marca" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="marca" 
+						placeholder="Marca de la unidad"
+						required
+					>
+					<mat-error *ngIf="formUnidadAmortizacion.get('marca')?.hasError('required')">
+						La marca es requerida
+					</mat-error>
+				</div>
+			
+				<div class="p-2">
+					<label for="modelo" class="block text-indigo-600 font-bold">Modelo<span class="text-red-600">*</span></label>
+					<input 
+						id="modelo" 
+						name="modelo" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="modelo" 
+						placeholder="Marca de la unidad"
+						required
+					>
+					<mat-error *ngIf="formUnidadAmortizacion.get('modelo')?.hasError('required')">
+						El modelo es requerido
+					</mat-error>
+				</div>
+
+				<div class="p-2">
+					<label for="amortizacion" class="block text-indigo-600 font-bold">Objetivo Amortización<span class="text-red-600">*</span></label>
+					<input 
+						id="amortizacion" 
+						name="amortizacion" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="amortizacion" 
+						placeholder="Monto objetivo de la amortización"
+						required
+					>
+					<mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('required')">
+						El monto de la amortización es requerido
+					</mat-error>
+					<mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('min')">
+						El monto debe ser mayor a 0
+					</mat-error>
+				</div>
+			
+				<div class="p-2">
+					<label for="ruedas" class="block text-indigo-600 font-bold">Cantidad de Ruedas <span class="text-red-600">*</span></label>
+					<select 
+					  name="ruedas" 
+					  id="ruedas"
+					  class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+					  formControlName="ruedas"
+					>
+					  	<option disabled>-- Seleccione --</option>
+						<option [value]="4">4 ruedas</option>
+						<option [value]="6">6 ruedas</option>
+					</select>
+					<mat-error *ngIf="formUnidadAmortizacion.get('ruedas')?.hasError('required')">
+						Seleccione el número de ruedas
+					</mat-error>
+				</div>
+				
+				<div class="p-2">
+					<label for="valoracion" class="block text-indigo-600 font-bold">Valoración<span class="text-red-600">*</span></label>
+					<input 
+						id="valoracion" 
+						name="valoracion" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="valoracion" 
+						placeholder="Valoración de la unidad"
+						required
+					>
+					<mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('required')">
+						El monto de la amortización es requerido
+					</mat-error>
+					<mat-error *ngIf="formUnidadAmortizacion.get('amortizacion')?.hasError('min')">
+						El monto debe ser mayor a 0
+					</mat-error>
+				</div>
+
+				<div class="p-2">
+					<label for="plazo" class="block text-indigo-600 font-bold">Plazo <span class="text-red-600">*</span></label>
+					<select 
+					  name="plazo" 
+					  id="plazo"
+					  class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+					  formControlName="plazo"
+					>
+						<option disabled>-- Seleccione --</option>
+						<option *ngFor="let year of [1,2,3,4,5,6,7,8,9,10]" [value]="year">
+							{{ year }} años
+						</option>
+					</select>
+					<mat-error *ngIf="formUnidadAmortizacion.get('plazo')?.hasError('required')">
+						Seleccione el plazo de amortización
+					</mat-error>
+				</div>
+	
+				<div>
+					<label>Monto anual:</label>
+					<input [value]="montoAnual || ''" readonly>
+					<button type="button" mat-raised-button color="primary" (click)="calcularMontoAnual()">
+						Calcular Monto Anual
+					</button>
+				</div>
+
+				<div *ngIf="dataAmort">
+					<label>Amortizacion anual actual: {{dataAmort.objetivoAnual}}</label>
+				</div>
+			
+				<div class="flex justify-between gap-3 p-3">
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+						type="submit">
+						Guardar
+					</button>
+
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+						type="button"
+						(click)="onCancel()"	
+					>Cancelar
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+			<!-- <form class="bg-white shadow-md rounded-lg" [formGroup]="formCliente" (ngSubmit)="onSubmit()">
+
+				<div class="p-2">
+					<label for="ruedas" class="block text-indigo-600	font-bold">ruedas <span class="text-red-600">*</span></label>
+					<input 
+						id="domicilio" 
+						name="domicilio" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="domicilio" 
+						required
+					>
+				</div>
+				<div class="p-2">
+					<label for="domicilio" class="block text-indigo-600 font-bold">Condición <span class="text-red-600">*</span></label>
+					<select 
+					  name="condicion" 
+					  id="condicion"
+					  class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+					  formControlName="condicion"
+					>
+					  <option disabled>-- Seleccione --</option>
+					  <option *ngFor="let condicion of condiciones" [value]="condicion">
+						{{ condicion }}
+					  </option>
+					</select>
+				  </div>
+	
+				<div class="flex justify-between gap-3 p-3">
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+						type="submit">
+						{{ botonAccion }}
+					</button>
+
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+						type="button"
+						(click)="onCancel()"	
+					>Cancelar
+					</button>
+					
+				</div>
+			</form> -->
+		
