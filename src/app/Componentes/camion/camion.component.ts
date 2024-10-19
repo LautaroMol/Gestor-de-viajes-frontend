@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UnidadFormComponent } from '../../Modals/unidad-form/unidad-form.component';
 import { Amortizacion } from '../../Interfaces/amortizacion';
 import { AmortizacionService } from '../../Services/amortizacion.service';
+import { UnidadModFormComponent } from '../../Modals/unidad-mod-form/unidad-mod-form.component';
 
 @Component({
 	selector: 'app-camion',
@@ -71,6 +72,7 @@ export class CamionComponent implements OnInit {
 		}
 		this.getCamion(1);
 		this.getOilLevel();
+		this.cdr.detectChanges();
 	}
 
 	checkOilWarning() {
@@ -107,6 +109,19 @@ export class CamionComponent implements OnInit {
 				console.log(result);
 				this.getCamion(1);
 				this.getAmort(1);
+			}
+		});
+	}
+	ActualizarUnidad(unidad: Unidad){
+		const dialogRef = this.dialog.open(UnidadModFormComponent, {
+		data: {
+			unidad: unidad,
+		}
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				console.log(result);
+				this.getCamion(1);
 			}
 		});
 	}

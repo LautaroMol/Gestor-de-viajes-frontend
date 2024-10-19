@@ -1,0 +1,88 @@
+<div class="fixed z-50 inset-0 flex items-center justify-center overflow-hidden">
+	<div class="fixed inset-0 transition-opacity">
+		<div class="absolute inset-0 bg-black opacity-50"></div>
+	</div>
+
+	<div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+		<div class="bg-white px-2 py-2 sm:p-6 sm:pb-4">
+			<form [formGroup]="formUnidad" (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded-lg">
+				<div class="p-2">
+					<label for="marca" class="block text-indigo-600 font-bold">Marca<span class="text-red-600">*</span></label>
+					<input 
+						id="marca" 
+						name="marca" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="marca" 
+						placeholder="Marca de la unidad"
+						required
+					>
+					<mat-error *ngIf="formUnidad.get('marca')?.hasError('required')">
+						La marca es requerida
+					</mat-error>
+				</div>
+			
+				<div class="p-2">
+					<label for="modelo" class="block text-indigo-600 font-bold">Modelo<span class="text-red-600">*</span></label>
+					<input 
+						id="modelo" 
+						name="modelo" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="modelo" 
+						placeholder="Modelo de la unidad"
+						required
+					>
+					<mat-error *ngIf="formUnidad.get('modelo')?.hasError('required')">
+						El modelo es requerido
+					</mat-error>
+				</div>
+			
+				<div class="p-2">
+					<label for="ruedas" class="block text-indigo-600 font-bold">Cantidad de Ruedas <span class="text-red-600">*</span></label>
+					<select 
+					  name="ruedas" 
+					  id="ruedas"
+					  class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+					  formControlName="ruedas"
+					>
+					  	<option disabled>-- Seleccione --</option>
+						<option [value]="4">4 ruedas</option>
+						<option [value]="6">6 ruedas</option>
+					</select>
+					<mat-error *ngIf="formUnidad.get('ruedas')?.hasError('required')">
+						Seleccione el número de ruedas
+					</mat-error>
+				</div>
+				
+				<div class="p-2">
+					<label for="valoracion" class="block text-indigo-600 font-bold">Valoración<span class="text-red-600">*</span></label>
+					<input 
+						id="valoracion" 
+						name="valoracion" 
+						type="text"
+						class="w-full mt-2 py-1 px-3 bg-gray-200 focus:outline-indigo-200 shadow-lg rounded-lg"
+						formControlName="valoracion" 
+						placeholder="Valoración de la unidad"
+						required
+					>
+				</div>
+
+				<div class="flex justify-between gap-3 p-3">
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
+						type="submit">
+						Guardar
+					</button>
+
+					<button 
+						class="w-1/2 shadow-md text-white text-center font-bold bg-red-600 p-1 rounded-md hover:bg-red-700 transition-all"
+						type="button"
+						(click)="onCancel()"	
+					>Cancelar
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

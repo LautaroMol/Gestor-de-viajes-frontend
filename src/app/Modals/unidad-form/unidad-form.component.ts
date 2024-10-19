@@ -74,14 +74,14 @@ export class UnidadFormComponent implements OnInit {
 
 	onSubmit() {
 		if (this.formUnidadAmortizacion.valid) {
-			const numeroRuedas = this.formUnidadAmortizacion.get('ruedas')?.value;
+			const numeroRuedas = Number(this.formUnidadAmortizacion.get('ruedas')?.value);
 			const ruedasArray = Array.from({ length: numeroRuedas }, (_, index) => index + 1);
 			const estadoRuedaArray = Array(numeroRuedas).fill(0);
 		
 			const nuevaUnidad: Unidad = {
 				idUnidad: this.dataUnidad ? this.dataUnidad.idUnidad : 0,
 				...this.formUnidadAmortizacion.value,
-				ruedas: ruedasArray, 
+				ruedas: ruedasArray,  
 				estadoRueda: estadoRuedaArray, 
 				kmAceite: 0,
 				aceite: new Date(),
@@ -105,7 +105,6 @@ export class UnidadFormComponent implements OnInit {
 				this.unidadService.add(nuevaUnidad).subscribe({
 					next: (data) => {
 						this.mostrarAlerta("Unidad creada correctamente", "X");
-						// console.mostrarAl("Unidad cargada con id: ", data.idUnidad);
 					}, error: (e) => {
 						this.mostrarAlerta("No se pudo crear la unidad", "X");
 					}
@@ -114,28 +113,25 @@ export class UnidadFormComponent implements OnInit {
 				this.amortizacionService.add(nuevaAmortizacion).subscribe({
 					next: (data) => {
 						this.mostrarAlerta("Amortización creada correctamente" , "X");
-						// console.log("Amortización cargada con id: ", data.idAmortizacion);
 					}, error: (e) => {
 						this.mostrarAlerta("No se pudo crear la amortización" , "X");
 					}
 				});
 		
 			} else {
+				// Si se está editando
 				if (this.dataAmort) {
-				const diferencia = Number.parseFloat((this.montoAnual).toFixed(2)) - this.difAmort;
-				
-				nuevaAmortizacion.objetivoAnual = this.dataAmort.objetivoAnual + diferencia;
+					const diferencia = Number.parseFloat((this.montoAnual).toFixed(2)) - this.difAmort;
+					nuevaAmortizacion.objetivoAnual = this.dataAmort.objetivoAnual + diferencia;
 		
-				this.amortizacionService.update(nuevaAmortizacion, nuevaAmortizacion.idAmortizacion)
-					.subscribe({
-						next: (data) => {
-							// Mostrar la alerta con la diferencia sumada
-							this.mostrarAlertaWindow(`La amortización se actualizó. Se añadió un valor de: ${diferencia.toFixed(2)} ARS`);
-							console.log(data);
-						}, error: (e) => {
-							this.mostrarAlerta("No se pudo modificar la amortización", "X");
-						}
-					});
+					this.amortizacionService.update(nuevaAmortizacion, nuevaAmortizacion.idAmortizacion)
+						.subscribe({
+							next: (data) => {
+								this.mostrarAlertaWindow(`La amortización se actualizó. Se añadió un valor de: ${diferencia.toFixed(2)} ARS`);
+							}, error: (e) => {
+								this.mostrarAlerta("No se pudo modificar la amortización", "X");
+							}
+						});
 				}
 			}
 		
@@ -144,6 +140,7 @@ export class UnidadFormComponent implements OnInit {
 			this.mostrarAlerta("Formulario no válido", "X");
 		}
 	}
+	
 	
 
 	onCancel() {
