@@ -44,7 +44,9 @@
                 required
             >
                 <option disabled >-- Selecciones --</option>
-                <option >Responsable Inscripto</option>
+                <option *ngFor="let condicion of condiciones" [value]="condicion">
+                    {{ condicion }}
+                  </option>
             </select>
         </div>
         <div class="flex justify-between gap-3 p-3">

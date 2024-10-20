@@ -18,6 +18,7 @@ export class UsuarioFormComponent implements OnInit {
     tituloAccion: string = "Nuevo";
     botonAccion: string = "Darse de alta";
     dataUsuario: Usuario | null = null;
+    condiciones: string[] = [];
 
     constructor(
         private dialogoReferencia: MatDialogRef<UsuarioFormComponent>,
@@ -51,6 +52,12 @@ export class UsuarioFormComponent implements OnInit {
             this.tituloAccion = "Editar";
             this.botonAccion = "Actualizar";
         }
+
+        const storedCondiciones = localStorage.getItem('condicionesCliente');
+        
+        if (storedCondiciones) {
+          this.condiciones = JSON.parse(storedCondiciones);
+        }
     }
 
     onSubmit() {
@@ -67,6 +74,7 @@ export class UsuarioFormComponent implements OnInit {
                     next: () => {
                         this.mostrarAlerta("Usuario Agregado Correctamente", "X");
                         this.dialogoReferencia.close({ result: "Creado", data: usuario });
+                        window.location.reload();
                     },
                     error: (err) => {
                         console.error("Error al agregar usuario:", err);
