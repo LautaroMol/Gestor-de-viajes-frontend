@@ -101,7 +101,7 @@
         </mat-progress-bar>
         <p class="text-gray-600">Progreso: {{ calcularPorcentajeAmortizacion() | number:'1.0-2' }}%</p>
 
-        <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Objetivo Anual: {{ this.ObjetivoAnualAmort | currency }}</h3>
+        <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Objetivo Anual: {{ this.ObjetivoAnualAmort | currency }}, Periodo: {{this.amortizacion.periodo}}</h3>
         <h4 class="text-lg font-semibold text-gray-700 mb-4">Recaudado: {{ (this.ObjetivoAnualAmort - amortizacion.objetivoAnual) | currency }}</h4>
 
         <mat-progress-bar mode="determinate" [value]="calcularPorcentajeAmortizacionAnual()" class="bg-indigo-300 mb-4">
