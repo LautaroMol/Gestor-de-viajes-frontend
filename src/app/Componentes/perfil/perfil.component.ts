@@ -201,7 +201,6 @@ export class PerfilComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe((cantidad:number) => {
 			if (cantidad) {
-				console.log('Cantidad recibida: ',cantidad);
 				this.actualizarAmortizacion(cantidad);
 				viaje.facturado = true;
 				this.actualizarViaje(viaje);
@@ -216,7 +215,25 @@ export class PerfilComponent implements OnInit {
 	}
 
 	actualizarAmortizacion(cantidad: number) {
-		this.amortizacionAnual.recaudado += cantidad;
+		if(this.amortizacionAnual.objetivoAnual< cantidad){
+			const dif = cantidad - this.amortizacionAnual.objetivoAnual;
+
+			this.amortizacionAnual.recaudado += cantidad;
+
+			this.amortizacionAnual.periodo +=1;
+			this.amortizacionAnual.objetivoAnual = this.amortizacionAnual.objetivo / this.amortizacionAnual.plazo;
+			this.amortizacionAnual.objetivoAnual -= dif;
+
+		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
+			next: (data) => {
+				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
+			},
+			error: (e) => {
+				this.mostrarAlerta('Error al actualizar la amortización', "X");
+			}
+		});
+		}else{
+			this.amortizacionAnual.recaudado += cantidad;
 		this.amortizacionAnual.objetivoAnual -= cantidad;
 
 		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
@@ -227,6 +244,8 @@ export class PerfilComponent implements OnInit {
 				this.mostrarAlerta('Error al actualizar la amortización', "X");
 			}
 		});
+		}
+		
 	}
 	
 	actualizarViaje(viaje: Viaje) {
