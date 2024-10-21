@@ -188,7 +188,7 @@ export class NuevoViajeFormComponent implements OnInit {
 	                	this.mostrarAlerta("Viaje Actualizado correctamente", "X")
     
                         // Si hay un archivo seleccionado, lo subimos
-                        if (this.selectedFile) {
+                        if (this.selectedFile != null) {
                             const formData = new FormData();
                             formData.append('archivo', this.selectedFile, this.selectedFile.name);
     
@@ -207,13 +207,11 @@ export class NuevoViajeFormComponent implements OnInit {
                     },
                     error: (err) => {
                 		this.mostrarAlerta("Error al actualizar el viaje", "X")
-                        // console.error("Error al actualizar el viaje:", err);
                     }
                 });
             }
         } else {
     		this.mostrarAlerta("Formulario Invalido", "X")
-            // console.error('Formulario inválido:', this.formViaje.errors);
         }
     }
 
