@@ -48,6 +48,7 @@ export class NuevoViajeFormComponent implements OnInit {
             facturado: [false],
             cuitUsuario: [''],
             totalFacturado: 0,
+            monto: 0,
             borrado: [false]
         });
 
@@ -62,6 +63,7 @@ export class NuevoViajeFormComponent implements OnInit {
         this.getCamion(1);
         if (this.dataViaje) {
             this.getCamion(1);
+            this.totalFacturado= this.dataViaje.totalFacturado;
             this.formViaje.patchValue({
                 inicio: this.dataViaje.inicio,
                 final: this.dataViaje.final,
@@ -71,6 +73,8 @@ export class NuevoViajeFormComponent implements OnInit {
                 cp: this.dataViaje.cp,
                 facturado: this.dataViaje.facturado,
                 cuitUsuario: this.dataViaje.cuitUsuario,
+                monto: this.dataViaje.totalFacturado / this.dataViaje.distancia,
+                totalFacturado: this.totalFacturado,
                 borrado: false
             });
             setTimeout(() => {
