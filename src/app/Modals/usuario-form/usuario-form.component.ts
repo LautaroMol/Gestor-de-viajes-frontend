@@ -65,6 +65,7 @@ export class UsuarioFormComponent implements OnInit {
             const usuario: Usuario = {
                 idUsuario: this.dataUsuario ? this.dataUsuario.idUsuario : 0,
                 borrado: false,
+                facturas:[0],
                 ...this.formUsuario.value
             };
 
