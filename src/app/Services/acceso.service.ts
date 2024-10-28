@@ -12,7 +12,7 @@ import { Login } from '../Interfaces/login';
 export class AccesoService {
 
   private http = inject(HttpClient);
-  private baseUrl: string = environment.endpoint
+  private baseUrl: string = environment.endpoint + 'api/';
 
   constructor() {
   }
@@ -23,4 +23,9 @@ export class AccesoService {
   login(objeto: Login): Observable<ResponseAcceso>{
     return this.http.post<ResponseAcceso>(`${this.baseUrl}Acceso/Login`,objeto)
   }
+
+  validarToken(token:string): Observable<ResponseAcceso>{
+    return this.http.get<ResponseAcceso>(`${this.baseUrl}Acceso/ValidarToken?token=${token}`)
+  }
+
 }

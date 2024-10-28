@@ -1,1 +1,28 @@
-<p>registro works!</p>
+<div class="card-container">
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Registrarse</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form action="" class="form-custom" [formGroup]="formRegistro">
+        <mat-form-field class="input-custom">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre">
+        </mat-form-field>
+        <mat-form-field class="input-custom">
+          <mat-label>Correo</mat-label>
+          <input matInput type="email" formControlName="correo">
+        </mat-form-field>
+        <mat-form-field class="input-custom">
+          <mat-label>Clave</mat-label>
+          <input matInput type="password" formControlName="clave">
+        </mat-form-field>
+        <div class="flex">
+          <button mat-flat-button color="primary" (click)="registrarse()">Registrarse</button>
+          <button mat-flat-button color="warn" (click)="volver()" style="margin-left: 8px;">Volver</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>
