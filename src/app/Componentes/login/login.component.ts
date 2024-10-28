@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { AccesoService } from '../../Services/acceso.service';
-import { Router } from 'express';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Login } from '../../Interfaces/login';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
