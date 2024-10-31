@@ -17,6 +17,10 @@
           <mat-label>Clave</mat-label>
           <input matInput type="password" formControlName="clave">
         </mat-form-field>
+
+
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
         <div class="flex">
           <button mat-flat-button color="primary" (click)="registrarse()">Registrarse</button>
           <button mat-flat-button color="warn" (click)="volver()" style="margin-left: 8px;">Volver</button>
@@ -24,5 +28,4 @@
       </form>
     </mat-card-content>
   </mat-card>
-
 </div>
