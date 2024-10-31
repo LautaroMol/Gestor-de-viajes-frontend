@@ -3,7 +3,8 @@
 		<div class="absolute inset-0 bg-black opacity-50"></div>
 	</div>
 	
-	<div class="grid grid-cols-2 p-2 rounded-lg bg-white gap-5 overflow-hidden transform transition-all ">
+
+	<div class="flex flex-col md:flex-row p-2 rounded-lg bg-white gap-5 transform transition-all overflow-y-auto max-h-screen">
 		<form class="p-3" [formGroup]="formViaje" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
 			<div class="p-1 flex justify-between gap-2">
 				<div class="p-1">
@@ -75,6 +76,7 @@
 					required
 				>
 			</div>
+
 			<div class="p-1">
 				<label for="cuitUsuario" class="block text-indigo-600 font-bold">Cuit Cliente <span class="text-red-600">*</span></label>
 				<input 
@@ -110,6 +112,7 @@
 					#fileInput
 				>
 			</div>				
+			
 			<div class="flex justify-between gap-2 p-1">
 				<button 
 					class="w-1/2 shadow-md text-white text-center font-bold bg-yellow-600 p-1 rounded-md hover:bg-yellow-700 transition-all"
