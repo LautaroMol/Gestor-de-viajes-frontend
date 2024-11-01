@@ -18,8 +18,8 @@ import { ViajeEventService } from './Services/viaje-event.service';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, ViajesComponent,MatButtonModule, MatTooltipModule,
-     MatIconModule,RouterLink,RouterLinkActive, NuevoViajeFormComponent, MatSnackBarModule],
-     providers: [HttpClient]
+		MatIconModule,RouterLink,RouterLinkActive, NuevoViajeFormComponent, MatSnackBarModule],
+	providers: [HttpClient]
 })
 export class AppComponent {
 
@@ -37,7 +37,7 @@ export class AppComponent {
 			  } as never);
 		  }
 	}
-	
+
 	nuevoViaje() {
 		this.dialog.open(NuevoViajeFormComponent, {
 		  disableClose: true,

@@ -1,0 +1,21 @@
+.card-container {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center;  /* Centrar verticalmente */
+  margin-top: 100px;
+}
+
+.form-custom {
+  min-width: 150px;
+  width: 100%;
+}
+
+.input-custom {
+  width: 100%;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 8px;
+}
