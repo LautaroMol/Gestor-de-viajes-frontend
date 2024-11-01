@@ -6,7 +6,7 @@
 
 <section class="w-100">
 
-    <div class="flex justify-between p-4 overflow-hidden bg-white rounded-lg shadow-md mt-8">
+    <div class="flex flex-col md:flex-row justify-between p-4 overflow-hidden bg-white rounded-lg shadow-md mt-8">
 
         <ngx-charts-advanced-pie-chart 
             [view]="view"
@@ -16,10 +16,10 @@
         >
         </ngx-charts-advanced-pie-chart>
 
-        <div class="flex flex-col justify-between pr-20">
-            <div>
+        <div class="flex flex-col justify-between md:pr-20 w-100 md:w-auto">
+            <div class="w-100">
                 <p class="font-black text-xl text-center text-indigo-600">Seleccionar Viaje con destino en: </p>
-                <select (change)="onViajeChange($event)" class="mt-2 p-2 max-w-48">
+                <select (change)="onViajeChange($event)" class="my-2 p-2 max-w-72 md:max-w-48">
                     <option *ngFor="let viaje of viajes" [value]="viaje.idViaje">{{ viaje.final }}</option>
                 </select> 
             </div>
@@ -34,7 +34,7 @@
             <h3 class="text-lg font-bold text-indigo-600"> {{ categoriaSeleccionadaNombre }}</h3>
         </div>
 
-        <div class="overflow-y-auto grid grid-cols-2 gap-4 max-h-64 mt-2">    
+        <div class="overflow-y-auto flex flex-col md:grid md:grid-cols-2 gap-4 max-h-64 mt-2">    
             <div 
                 class="flex items-center py-5 px-4 bg-white h-auto rounded-lg shadow-md font-bold min-w-0 cursor-pointer hover:bg-gray-300" 
                 *ngFor="let gasto of gastosFiltrados"

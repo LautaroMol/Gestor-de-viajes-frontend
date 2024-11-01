@@ -119,6 +119,7 @@ export class GastosComponent implements OnInit {
 			if (result === 'Creado') {
 				this.obtenerGastos();
 				this.actualizarGrafico();
+				window.location.reload()
 			}
 		});
 	}
