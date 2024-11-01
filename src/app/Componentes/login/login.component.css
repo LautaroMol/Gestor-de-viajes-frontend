@@ -13,3 +13,8 @@
 .input-custom {
   width: 100%;
 }
+.welcome-message {
+  color: #4caf50;
+  font-size: 1.1em;
+  margin-bottom: 12px;
+}

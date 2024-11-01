@@ -28,4 +28,8 @@ export class AccesoService {
     return this.http.get<ResponseAcceso>(`${this.baseUrl}Acceso/ValidarToken?token=${token}`)
   }
 
+  getUser(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}Acceso/GetUser`);
+  }
+
 }
