@@ -25,16 +25,6 @@
   padding: 20px;
 }
 
-.cab {
-  width: 100px;
-  height: 70px;
-  background: #555;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  border-radius: 5px;
-}
-
 .trailer {
   width: 220px;
   height: 80px;
@@ -48,9 +38,9 @@
 .wheel {
   position: absolute;
   width: 30px;
-  height: 30px;
+  height: 60px;
   background: black;
-  border-radius: 50%;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -60,23 +50,23 @@
 
 /* Ajuste de posiciones de las ruedas */
 .wheel.front-left {
-  top: 50px;
+  top: 40px;
   left: 20px;
 }
 
 .wheel.front-right {
-  top: 50px;
+  top: 40px;
   right: 20px;
 }
 
 .wheel.rear-left {
-  bottom: 50px;
-  left: 20px;
+  bottom: 15px;
+  left: 60px;
 }
 
 .wheel.rear-right {
-  bottom: 50px;
-  right: 20px;
+  bottom: 15px;
+  right: 60px;
 }
 
 .back-left {
@@ -97,28 +87,6 @@
   color: red;
   font-weight: bold;
   animation: blink 1s infinite;
-}
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.oil-column, .truck-column {
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 20px;
-  margin-right: 20px;
-}
-
-.oil-barrel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
 }
 
 .oil-barrel {

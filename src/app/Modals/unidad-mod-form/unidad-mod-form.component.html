@@ -3,8 +3,8 @@
 		<div class="absolute inset-0 bg-black opacity-50"></div>
 	</div>
 
-	<div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
-		<div class="bg-white px-2 py-2 sm:p-6 sm:pb-4">
+	<div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all overflow-y-auto max-h-screen">
+		<div class="bg-white px-2 py-2">
 			<form [formGroup]="formUnidad" (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded-lg">
 				<div class="p-2">
 					<label for="marca" class="block text-indigo-600 font-bold">Marca<span class="text-red-600">*</span></label>
