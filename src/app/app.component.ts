@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet,Router,NavigationEnd } from '@angular/router';
 import { ViajesComponent } from './Componentes/viajes/viajes.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -11,6 +11,8 @@ import { Viaje } from './Interfaces/viaje';
 import { ViajeService } from './Services/viaje.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ViajeEventService } from './Services/viaje-event.service';
+import { filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-root',
@@ -18,18 +20,25 @@ import { ViajeEventService } from './Services/viaje-event.service';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, ViajesComponent,MatButtonModule, MatTooltipModule,
-		MatIconModule,RouterLink,RouterLinkActive, NuevoViajeFormComponent, MatSnackBarModule],
+		MatIconModule,RouterLink,RouterLinkActive, NuevoViajeFormComponent, MatSnackBarModule,CommonModule],
 	providers: [HttpClient]
 })
 export class AppComponent {
 
 	viajes: Viaje[] = [];
 	title = 'Camiones';
+  showAside = true;
 
 	constructor(private dialog: MatDialog,
 		private viajeService: ViajeService,
-		private viajeEventService: ViajeEventService
+		private viajeEventService: ViajeEventService,
+    private router: Router
 	) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.showAside = !['/login', '/registro'].includes(event.urlAfterRedirects);
+    });
 		if (globalThis.window === undefined) {
 			globalThis.window =
 			  ({
