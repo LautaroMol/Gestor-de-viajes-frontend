@@ -52,10 +52,10 @@
                                         <div class="rounded bg-blue-400 p-2 text-xs text-center shadow-lg">Ver Carta Porte</div>
                                         <div class="clip-bottom h-2 w-4 bg-blue-500"></div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                             <div class="group relative flex flex-col items-center justify-center">
-                                <button class="bg-yellow-400 p-2 rounded-md text-white hover:bg-yellow-500 transition-all" (click)="GeneratePDF(viaje)">
+                                <button class="bg-yellow-400 p-2 rounded-md text-white hover:bg-yellow-500 transition-all" >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                     </svg>
@@ -65,7 +65,7 @@
                                         <div class="rounded bg-yellow-400 p-2 text-xs text-center shadow-lg">Generar pdf</div>
                                         <div class="clip-bottom h-2 w-4 bg-yellow-500"></div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                             <div class="group relative flex flex-col items-center justify-center">
                                 <button class="bg-red-600 p-2 rounded-md text-white  hover:bg-red-700 transition-all" (click)="BorrarViajes(viaje)">
@@ -79,18 +79,18 @@
                                         <div class="clip-bottom h-2 w-4 bg-red-500"></div>
                                     </div>
                                 </div>
-                            </div>                                                     
+                            </div>
                         </div>
                     </td>
                 </tr>
-                
+
             </tbody>
         </table>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    
+
 <div class="p-6 bg-gray-100 rounded-lg shadow-lg">
     <h3 class="text-2xl font-bold text-indigo-600 mb-4">Amortización</h3>
     <div *ngIf="amortizacion">
