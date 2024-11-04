@@ -11,16 +11,15 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { Amortizacion } from '../../Interfaces/amortizacion';
 import confetti from 'canvas-confetti';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 import { UserService } from '../../Services/user.service';
 import { Usuario } from '../../Interfaces/usuario';
 import { Gasto } from '../../Interfaces/gasto';
 import { GastoService } from '../../Services/gasto.service';
 import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
-import { ViajeEventService } from '../../Services/viaje-event.service';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.addVirtualFileSystem(pdfFonts);
 
 @Component({
   selector: 'app-viajes',
@@ -52,7 +51,7 @@ export class ViajesComponent implements OnInit {
     private amortizacionService: AmortizacionService,
     private userService: UserService,
     private gastoService: GastoService,
-    private clienteService: ClienteService, private viajeEventService: ViajeEventService
+    private clienteService: ClienteService
   ) {
     this.audioCelebration = new Audio('assets/audio/yippie.mp3');
   }
@@ -64,11 +63,6 @@ export class ViajesComponent implements OnInit {
     this.obtenerGastos();
     this.obtenerClientes();
     this.pdfjsLib = this.pdfjsLib;
-    this.viajeEventService.viajeActualizado$.subscribe((actualizado) => {
-      if (actualizado) {
-        this.obtenerViajes();
-      }
-    });
   }
 
   obtenerViajes() {
