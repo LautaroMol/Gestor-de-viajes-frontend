@@ -119,7 +119,6 @@ export class GastosComponent implements OnInit {
 			if (result === 'Creado') {
 				this.obtenerGastos();
 				this.actualizarGrafico();
-				window.location.reload()
 			}
 		});
 	}
@@ -128,11 +127,11 @@ export class GastosComponent implements OnInit {
 		this.viajeService.getList().subscribe({
 			next: (data) => {
 				this.viajes = data.filter(viaje => !viaje.borrado);
-				
+
 				if (this.viajes.length > 0 && this.viajeSeleccionado === null) {
 					this.viajeSeleccionado = this.viajes[0].idViaje;
 					this.filtrarGastosPorViaje();
-					this.actualizarGrafico(); 
+					this.actualizarGrafico();
 				}
 			},
 			error: (e) => {
@@ -160,23 +159,23 @@ export class GastosComponent implements OnInit {
 	actualizarGrafico() {
 		if (this.viajeSeleccionado !== null) {
 			const gastosFiltrados = this.gastos.filter(gasto => gasto.viaje === this.viajeSeleccionado);
-		
+
 			const diccionarioCategorias = this.categorias.reduce((acc, categoria) => {
 				acc[categoria.idCategoria] = categoria.nombre;
 				return acc;
 			}, {});
-	
+
 			// Acumular gastos por categoría
 			const categoriaGastos = gastosFiltrados.reduce((acc, gasto) => {
 				const nombreCategoria = diccionarioCategorias[gasto.categoria] || `Categoría ${gasto.categoria}`;
-				
+
 				if (!acc[gasto.categoria]) {
 					acc[gasto.categoria] = { nombre: nombreCategoria, total: 0 };
 				}
 				acc[gasto.categoria].total += gasto.cantidad;
 				return acc;
 			}, {});
-	
+
 			// Convertir el objeto a un array para el gráfico
 			this.single = Object.keys(categoriaGastos).map(idCategoria => ({
 				name: categoriaGastos[Number(idCategoria)].nombre,
@@ -185,22 +184,22 @@ export class GastosComponent implements OnInit {
 			}));
 		}
 	}
-	
+
 	//evento e clickear sobre el grafico
 	onSelect(data: any): void {
 
-		const nombreCategoria = data.name; 
+		const nombreCategoria = data.name;
 		const categoria = this.categorias.find(c => c.nombre === nombreCategoria);
-	
+
 		if (!categoria) {
 			console.error('No se pudo encontrar la categoría seleccionada');
 			return;
 		}
-	
+
 		this.categoriaSeleccionadaNombre = categoria.nombre;
 		this.filtrarGastosPorCategoria(categoria.idCategoria);
 	}
-	
+
 	// Filtrar los gastos por la categoría seleccionada y el viaje seleccionado
 	filtrarGastosPorCategoria(idCategoria: number) {
 		this.gastosFiltrados = this.gastos.filter(

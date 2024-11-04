@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { TotalsCardsComponent } from '../totals-cards/totals-cards.component';
 import { Viaje } from '../../Interfaces/viaje';
@@ -19,6 +19,7 @@ import { Gasto } from '../../Interfaces/gasto';
 import { GastoService } from '../../Services/gasto.service';
 import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
+import { ViajeEventService } from '../../Services/viaje-event.service';
 pdfMake.addVirtualFileSystem(pdfFonts);
 
 @Component({
@@ -51,7 +52,9 @@ export class ViajesComponent implements OnInit {
     private amortizacionService: AmortizacionService,
     private userService: UserService,
     private gastoService: GastoService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private cdr: ChangeDetectorRef,
+    private viajeEventService: ViajeEventService
   ) {
     this.audioCelebration = new Audio('assets/audio/yippie.mp3');
   }
@@ -62,7 +65,10 @@ export class ViajesComponent implements OnInit {
     this.obtenerUser();
     this.obtenerGastos();
     this.obtenerClientes();
-    this.pdfjsLib = this.pdfjsLib;
+    this.viajeEventService.viajeActualizado$.subscribe(()=>{
+      this.obtenerViajes();
+      this.cdr.detectChanges();
+    })
   }
 
   obtenerViajes() {
