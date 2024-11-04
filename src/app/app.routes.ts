@@ -10,13 +10,15 @@ import { authGuard } from './custom/auth.guard';
 import { registroGuard } from './custom/register.guard';
 
 export const routes: Routes = [
-    {path: 'viajes', component:ViajesComponent,canActivate: [authGuard]},
-    {path: 'gastos',component:GastosComponent,canActivate: [authGuard]},
-    {path: 'perfil',component:PerfilComponent,canActivate: [authGuard]},
-    {path: 'configuracion',component:ConfiguracionComponent,canActivate: [authGuard]},
-    {path: 'camion',component:CamionComponent,canActivate: [authGuard]},
-    {path: 'registro',component:RegistroComponent, canActivate: [registroGuard]},
-    { path: 'login',component:LoginComponent },
-    { path: '', redirectTo: '/viajes', pathMatch: 'full' },
-    { path: '**', redirectTo: '/login' }
+  { path: 'viajes', component: ViajesComponent, canActivate: [authGuard] },
+  { path: 'gastos', component: GastosComponent, canActivate: [authGuard] },
+  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard] },
+  { path: 'configuracion', component: ConfiguracionComponent, canActivate: [authGuard] },
+  { path: 'camion', component: CamionComponent, canActivate: [authGuard] },
+  { path: 'registro', component: RegistroComponent, canActivate: [registroGuard] },
+  { path: 'login', component: LoginComponent },
+
+  { path: '', redirectTo: localStorage.getItem('token') ? '/viajes' : '/login', pathMatch: 'full' },
+
+  { path: '**', redirectTo: '/login' }
 ];
