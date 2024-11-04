@@ -19,7 +19,8 @@ import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
 import { ViajeEventService } from '../../Services/viaje-event.service';
 import pdfMake from 'pdfmake/build/pdfmake';
-
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-viajes',
@@ -240,7 +241,6 @@ export class ViajesComponent implements OnInit {
     // Cargar la imagen como base64
     this.loadImageAsBase64(logoPath)
       .then((base64Image) => {
-        console.log('Imagen cargada correctamente:', base64Image); // Verifica que la imagen esté en base64
 
         const gastosFiltrados = this.gastos.filter(
           (gasto) => gasto.viaje === viaje.idViaje
