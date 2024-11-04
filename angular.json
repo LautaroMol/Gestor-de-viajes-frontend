@@ -53,7 +53,8 @@
                 "leaflet",
                 "leaflet-routing-machine",
                 "leaflet-control-geocoder",
-                "pdfmake"
+                "pdfmake",
+                "rfdc"
               ]
             },
             "development": {
