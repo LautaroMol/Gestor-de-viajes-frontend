@@ -52,7 +52,8 @@
               "allowedCommonJsDependencies": [
                 "leaflet",
                 "leaflet-routing-machine",
-                "leaflet-control-geocoder"
+                "leaflet-control-geocoder",
+                "pdfmake"
               ]
             },
             "development": {
@@ -73,7 +74,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Camiones:build:production"           
+              "buildTarget": "Camiones:build:production"
             },
             "development": {
               "buildTarget": "Camiones:build:development"

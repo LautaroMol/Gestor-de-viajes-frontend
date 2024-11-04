@@ -66,7 +66,7 @@ export class ViajesComponent implements OnInit {
     this.pdfjsLib = this.pdfjsLib;
     this.viajeEventService.viajeActualizado$.subscribe((actualizado) => {
       if (actualizado) {
-        this.obtenerViajes(); 
+        this.obtenerViajes();
       }
     });
   }
@@ -493,7 +493,7 @@ export class ViajesComponent implements OnInit {
                 widths: ['*','auto'],
                 body: [
                   [
-                    {                    
+                    {
                       text: 'Subtotal del viaje',
                       alignment: 'left',
                       margin: [0, 5, 0, 5],
