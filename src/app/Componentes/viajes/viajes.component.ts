@@ -19,8 +19,7 @@ import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
 import { ViajeEventService } from '../../Services/viaje-event.service';
 import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 
 @Component({
   selector: 'app-viajes',
