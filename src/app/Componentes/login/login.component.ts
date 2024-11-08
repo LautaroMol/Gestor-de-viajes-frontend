@@ -9,62 +9,74 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { User } from '../../Interfaces/user';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule,CommonModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+	selector: 'app-login',
+	standalone: true,
+	imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule,CommonModule],
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private accesoService = inject(AccesoService);
-  private router = inject(Router);
-  public formBuild = inject(FormBuilder);
+	private accesoService = inject(AccesoService);
+	private router = inject(Router);
+	public formBuild = inject(FormBuilder);
 
-  public formLogin: FormGroup = this.formBuild.group({
-    correo: ['', Validators.required],
-    clave: ['', Validators.required]
-  });
+	public formLogin: FormGroup = this.formBuild.group({
+		correo: ['', Validators.required],
+		clave: ['', Validators.required]
+	});
 
-  public usuarioExistente: User | null = null;
+	constructor (
+		private snackBar: MatSnackBar,
+	) {}
 
-  ngOnInit() {
+	public usuarioExistente: User | null = null;
 
-    this.accesoService.getUser().subscribe({
-      next: (user) => {
-        this.usuarioExistente = user;
-      },
-      error: () => {
-        this.usuarioExistente = null;
-      }
-    });
-  }
+	ngOnInit() {
+		this.accesoService.getUser().subscribe({
+			next: (user) => {
+				this.usuarioExistente = user;
+			},
+			error: () => {
+				this.usuarioExistente = null;
+		}
+		});
+	}
 
-  iniciarSesion() {
-    if (this.formLogin.invalid) return;
+	iniciarSesion() {
+		if (this.formLogin.invalid) return;
 
-    const obj: Login = {
-      correo: this.formLogin.value.correo,
-      pass: this.formLogin.value.clave
-    };
+		const obj: Login = {
+			correo: this.formLogin.value.correo,
+			pass: this.formLogin.value.clave
+		};
 
-    this.accesoService.login(obj).subscribe({
-      next: (data) => {
-        if (data.isSuccess) {
-          localStorage.setItem("token", data.token);
-          this.router.navigate(['viajes']);
-        } else {
-          alert("Credenciales son incorrectas");
-        }
-      },
-      error: (e) => {
-        alert("Error al iniciar sesión: " + e.message);
-      }
-    });
-  }
+		this.accesoService.login(obj).subscribe({
+			next: (data) => {
+				if (data.isSuccess) {
+				localStorage.setItem("token", data.token);
+				this.router.navigate(['viajes']);
+				} else {
+					this.mostrarAlerta("Credenciales Incorrectas", "X")
+				}
+			},
+			error: (e) => {
+				this.mostrarAlerta("Error al iniciar sesión", "X")
+			}
+		});
+	}
 
-  registrarse() {
-    this.router.navigate(['registro']);
-  }
+	registrarse() {
+		this.router.navigate(['registro']);
+	}
+
+	mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
+	}
 }

@@ -20,6 +20,7 @@ import { GastoService } from '../../Services/gasto.service';
 import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
 import { ViajeEventService } from '../../Services/viaje-event.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 pdfMake.addVirtualFileSystem(pdfFonts);
 
 @Component({
@@ -54,7 +55,8 @@ export class ViajesComponent implements OnInit {
     private gastoService: GastoService,
     private clienteService: ClienteService,
     private cdr: ChangeDetectorRef,
-    private viajeEventService: ViajeEventService
+    private viajeEventService: ViajeEventService,
+    private snackBar: MatSnackBar,
   ) {
     this.audioCelebration = new Audio('assets/audio/yippie.mp3');
   }
@@ -125,7 +127,7 @@ export class ViajesComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error al obtener la Carta de Porte', err);
+          this.mostrarAlerta("Error al obtener la carta de porte", "X")
       },
     });
   }
@@ -254,10 +256,10 @@ export class ViajesComponent implements OnInit {
 
         // Define los datos del usuario si NO existen placeholder
         const userName = this.user ? this.user.razon : 'Nombre del Cliente';
-        const userCompany = this.user? this.user.domicilio : 'Compañía del Cliente';
+        const userCompany = this.user? this.user.domicilio : 'Empresa del Cliente';
         const userCuit = this.user ? this.user.cuit : 'CUIT del Cliente';
         const userCondition = this.user ? this.user.condicion : 'Condición del Cliente';
-        const estado = viaje.facturado ? "Viaje ya facturado" : 'Pendiente a informar su facturacion';
+        const estado = viaje.facturado ? "Viaje ya facturado" : 'Pendiente a facturar';
 
         //encontrar al cliente
         const cliente = this.clientes.find(
@@ -265,7 +267,7 @@ export class ViajesComponent implements OnInit {
         );
         const clienteNombre = cliente
           ? cliente.razonSoc
-          : 'No se encontró el cliente ni su CUIT en la base de datos, por favor cárguelo y verifique que no se haya borrado.';
+          : 'No se encontró un cliente con ese CUIT.';
         const clienteCuit = cliente
           ? cliente.cuitCliente
           : 'No se encontró el cliente ni su CUIT.';
@@ -525,7 +527,7 @@ export class ViajesComponent implements OnInit {
                 body: [
                   [
                     {
-                      text: 'Total despues de gastos ',
+                      text: 'Subtotal ',
                       alignment: 'left',
                       margin: [0, 5, 0, 5],
                     },
@@ -540,11 +542,11 @@ export class ViajesComponent implements OnInit {
               },
             },
             {
-              text: 'NOTAS',
+              text: 'Aclaraciones',
               style: 'notesTitle',
             },
             {
-              text: 'Algunas notas aquí \n Segunda línea de notas', // Notas (por completar)
+              text: 'Documento no valido como factura', // Notas (por completar)
               style: 'notesText',
             },
           ],
@@ -572,4 +574,12 @@ export class ViajesComponent implements OnInit {
         console.error('Error al cargar la imagen:', err);
       });
   }
+
+  mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
+	}
 }
