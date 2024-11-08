@@ -17,11 +17,10 @@ export const routes: Routes = [
   { path: 'camion', component: CamionComponent, canActivate: [authGuard] },
   { path: 'registro', component: RegistroComponent, canActivate: [registroGuard] },
   { path: 'login', component: LoginComponent },
-
-  { path: '', redirectTo: localStorage.getItem('token') ? '/viajes' : '/login', pathMatch: 'full' },
-
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];
+
 
 // export const routes: Routes = [
 //   {path: 'viajes', component:ViajesComponent,canActivate: [authGuard]},
