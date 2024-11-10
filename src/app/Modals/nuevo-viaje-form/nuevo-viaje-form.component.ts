@@ -77,6 +77,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 totalFacturado: this.totalFacturado,
                 borrado: false
             });
+            console.log('Editando viaje:', this.dataViaje);
             setTimeout(() => {
                 this.mapComponent.clearMap();
                 this.geocodingService.forwardGeocode(this.dataViaje?.inicio ?? '').subscribe((result) => {
@@ -116,25 +117,25 @@ export class NuevoViajeFormComponent implements OnInit {
                 distancia: this.formViaje.value.distancia,
                 gastos: this.formViaje.value.gastos,
                 fecha: this.formViaje.value.fecha,
-                cp: '', 
+                cp: '',
                 facturado: this.formViaje.value.facturado,
                 cuitUsuario: this.formViaje.value.cuitUsuario,
                 totalFacturado: this.totalFacturado,
                 borrado: this.formViaje.value.borrado
             };
-    
+
             if (this.unidad && this.unidad.kmAceite != null) {
                 this.unidad.kmAceite += viajeData.distancia;
             } else {
                 console.error('kmAceite no está inicializado o no es válido');
             }
-    
+
             if (this.unidad && this.unidad.estadoRueda && Array.isArray(this.unidad.estadoRueda)) {
                 this.unidad.estadoRueda = this.unidad.estadoRueda.map(rueda => rueda + viajeData.distancia);
             } else {
                 console.error('estadoRueda no es un array o no está inicializado');
             }
-    
+
             // Si es un nuevo viaje
             if (this.dataViaje == null) {
                 // Actualizar la unidad con los nuevos valores
@@ -146,17 +147,18 @@ export class NuevoViajeFormComponent implements OnInit {
                         console.error("No se ha podido actualizar el camión", e);
                     }
                 });
-    
+
+
                 // Guardar el nuevo viaje
                 this.viajeServicio.addViaje(viajeData).subscribe({
                     next: (data) => {
                 		this.mostrarAlerta("Viaje Creado Correctamente", "X")
                         const viajeId = data.viajeId;
-    
+
                         if (this.selectedFile) {
                             const formData = new FormData();
                             formData.append('archivo', this.selectedFile, this.selectedFile.name);
-    
+
                             this.viajeServicio.addArchivo(viajeId, formData).subscribe({
                                 next: (archivoData) => {
                                     console.log("Archivo guardado correctamente:", archivoData);
@@ -174,8 +176,11 @@ export class NuevoViajeFormComponent implements OnInit {
                 		this.mostrarAlerta("Error al crear el viaje", "X")
                     }
                 });
-    
-            } else { 
+
+            } else {
+              if (!this.selectedFile && this.dataViaje?.cp) {
+                viajeData.cp = this.dataViaje.cp;
+              }
                 this.unidadService.update(this.unidad).subscribe({
                     next: (data) => {
                         console.log("Camión actualizado correctamente:", data);
@@ -184,18 +189,18 @@ export class NuevoViajeFormComponent implements OnInit {
                         console.error("No se ha podido actualizar el camión", e);
                     }
                 });
-    
+
                 // Actualizar el viaje existente
                 this.viajeServicio.update(viajeData, viajeData.idViaje).subscribe({
                     next: (data) => {
                         // console.log("Viaje actualizado correctamente:", data);
 	                	this.mostrarAlerta("Viaje Actualizado correctamente", "X")
-    
+
                         // Si hay un archivo seleccionado, lo subimos
                         if (this.selectedFile != null) {
                             const formData = new FormData();
                             formData.append('archivo', this.selectedFile, this.selectedFile.name);
-    
+
                             this.viajeServicio.addArchivo(viajeData.idViaje, formData).subscribe({
                                 next: (archivoData) => {
                                     console.log("Archivo guardado correctamente:", archivoData);
@@ -226,7 +231,7 @@ export class NuevoViajeFormComponent implements OnInit {
             this.formViaje.patchValue({ inicio: direccionSimplificada });
         });
     }
-    
+
     onDestinationSelected(coords: [number, number]) {
         this.geocodingService.reverseGeocode(coords[0], coords[1]).subscribe((data) => {
             const direccionCompleta = data.display_name;
@@ -234,12 +239,12 @@ export class NuevoViajeFormComponent implements OnInit {
             this.formViaje.patchValue({ final: direccionSimplificada });
         });
     }
-    
+
     onDistanceCalculated(distance: number) {
         this.formViaje.patchValue({
             distancia: parseFloat(distance.toFixed(2))
         });
-        
+
         this.calcularPrecioSugerido(distance);
     }
 
@@ -250,7 +255,7 @@ export class NuevoViajeFormComponent implements OnInit {
 
     centrarMapa(startCoords: [number, number], endCoords: [number, number]) {
         this.mapComponent.clearMap();
-		
+
 		if (this.mapComponent) {
 
 			if (!isNaN(startCoords[0]) && !isNaN(startCoords[1]) &&
@@ -287,7 +292,7 @@ export class NuevoViajeFormComponent implements OnInit {
             this.selectedFile = null;
         }
     }
-    
+
     calcularPrecioSugerido(distancia : number ) {
         const monto = localStorage.getItem("precioKilometro")
 		this.montoSugerido = Number(distancia * Number(monto));
