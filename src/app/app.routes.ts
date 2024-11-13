@@ -8,6 +8,7 @@ import { LoginComponent } from './Componentes/login/login.component';
 import { RegistroComponent } from './Componentes/registro/registro.component';
 import { authGuard } from './custom/auth.guard';
 import { registroGuard } from './custom/register.guard';
+import { DashboardComponent } from './Componentes/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'viajes', component: ViajesComponent, canActivate: [authGuard] },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'camion', component: CamionComponent, canActivate: [authGuard] },
   { path: 'registro', component: RegistroComponent, canActivate: [registroGuard] },
   { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

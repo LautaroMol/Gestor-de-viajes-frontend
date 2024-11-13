@@ -46,6 +46,7 @@ export class NuevoViajeFormComponent implements OnInit {
             fecha: ['', Validators.required],
             cp: [''],
             facturado: [false],
+            amortizado: [false],
             cuitUsuario: [''],
             totalFacturado: 0,
             monto: 0,
@@ -119,6 +120,7 @@ export class NuevoViajeFormComponent implements OnInit {
                 fecha: this.formViaje.value.fecha,
                 cp: '',
                 facturado: this.formViaje.value.facturado,
+                amortizado: this.formViaje.value.amortizado,
                 cuitUsuario: this.formViaje.value.cuitUsuario,
                 totalFacturado: this.totalFacturado,
                 borrado: this.formViaje.value.borrado

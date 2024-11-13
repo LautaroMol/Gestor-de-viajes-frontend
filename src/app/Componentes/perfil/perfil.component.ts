@@ -3,10 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Carga } from '../../Interfaces/carga';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CategoriaService } from '../../Services/categoria.service';
 import { Categoria } from '../../Interfaces/categoria';
-import { CategoriaDeleteComponent } from '../../Modals/categoria-delete/categoria-delete.component';
-import { CategoriaFormComponent } from '../../Modals/categoria-form/categoria-form.component';
 import { Cliente } from '../../Interfaces/cliente';
 import { ClienteFormComponent } from '../../Modals/cliente-form/cliente-form.component';
 import { ClienteService } from '../../Services/cliente.service';
@@ -43,8 +40,8 @@ export class PerfilComponent implements OnInit {
   constructor(
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
-        private clienteService: ClienteService,
-        private userService: UserService,private viajeService: ViajeService,
+    private clienteService: ClienteService,
+    private userService: UserService,private viajeService: ViajeService,
 		private amortService: AmortizacionService,
 	) {
 		this.amortizacion.nombre= "Amortizacion";
@@ -194,7 +191,7 @@ export class PerfilComponent implements OnInit {
 	Amortizar(viaje: Viaje){
 		this.amortizacion.viaje = viaje.idViaje;
 		this.amortizacion.fecha = new Date()
-	
+
 		const dialogRef = this.dialog.open(GastosFormComponent, {
 			data: this.amortizacion
 		});
@@ -245,9 +242,9 @@ export class PerfilComponent implements OnInit {
 			}
 		});
 		}
-		
+
 	}
-	
+
 	actualizarViaje(viaje: Viaje) {
 		this.viajeService.update(viaje, viaje.idViaje).subscribe({
 			next: () => {

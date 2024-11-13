@@ -6,6 +6,7 @@ export interface Viaje {
     fecha: Date,
     cp: string,
     facturado: boolean,
+    amortizado: boolean,
     cuitUsuario: number,
     distancia: number,
     totalFacturado: number,
