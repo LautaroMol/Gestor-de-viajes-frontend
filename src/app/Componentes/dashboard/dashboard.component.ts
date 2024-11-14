@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { DragDropModule} from '@angular/cdk/drag-drop';
 import { ResizableModule } from 'angular-resizable-element';
-import { ResizeEvent } from 'angular-resizable-element';
+
 
 
 @Component({
