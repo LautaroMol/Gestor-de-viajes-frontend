@@ -169,14 +169,14 @@ export class PerfilComponent implements OnInit {
 		});
 	}
 
-	borrarCliente(id: Cliente['idCliente']) {
+	borrarCliente(cliente: Cliente) {
 		this.dialog.open(ClienteDeleteComponent, {
 			disableClose: true,
 			width: "200px",
-			data: id
+			data: cliente
 		}).afterClosed().subscribe(result => {
 			if (result === "Eliminar") {
-				this.clienteService.delete(id).subscribe({
+				this.clienteService.delete(cliente.idCliente).subscribe({
 				next: () => {
 						this.obtenerClientes();
 					},

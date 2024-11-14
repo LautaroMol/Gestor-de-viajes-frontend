@@ -24,12 +24,14 @@ export class ClienteDeleteComponent implements OnInit {
 		if (this.data) {
 			this.mostrarAlerta("Cliente Eliminado Correctamente", "X")
 			this.dialogRef.close("Eliminar");
-		}
+		}else{
+      console.log("no hay data cliente");
+    }
 	}
 	onCancel() {
 		this.dialogRef.close();
 	}
-		
+
 	mostrarAlerta(msg: string, accion: string) {
 		this.snackBar.open( msg, accion, {
 			verticalPosition:"bottom",
