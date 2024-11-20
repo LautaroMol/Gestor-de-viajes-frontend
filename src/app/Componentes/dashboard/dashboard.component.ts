@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ViajeService } from '../../Services/viaje.service';
 import { Viaje } from '../../Interfaces/viaje';
 import { CommonModule } from '@angular/common';
@@ -9,36 +9,43 @@ import { MatDialog } from '@angular/material/dialog';
 import { GastosFormComponent } from '../../Modals/gastos-form/gastos-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AmortizacionService } from '../../Services/amortizacion.service';
-import { DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ResizableModule } from 'angular-resizable-element';
-
-
+import { TotalsCardsComponent } from '../totals-cards/totals-cards.component';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule,DragDropModule,ResizableModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  	selector: 'app-dashboard',
+	standalone: true,
+	imports: [CommonModule,DragDropModule,ResizableModule, TotalsCardsComponent],
+  	templateUrl: './dashboard.component.html',
+  	styleUrl: './dashboard.component.css'
 })
+
 export class DashboardComponent implements OnInit {
-
-  amortizacion: Gasto = {idGasto: 0, nombre: '', categoria: 0, cantidad: 0, viaje: 0, borrado: false, fecha: new Date,};
+  	amortizacion: Gasto = {
+		idGasto: 0,
+		nombre: '',
+		categoria: 0,
+		cantidad: 0,
+		viaje: 0,
+		borrado: false,
+		fecha: new Date
+	};
 	amortizacionAnual!: Amortizacion;
-  viajes: Viaje[] = [];
-  constructor(
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private amortService: AmortizacionService,
-    private viajeService: ViajeService
-  ){
+  	viajes: Viaje[] = [];
+  
+	constructor(
+		private dialog: MatDialog,
+		private snackBar: MatSnackBar,
+		private amortService: AmortizacionService,
+		private viajeService: ViajeService
+	){}
 
-  }
-  ngOnInit(): void {
-    this.obtenerViajes();
-  }
+	ngOnInit(): void {
+		this.obtenerViajes();
+	}
 
-  obtenerViajes(){
+  	obtenerViajes(){
 		this.viajeService.getList().subscribe({
 			next: (data) => {
 				this.viajes = data;
@@ -49,7 +56,7 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
-  borrarViaje(viaje: Viaje) {
+  	borrarViaje(viaje: Viaje) {
 		this.dialog.open(ViajeDeleteComponent, {
 			disableClose: true,
 			width: "400px",
@@ -68,16 +75,16 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
-  Facturar(viaje: Viaje){
-    viaje.facturado = true;
-    this.actualizarViaje(viaje);
+	Facturar(viaje: Viaje){
+		viaje.facturado = true;
+		this.actualizarViaje(viaje);
 
-    this.snackBar.open("Viaje facturado", "X", {
-      duration: 2000,
-    });
-  }
+		this.snackBar.open("Viaje facturado", "X", {
+			duration: 2000,
+		});
+	}
 
-  Amortizar(viaje: Viaje){
+ 	Amortizar(viaje: Viaje){
 		this.amortizacion.viaje = viaje.idViaje;
 		this.amortizacion.fecha = new Date()
 
@@ -110,30 +117,31 @@ export class DashboardComponent implements OnInit {
 			this.amortizacionAnual.objetivoAnual = this.amortizacionAnual.objetivo / this.amortizacionAnual.plazo;
 			this.amortizacionAnual.objetivoAnual -= dif;
 
-		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
-			next: (data) => {
-				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
-			},
-			error: (e) => {
-				this.mostrarAlerta('Error al actualizar la amortización', "X");
-			}
-		});
-		}else{
+			this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
+				next: (data) => {
+					console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
+				},
+				error: (e) => {
+					this.mostrarAlerta('Error al actualizar la amortización', "X");
+				}
+			});
+		}
+		else {
 			this.amortizacionAnual.recaudado += cantidad;
-		this.amortizacionAnual.objetivoAnual -= cantidad;
+			this.amortizacionAnual.objetivoAnual -= cantidad;
 
-		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
-			next: (data) => {
-				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
-			},
-			error: (e) => {
-				this.mostrarAlerta('Error al actualizar la amortización', "X");
-			}
-		});
+			this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
+				next: (data) => {
+					console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
+				},
+				error: (e) => {
+					this.mostrarAlerta('Error al actualizar la amortización', "X");
+				}
+			});
 		}
 	}
 
-  actualizarViaje(viaje: Viaje) {
+  	actualizarViaje(viaje: Viaje) {
 		this.viajeService.update(viaje, viaje.idViaje).subscribe({
 			next: () => {
 				this.mostrarAlerta("Viaje Facturado", "X");
@@ -144,12 +152,11 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
-  mostrarAlerta(msg: string, accion: string) {
+  	mostrarAlerta(msg: string, accion: string) {
 		this.snackBar.open( msg, accion, {
 			verticalPosition:"bottom",
 			horizontalPosition:"center",
 			duration: 3000
 		});
 	}
-
 }

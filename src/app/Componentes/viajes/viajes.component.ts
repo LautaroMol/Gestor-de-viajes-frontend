@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { TotalsCardsComponent } from '../totals-cards/totals-cards.component';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
 import { CommonModule } from '@angular/common';
-import { MapComponent } from '../../Modals/map/map.component';
 import { NuevoViajeFormComponent } from '../../Modals/nuevo-viaje-form/nuevo-viaje-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -28,9 +26,7 @@ pdfMake.addVirtualFileSystem(pdfFonts);
   standalone: true,
   imports: [
     MatCardModule,
-    TotalsCardsComponent,
     CommonModule,
-    MapComponent,
     MatProgressBarModule,
   ],
   templateUrl: './viajes.component.html',

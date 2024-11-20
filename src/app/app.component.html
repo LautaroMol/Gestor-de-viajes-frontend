@@ -1,19 +1,48 @@
 <div class="flex flex-col md:flex-row h-screen">
-  <aside *ngIf="showAside" class="flex flex-col gap-5 p-4 pt-0 md:w-1/6">
-      <img src="../assets/img/camion.png" class="-mt-10 md:w-auto mx-auto w-80 h-80 md:h-auto" />
+    <aside *ngIf="showAside" class="flex flex-col gap-5 p-4 pt-0 md:w-1/6">
+        <img src="../assets/img/camion.png" class="-mt-10 md:w-auto mx-auto w-80 h-80 md:h-auto" />
 
-      <div class="flex flex-col space-y-5 font-bold text-center text-white text-xl">
-          <button routerLink="/dashboard" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">Dashboard de viajes</button>
-          <button routerLink="/perfil" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">Perfil</button>
-          <button routerLink="/camion" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">Camion</button>
-          <button routerLink="/configuracion" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">Configuracion</button>
-          <button routerLink="/gastos" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">Gastos</button>
-          <button routerLink="/viajes" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">Viajes</button>
-          <button (click)="nuevoViaje()" routerLink="/viajes" class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">+ Nuevo Viaje</button>
-      </div>
-  </aside>
+        <div class="flex flex-col space-y-5 font-bold text-center text-white text-xl">
+            <button 
+                routerLink="/perfil" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                Perfil
+            </button>
+            <button 
+                routerLink="/camion" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                Camion
+            </button>
+            <button 
+                routerLink="/configuracion" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                Configuracion
+            </button>
+            <button 
+                routerLink="/gastos" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                Gastos
+            </button>
+            <button 
+                routerLink="/dashboard" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                Resumen
+            </button>
+            <button 
+                routerLink="/viajes" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                Viajes
+            </button>
+            <button 
+                (click)="nuevoViaje()" 
+                routerLink="/viajes" 
+                class="shadow-md bg-indigo-600 p-1 rounded-md hover:bg-indigo-700 transition-all">
+                + Nuevo Viaje
+            </button>
+        </div>
+    </aside>
 
-  <div class="p-4 flex-1">
-      <router-outlet></router-outlet>
-  </div>
+    <div class="p-4 flex-1">
+        <router-outlet></router-outlet>
+    </div>
 </div>
