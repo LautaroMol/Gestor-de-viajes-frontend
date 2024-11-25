@@ -30,7 +30,6 @@ pdfMake.addVirtualFileSystem(pdfFonts);
     MatCardModule,
     TotalsCardsComponent,
     CommonModule,
-    MapComponent,
     MatProgressBarModule,
   ],
   templateUrl: './viajes.component.html',
@@ -236,6 +235,13 @@ export class ViajesComponent implements OnInit {
       },
     });
   }
+  mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
+	}
 
   GeneratePDF(viaje) {
     const logoPath = 'assets/img/camion.png'; // Ruta de la imagen
@@ -575,11 +581,4 @@ export class ViajesComponent implements OnInit {
       });
   }
 
-  mostrarAlerta(msg: string, accion: string) {
-		this.snackBar.open( msg, accion, {
-			verticalPosition:"bottom",
-			horizontalPosition:"center",
-			duration: 3000
-		});
-	}
 }

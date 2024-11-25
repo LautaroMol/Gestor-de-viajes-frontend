@@ -13,9 +13,7 @@ import { Usuario } from '../../Interfaces/usuario';
 import { UsuarioFormComponent } from '../../Modals/usuario-form/usuario-form.component';
 import { Viaje } from '../../Interfaces/viaje';
 import { ViajeService } from '../../Services/viaje.service';
-import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.component';
 import { Gasto } from '../../Interfaces/gasto';
-import { GastosFormComponent } from '../../Modals/gastos-form/gastos-form.component';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { Amortizacion } from '../../Interfaces/amortizacion';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -50,8 +48,6 @@ export class PerfilComponent implements OnInit {
 	ngOnInit(): void {
 		this.obtenerUser();
 		this.obtenerClientes();
-		this.obtenerViajes();
-		this.getAmort(1);
 	}
 
 	obtenerUser() {
@@ -64,40 +60,6 @@ export class PerfilComponent implements OnInit {
 			},
 		});
 	}
-
-	obtenerViajes(){
-		this.viajeService.getList().subscribe({
-			next: (data) => {
-				this.viajes = data;
-			},
-			error: (e) => {
-				console.error(e);
-			},
-		});
-	}
-
-	borrarViaje(viaje: Viaje) {
-		this.dialog.open(ViajeDeleteComponent, {
-			disableClose: true,
-			width: "400px",
-			data: viaje
-		}).afterClosed().subscribe(result => {
-			if (result === "Eliminar") {
-				this.viajeService.delete(viaje.idViaje).subscribe({
-					next: () => {
-						this.obtenerViajes();
-					},
-					error: (e) => {
-						console.error(e);
-					}
-				});
-			}
-		});
-	}
-
-	editarViaje(_t67: Viaje) {
-	    throw new Error('Method not implemented.');
-    }
 
 	editarUsuario(usuario: Usuario) {
 		this.dialog.open(UsuarioFormComponent, {
@@ -184,74 +146,6 @@ export class PerfilComponent implements OnInit {
 						console.error(e);
 					}
 				});
-			}
-		});
-	}
-
-	Amortizar(viaje: Viaje){
-		this.amortizacion.viaje = viaje.idViaje;
-		this.amortizacion.fecha = new Date()
-
-		const dialogRef = this.dialog.open(GastosFormComponent, {
-			data: this.amortizacion
-		});
-
-		dialogRef.afterClosed().subscribe((cantidad:number) => {
-			if (cantidad) {
-				this.actualizarAmortizacion(cantidad);
-				viaje.facturado = true;
-				this.actualizarViaje(viaje);
-			}
-		});
-	}
-
-	getAmort(id:number) {
-		this.amortService.get(id).subscribe(data =>{
-		  	this.amortizacionAnual = data;
-		})
-	}
-
-	actualizarAmortizacion(cantidad: number) {
-		if(this.amortizacionAnual.objetivoAnual< cantidad){
-			const dif = cantidad - this.amortizacionAnual.objetivoAnual;
-
-			this.amortizacionAnual.recaudado += cantidad;
-
-			this.amortizacionAnual.periodo +=1;
-			this.amortizacionAnual.objetivoAnual = this.amortizacionAnual.objetivo / this.amortizacionAnual.plazo;
-			this.amortizacionAnual.objetivoAnual -= dif;
-
-		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
-			next: (data) => {
-				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
-			},
-			error: (e) => {
-				this.mostrarAlerta('Error al actualizar la amortización', "X");
-			}
-		});
-		}else{
-			this.amortizacionAnual.recaudado += cantidad;
-		this.amortizacionAnual.objetivoAnual -= cantidad;
-
-		this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
-			next: (data) => {
-				console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
-			},
-			error: (e) => {
-				this.mostrarAlerta('Error al actualizar la amortización', "X");
-			}
-		});
-		}
-
-	}
-
-	actualizarViaje(viaje: Viaje) {
-		this.viajeService.update(viaje, viaje.idViaje).subscribe({
-			next: () => {
-				this.mostrarAlerta("Viaje Facturado", "X");
-			},
-			error: (e) => {
-				this.mostrarAlerta("Error al actualizar el viaje", e);
 			}
 		});
 	}
