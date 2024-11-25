@@ -88,35 +88,34 @@ export class DashboardComponent implements OnInit {
 		this.amortizacion.viaje = viaje.idViaje;
 		this.amortizacion.fecha = new Date()
 
-    const dialogRef = this.dialog.open(GastosFormComponent, {
-      data: this.amortizacion,
-    });
+		const dialogRef = this.dialog.open(GastosFormComponent, {
+			data: this.amortizacion
+		});
 
-    dialogRef.afterClosed().subscribe((cantidad: number) => {
-      if (cantidad) {
-        this.actualizarAmortizacion(cantidad);
-        viaje.amortizado = true;
-        this.actualizarViaje(viaje);
-      }
-    });
-  }
+		dialogRef.afterClosed().subscribe((cantidad:number) => {
+			if (cantidad) {
+				this.actualizarAmortizacion(cantidad);
+				viaje.amortizado = true;
+				this.actualizarViaje(viaje);
+			}
+		});
+	}
 
-  getAmort(id: number) {
-    this.amortService.get(id).subscribe((data) => {
-      this.amortizacionAnual = data;
-    });
-  }
+	getAmort(id:number) {
+		this.amortService.get(id).subscribe(data =>{
+		  	this.amortizacionAnual = data;
+		})
+	}
 
-  actualizarAmortizacion(cantidad: number) {
-    if (this.amortizacionAnual.objetivoAnual < cantidad) {
-      const dif = cantidad - this.amortizacionAnual.objetivoAnual;
+	actualizarAmortizacion(cantidad: number) {
+		if(this.amortizacionAnual.objetivoAnual< cantidad){
+			const dif = cantidad - this.amortizacionAnual.objetivoAnual;
 
-      this.amortizacionAnual.recaudado += cantidad;
+			this.amortizacionAnual.recaudado += cantidad;
 
-      this.amortizacionAnual.periodo += 1;
-      this.amortizacionAnual.objetivoAnual =
-        this.amortizacionAnual.objetivo / this.amortizacionAnual.plazo;
-      this.amortizacionAnual.objetivoAnual -= dif;
+			this.amortizacionAnual.periodo +=1;
+			this.amortizacionAnual.objetivoAnual = this.amortizacionAnual.objetivo / this.amortizacionAnual.plazo;
+			this.amortizacionAnual.objetivoAnual -= dif;
 
 			this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
 				next: (data) => {
