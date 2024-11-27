@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
 	};
 	amortizacionAnual!: Amortizacion;
   	viajes: Viaje[] = [];
-  
+
 	constructor(
 		private dialog: MatDialog,
 		private snackBar: MatSnackBar,
