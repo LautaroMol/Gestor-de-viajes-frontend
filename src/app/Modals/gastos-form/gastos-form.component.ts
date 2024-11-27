@@ -115,7 +115,7 @@ export class GastosFormComponent implements OnInit {
 						this.gastoService.update(gasto).subscribe({
 							next: (data) => {
 								this.mostrarAlerta("Gasto editado correctamente", "X");
-								// this.dialogoReferencia.close("Editado");
+								this.dialogoReferencia.close();
 							},
 							error: (e) => {
 								this.mostrarAlerta("No se ha podido editar el gasto", "X");
