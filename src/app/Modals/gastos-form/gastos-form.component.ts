@@ -79,7 +79,7 @@ export class GastosFormComponent implements OnInit {
 				fecha: this.formGasto.value.fecha,
 				borrado: this.formGasto.value.borrado
 			};
-	
+
 			// camino por nuevo gasto
 			if (this.dataGasto == null || this.dataGasto.nombre =="Amortizacion") {
 				this.gastoService.add(gasto).subscribe({
@@ -97,7 +97,7 @@ export class GastosFormComponent implements OnInit {
                             error: (e) => {
                                 this.mostrarAlerta("No se ha podido agregar el gasto en el viaje", "X");
                             }
-                        }); 
+                        });
 					},
 					error: (e) => {
 						this.mostrarAlerta("No se ha podido crear el gasto", "X");
@@ -108,14 +108,14 @@ export class GastosFormComponent implements OnInit {
 				this.viajeService.get(gasto.viaje).subscribe({
 					next: (data) => {
 						this.viajeElej = data;
-						if (gasto.cantidad>this.viajeElej.totalFacturado){
+						if (gasto.cantidad>this.viajeElej.totalFacturado && this.formGasto.value.categoria=="Amortizacion"){
                             this.mostrarAlerta("La cantidad a amortizar es mayor a la facturada con el viaje", "X");
                             return;
                         }
 						this.gastoService.update(gasto).subscribe({
 							next: (data) => {
 								this.mostrarAlerta("Gasto editado correctamente", "X");
-								// this.dialogoReferencia.close("Editado");
+								this.dialogoReferencia.close("Editado");
 							},
 							error: (e) => {
 								this.mostrarAlerta("No se ha podido editar el gasto", "X");
@@ -124,10 +124,10 @@ export class GastosFormComponent implements OnInit {
 					}, error: (e) => {this.mostrarAlerta("Error al obtener el viaje", "X");
 					}
 				});
-			}	
+			}
 		}
 	}
-	
+
 
 	obtenerViajes(){
 		this.viajeService.getList().subscribe({
@@ -143,7 +143,7 @@ export class GastosFormComponent implements OnInit {
 	obtenerCategorias() {
 		this.categoriaService.getList().subscribe({
 			next: (data) => {
-				this.categorias = data.filter( categoria => 
+				this.categorias = data.filter( categoria =>
 					categoria.borrado === false
 				);
 			},
@@ -164,7 +164,7 @@ export class GastosFormComponent implements OnInit {
 			next: (viaje) => {
 				// Añade el gasto al arreglo
 				viaje.gastos.push(gastoId);
-	
+
 				// Actualizar el viaje con el nuevo arreglo
 				this.viajeService.update(viaje, viajeId).subscribe({
 					next: () => {
