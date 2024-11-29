@@ -81,7 +81,7 @@ export class GastosFormComponent implements OnInit {
 			};
 
 			// camino por nuevo gasto
-			if (this.dataGasto == null || this.dataGasto.nombre =="Amortizacion") {
+			if (this.dataGasto == null || gasto.nombre == "Amortizacion") {
 				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
 						const nuevoGastoId = data.idGasto;

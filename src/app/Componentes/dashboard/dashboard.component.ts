@@ -43,7 +43,18 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.obtenerViajes();
+    this.obtenerAmort();
 	}
+  obtenerAmort(){
+    this.amortService.getList().subscribe({
+      next: (data) => {
+        this.amortizacionAnual = data[0];
+      },
+      error: (e) => {
+        console.error(e);
+      },
+    });
+  }
 
   	obtenerViajes(){
 		this.viajeService.getList().subscribe({
