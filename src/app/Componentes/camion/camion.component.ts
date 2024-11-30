@@ -7,6 +7,7 @@ import { UnidadFormComponent } from '../../Modals/unidad-form/unidad-form.compon
 import { Amortizacion } from '../../Interfaces/amortizacion';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { UnidadModFormComponent } from '../../Modals/unidad-mod-form/unidad-mod-form.component';
+import { data } from '@maptiler/sdk';
 
 @Component({
 	selector: 'app-camion',
@@ -23,11 +24,11 @@ export class CamionComponent implements OnInit {
 
 	constructor(private unidadService: UnidadService,private dialog: MatDialog,
 		private amortService: AmortizacionService,private cdr: ChangeDetectorRef
-	) {}
+	) { }
 
 	ngOnInit(): void {
 		this.getCamion(1); // Obtener la unidad por id
-		this.getAmort(1); 
+		this.getAmort(1);
 	}
 
 	getCamion(id: number): void {
@@ -58,14 +59,15 @@ export class CamionComponent implements OnInit {
 		const maxKm = 50000;
 		if (this.unidad != null) {
 			const oilLevelPercentage = Math.max(0, (maxKm - this.unidad.kmAceite) / maxKm);
-			return oilLevelPercentage * 110; 
+			return oilLevelPercentage * 110;
 		}
-		return 0; 
+		return 0;
 	}
-  
+
 	refilOil(){
 		if (this.unidad){
 			this.unidad.kmAceite = 0;
+      this.unidad.aceite = new Date(Date.now());
 			this.unidadService.update(this.unidad).subscribe(() => {
 				this.showWarning = false;
 			});
@@ -86,7 +88,7 @@ export class CamionComponent implements OnInit {
 	openDialog() {
 		const dialogRef = this.dialog.open(UnidadFormComponent, {
 			width: '400px',
-			data: {} 
+			data: {}
 		});
 		dialogRef.afterClosed().subscribe(result => {
 		if (result) {
