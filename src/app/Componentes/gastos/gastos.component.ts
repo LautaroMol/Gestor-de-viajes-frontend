@@ -112,6 +112,7 @@ export class GastosComponent implements OnInit {
 		});
 	}
 
+
 	nuevoGasto() {
 		const dialogRef = this.dialog.open(GastosFormComponent);
 
