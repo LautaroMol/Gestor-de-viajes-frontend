@@ -19,6 +19,7 @@ import { Cliente } from '../../Interfaces/cliente';
 import { ClienteService } from '../../Services/cliente.service';
 import { ViajeEventService } from '../../Services/viaje-event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ViajeDeleteComponent } from '../../Modals/viaje-delete/viaje-delete.component';
 pdfMake.addVirtualFileSystem(pdfFonts);
 
 @Component({
@@ -90,16 +91,23 @@ export class ViajesComponent implements OnInit {
       .reduce((total, gasto) => total + gasto, 0);
   }
 
-  BorrarViajes(viaje: Viaje): void {
-    this.viajeService.delete(viaje.idViaje).subscribe({
-      next: () => {
-        this.viajes = this.viajes.filter((v) => v.idViaje !== viaje.idViaje);
-      },
-      error: (e) => {
-        console.error(e);
-        console.log(e.message);
-      },
-    });
+  BorrarViaje(viaje: Viaje): void {
+    this.dialog.open(ViajeDeleteComponent, {
+      disableClose: true,
+			width: '200px',
+      data: viaje
+    }).afterClosed().subscribe(result => {
+      if (result === "Eliminar") {
+        this.viajeService.delete(viaje.idViaje).subscribe({
+          next: () => {
+            this.viajes = this.viajes.filter((v) => v.idViaje !== viaje.idViaje);
+          },
+          error: (e) => {
+            console.error(e.message);
+          },
+        });
+      }
+    })
   }
 
   editarViaje(viaje: Viaje) {
