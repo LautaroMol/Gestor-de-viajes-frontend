@@ -8,6 +8,7 @@ import { Amortizacion } from '../../Interfaces/amortizacion';
 import { AmortizacionService } from '../../Services/amortizacion.service';
 import { UnidadModFormComponent } from '../../Modals/unidad-mod-form/unidad-mod-form.component';
 import { data } from '@maptiler/sdk';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-camion',
@@ -23,7 +24,8 @@ export class CamionComponent implements OnInit {
 	showWarning: boolean = false;
 
 	constructor(private unidadService: UnidadService,private dialog: MatDialog,
-		private amortService: AmortizacionService,private cdr: ChangeDetectorRef
+		private amortService: AmortizacionService,private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar
 	) { }
 
 	ngOnInit(): void {
@@ -53,6 +55,7 @@ export class CamionComponent implements OnInit {
 	onWheelSelect(event: Event): void {
 		const target = event.target as HTMLSelectElement;
 		this.selectWheel(Number(target.value));
+
 	}
 
 	getOilLevel(): number {
@@ -92,7 +95,6 @@ export class CamionComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 		if (result) {
-				console.log(result);
 				this.getCamion(1);
 				this.getAmort(1);
 			}
@@ -108,7 +110,6 @@ export class CamionComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				console.log(result);
 				this.getCamion(1);
 				this.getAmort(1);
 			}
@@ -123,9 +124,33 @@ export class CamionComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				console.log(result);
 				this.getCamion(1);
+        this.cdr.detectChanges();
 			}
 		});
 	}
+
+	ChangeWheel(wheelindex: number){
+		if (this.unidad){
+			this.unidad.estadoRueda[wheelindex] = 0;
+			this.unidadService.update(this.unidad).subscribe(() => {
+                this.getCamion(1);
+            });
+      this.mostrarAlerta("Informe de cambio de cubierta hecho correctamente","X");
+      this.cdr.detectChanges();
+		}else{
+      this.mostrarAlerta("No se pudo realizar el informe de cambio de rueda","X");
+    }
+
+	}
+
+  mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
+		});
+	}
+
+
 }
