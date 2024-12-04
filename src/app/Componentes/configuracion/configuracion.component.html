@@ -5,18 +5,18 @@
 </div>
 
 <div class="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-3 mt-8">
-    
+
     <div>
         <div class="shadow-md rounded-lg">
             <div class="flex justify-between items-center px-2 py-1 bg-indigo-600  rounded-t-lg text-center text-white border-b-2 font-semibold">
                 <p>Categorías de Gastos Registradas</p>
-                <button 
+                <button
                 class="text-white font-bold bg-indigo-600 p-1 rounded-lg hover:bg-indigo-700 transition-all"
                 (click)="nuevaCategoria()"
                 > + categoría
-                </button> 
+                </button>
             </div>
-            <div class="bg-white max-h-64 overflow-y-auto no-scrollbar">
+            <div class="bg-white max-h-128 overflow-y-auto no-scrollbar">
                 <div class="text-gray-900 border-b-2 font-semibold" *ngFor="let categoria of categorias">
                     <div class="px-6 py-4 flex justify-between items-center">
                         <p>{{ categoria.idCategoria }}: {{ categoria.nombre }}</p>
@@ -47,7 +47,7 @@
                 <div class=" text-gray-900 font-semibold px-6 py-4 flex justify-between items-center">
                     <p>{{  precioKilometro | currency}}</p>
                     <div class="flex gap-3">
-                        <button 
+                        <button
                             class="text-black"
                             (click)="nuevoMonto()"
                         >
@@ -69,7 +69,7 @@
                    + categoria
                 </button>
             </div>
-        
+
             <div class="bg-white max-h-64 overflow-y-auto no-scrollbar">
                 <div class="text-gray-900 font-semibold">
                     <div *ngFor="let condicion of condiciones" class="text-gray-900 border-b-2 font-semibold">
@@ -80,6 +80,5 @@
                 </div>
             </div>
         </div>
-    </div> 
-</div> 
-  
+    </div>
+</div>

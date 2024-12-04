@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Carga } from '../../Interfaces/carga';
 import { CommonModule } from '@angular/common';
@@ -41,6 +41,7 @@ export class PerfilComponent implements OnInit {
     private clienteService: ClienteService,
     private userService: UserService,private viajeService: ViajeService,
 		private amortService: AmortizacionService,
+    private cdr: ChangeDetectorRef
 	) {
 		this.amortizacion.nombre= "Amortizacion";
 	}
@@ -67,9 +68,10 @@ export class PerfilComponent implements OnInit {
 			width: "400px",
 			data: usuario
 		}).afterClosed().subscribe(result => {
-			if (result === "Editado") {
+			if (result.result == "Editado") {
 				//this.obtenerCargas();
 				this.obtenerUser();
+        this.cdr.detectChanges();
 			}
 		});
 	}
@@ -80,7 +82,7 @@ export class PerfilComponent implements OnInit {
 			width: "400px",
 			data: null
 		}).afterClosed().subscribe(result => {
-			if (result === "Creado") {
+			if (result.result == "Creado") {
 				this.obtenerUser();
 				this.obtenerClientes();
 			}

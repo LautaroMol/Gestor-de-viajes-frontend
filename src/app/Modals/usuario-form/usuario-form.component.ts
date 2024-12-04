@@ -54,7 +54,7 @@ export class UsuarioFormComponent implements OnInit {
         }
 
         const storedCondiciones = localStorage.getItem('condicionesCliente');
-        
+
         if (storedCondiciones) {
           this.condiciones = JSON.parse(storedCondiciones);
         }
@@ -86,7 +86,7 @@ export class UsuarioFormComponent implements OnInit {
                 this._usuarioServicio.update(usuario, usuario.idUsuario).subscribe({
                     next: () => {
                         this.mostrarAlerta("Usuario Actualizado Correctamente", "X");
-                        this.dialogoReferencia.close({ action: "Editado", data: usuario });
+                        this.dialogoReferencia.close({ result: "Editado", data: usuario });
                     },
                     error: (err) => {
                         this.mostrarAlerta("Error al actualizar usuario", "X");
@@ -98,11 +98,11 @@ export class UsuarioFormComponent implements OnInit {
             console.error("Formulario inválido. Revise los campos.");
         }
     }
-    
+
     onCancel() {
         this.dialogoReferencia.close();
     }
-    
+
     mostrarAlerta(msg: string, accion: string) {
 		this.snackBar.open( msg, accion, {
 			verticalPosition:"bottom",
