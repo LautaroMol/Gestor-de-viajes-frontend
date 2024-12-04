@@ -31,6 +31,7 @@ export class GastosComponent implements OnInit {
 	view: [number, number] = [850, 300];
 	gastosFiltrados: Gasto[] = [];
 	categoriaSeleccionadaNombre: string | null = null;
+  flagAmort:boolean = false;
 
 	// datos con los que se maneja el gráfico
 	single: any[] = [];
@@ -78,7 +79,7 @@ export class GastosComponent implements OnInit {
 
 	editarGasto(gasto: Gasto) {
 		const dialogRef = this.dialog.open(GastosFormComponent, {
-			data: gasto
+			data: {gasto: gasto, flag: false}
 		});
 
 		dialogRef.afterClosed().subscribe(result => {

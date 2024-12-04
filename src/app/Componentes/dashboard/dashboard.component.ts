@@ -32,7 +32,9 @@ export class DashboardComponent implements OnInit {
 		fecha: new Date
 	};
 	amortizacionAnual!: Amortizacion;
-  	viajes: Viaje[] = [];
+  viajes: Viaje[] = [];
+  flagAmort: boolean = true;
+
 
 	constructor(
 		private dialog: MatDialog,
@@ -96,11 +98,17 @@ export class DashboardComponent implements OnInit {
 	}
 
  	Amortizar(viaje: Viaje){
+    this.amortizacion.fecha = new Date();
+    this.amortizacion.fecha.setHours(0, 0, 0, 0);
+
+    this.amortizacion.nombre = "Amortizacion"
 		this.amortizacion.viaje = viaje.idViaje;
-		this.amortizacion.fecha = new Date()
+
 
 		const dialogRef = this.dialog.open(GastosFormComponent, {
-			data: this.amortizacion
+			data: {
+        gasto: this.amortizacion
+        ,flagAmort:true }
 		});
 
 		dialogRef.afterClosed().subscribe((cantidad:number) => {

@@ -25,10 +25,11 @@ export class GastosFormComponent implements OnInit {
 	categorias: Categoria[] = [];
 	viajes: Viaje[] = [];
 	viajeElej!: Viaje;
+  flagAmort: boolean = false;
 
 	constructor(
 		private dialogoReferencia: MatDialogRef<GastosFormComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: Gasto,
+		@Inject(MAT_DIALOG_DATA) public data: {gasto: Gasto; flagAmort: boolean},
 		private fb: FormBuilder,
 		private snackBar: MatSnackBar,
 		private gastoService: GastoService,
@@ -45,7 +46,8 @@ export class GastosFormComponent implements OnInit {
 		});
 
 		if (data) {
-			this.dataGasto = data;
+			this.dataGasto = data.gasto;
+      this.flagAmort = data.flagAmort;
 		}
 	}
 
@@ -53,19 +55,21 @@ export class GastosFormComponent implements OnInit {
 		this.obtenerCategorias();
 		this.obtenerViajes();
 		if (this.dataGasto) {
-			this.formGasto.patchValue({
-				nombre: this.dataGasto.nombre,
-				cantidad: this.dataGasto.cantidad,
-				categoria: this.dataGasto.categoria,
-				viaje: this.dataGasto.viaje,
-				fecha: this.dataGasto.fecha,
-				borrado: false
-			});
-			if (this.dataGasto.nombre != "Amortizacion"){
-				this.tituloAccion = "Editar";
-				this.botonAccion = "Actualizar";
-			}
-		}
+      this.formGasto.patchValue({
+        nombre: this.dataGasto.nombre,
+        cantidad: this.dataGasto.cantidad,
+        categoria: this.dataGasto.categoria,
+        viaje: this.dataGasto.viaje,
+        fecha: this.dataGasto.fecha || new Date().toISOString().split('T')[0],
+        borrado: false
+      });
+
+      if (this.dataGasto.nombre != "Amortizacion") {
+        this.tituloAccion = "Editar";
+        this.botonAccion = "Actualizar";
+      }
+    }
+
 	}
 
 	onSubmit() {
@@ -82,6 +86,10 @@ export class GastosFormComponent implements OnInit {
 
 			// camino por nuevo gasto
 			if (this.dataGasto == null || gasto.nombre == "Amortizacion") {
+        if (gasto.nombre == "Amortizacion" && !this.flagAmort){
+          this.mostrarAlerta("No esta amortizando de la manera correcta, no puede ingresar ese nombre", "X");
+          return;
+        }
 				this.gastoService.add(gasto).subscribe({
 					next: (data) => {
 						const nuevoGastoId = data.idGasto;
