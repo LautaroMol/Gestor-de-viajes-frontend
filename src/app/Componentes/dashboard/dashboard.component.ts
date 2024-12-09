@@ -98,6 +98,10 @@ export class DashboardComponent implements OnInit {
 	}
 
  	Amortizar(viaje: Viaje){
+    if(this.amortizacionAnual == null){
+      this.mostrarAlerta("Debe cargar una amortizacion","X")
+      return;
+    }
     this.amortizacion.fecha = new Date();
     this.amortizacion.fecha.setHours(0, 0, 0, 0);
 

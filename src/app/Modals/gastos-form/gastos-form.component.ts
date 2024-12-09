@@ -97,7 +97,7 @@ export class GastosFormComponent implements OnInit {
 							next: (data) => {
                                 this.viajeElej = data;
                                 if (gasto.cantidad>this.viajeElej.totalFacturado){
-                                    this.mostrarAlerta("La cantidad a amortizar es mayor a la facturada con el viaje", "X");
+                                    this.mostrarAlerta("El monto es mayor a lo facturado en el viaje", "X");
                                     return;
                                 }
                                 this.asignarGastoAlViaje(nuevoGastoId, gasto.viaje,gasto);

@@ -64,6 +64,9 @@ export class NuevoViajeFormComponent implements OnInit {
         this.getCamion(1);
         if (this.dataViaje) {
             this.getCamion(1);
+            if (this.unidad == null){
+              this.mostrarAlerta("Atencion no cargo la unidad por lo cual no se contaran los kilometros","X");
+            }
             this.totalFacturado= this.dataViaje.totalFacturado;
             this.formViaje.patchValue({
                 inicio: this.dataViaje.inicio,
@@ -102,6 +105,7 @@ export class NuevoViajeFormComponent implements OnInit {
     calcularTotalFacturado() {
         const distancia = this.formViaje.value.distancia || 0;
         const precioReal = parseFloat((document.getElementById('monto') as HTMLInputElement).value) || 0;
+        precioReal.toFixed(2);
 
         if (distancia && precioReal) {
             this.totalFacturado = distancia * precioReal;
