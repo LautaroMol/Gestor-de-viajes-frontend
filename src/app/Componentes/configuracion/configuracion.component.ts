@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SugerenciaFormComponent } from '../../Modals/sugerencia-form/sugerencia-form.component';
 import { CondicionesFormComponent } from '../../Modals/condiciones-form/condiciones-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-configuracion',
@@ -28,6 +29,7 @@ export class ConfiguracionComponent {
 
 	constructor(private dialog: MatDialog,
 		private categoriaService: CategoriaService,
+    private snackBar: MatSnackBar
 	) { }
 
 	ngOnInit(): void {
@@ -39,7 +41,7 @@ export class ConfiguracionComponent {
  	obtenerCategorias() {
 		this.categoriaService.getList().subscribe({
 			next: (data) => {
-				this.categorias = data.filter( categoria => 
+				this.categorias = data.filter( categoria =>
 					categoria.borrado === false
 				);
 			},
@@ -87,7 +89,7 @@ export class ConfiguracionComponent {
 			if (result === 'Eliminar') {
 				this.categoriaService.delete(id).subscribe({
 				next: () => {
-						console.log('Categoría eliminada');
+						this.mostrarAlerta("Catgoria eliminada correctamnte","X");
 						this.obtenerCategorias();
 					},
 					error: (e) => {
@@ -122,13 +124,20 @@ export class ConfiguracionComponent {
 	nuevoMonto() {
 		const monto = localStorage.getItem('precioKilometro');
 		const precioKilometro = monto ? Number(monto) : 0;
-	
+
 		this.dialog.open(SugerenciaFormComponent, {
 			disableClose: false,
 			width: '300px',
 			data: { precioKilometro }
 		}).afterClosed().subscribe(result => {
-			this.obtenerMonto(); 
+			this.obtenerMonto();
+		});
+	}
+  mostrarAlerta(msg: string, accion: string) {
+		this.snackBar.open( msg, accion, {
+			verticalPosition:"bottom",
+			horizontalPosition:"center",
+			duration: 3000
 		});
 	}
 }

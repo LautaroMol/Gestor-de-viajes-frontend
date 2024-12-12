@@ -74,10 +74,8 @@ export class ViajesComponent implements OnInit {
     this.viajeService.getList().subscribe({
       next: (data) => {
         this.viajes = data.filter((viaje) => !viaje.borrado);
-        console.log(this.viajes);
       },
       error: (e) => {
-        console.log(e.message);
       },
     });
   }
@@ -147,7 +145,9 @@ export class ViajesComponent implements OnInit {
       const restanteAnual =
         this.amortizacion.objetivo - this.amortizacion.recaudado;
       if (restanteAnual <= 0) {
+        this.celebrate();
         return 100;
+
       }
       return (this.amortizacion.recaudado / this.amortizacion.objetivo) * 100;
     }
@@ -191,7 +191,6 @@ export class ViajesComponent implements OnInit {
     this.userService.get(1).subscribe({
       next: (data) => {
         this.user = data;
-        console.log(this.user);
       },
       error: (e) => {
         console.error(e);

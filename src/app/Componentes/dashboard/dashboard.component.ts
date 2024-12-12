@@ -142,7 +142,7 @@ export class DashboardComponent implements OnInit {
 
 			this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
 				next: (data) => {
-					console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
+          this.mostrarAlerta(`Amortización actualizada exitosamente, recaudado: ${data.recaudado}, cantidad amortizada restante: ${data.objetivo}`,"X");
 				},
 				error: (e) => {
 					this.mostrarAlerta('Error al actualizar la amortización', "X");
@@ -155,7 +155,7 @@ export class DashboardComponent implements OnInit {
 
 			this.amortService.update(this.amortizacionAnual, this.amortizacionAnual.idAmortizacion).subscribe({
 				next: (data) => {
-					console.log('Amortización actualizada exitosamente, recaudado: ', `${data.recaudado}`, " cantidad amortizada restante: ", `${data.objetivoAnual}`);
+          this.mostrarAlerta(`Amortización actualizada exitosamente, recaudado: ${data.recaudado}, cantidad amortizada restante: ${data.objetivo}`,"X");
 				},
 				error: (e) => {
 					this.mostrarAlerta('Error al actualizar la amortización', "X");
@@ -175,7 +175,7 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
-  	mostrarAlerta(msg: string, accion: string) {
+  mostrarAlerta(msg: string, accion: string) {
 		this.snackBar.open( msg, accion, {
 			verticalPosition:"bottom",
 			horizontalPosition:"center",
